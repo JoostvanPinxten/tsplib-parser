@@ -1,8 +1,8 @@
 TEMPLATE = subdirs
 
+SUBDIRS = parser \
+          lexer \
+          standalone \
+          tests
 
-include(gtest.pri)
-include(tests.pri)
-include(lexer.pri)
-include(parser.pri)
-include(standalone.pri)
+CONFIG += ordered

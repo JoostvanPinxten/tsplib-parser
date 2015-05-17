@@ -17,3 +17,7 @@ Please report any issues or feature requests on GitHub. If you have a contributi
 If you want to develop this parser, simply clone this Git and install Bison and Flex. For Windows users, see [Bison](http://gnuwin32.sourceforge.net/packages/bison.htm) and [Flex](http://gnuwin32.sourceforge.net/packages/flex.htm).
 
 The project compiles with MinGW 4.9.1 and the Qt Make system under Windows. It uses ([for the Google Tests](https://github.com/smarr/googletest)) for some integration and unit-testing facilities.
+
+
+Before compiling, you will need to point to the `flex++` and `bison++` executables, which generate the lexer and parser components. 
+To use the Qt makefiles, run `qmake` followed by `make` in the root directory.
