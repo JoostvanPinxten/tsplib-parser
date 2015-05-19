@@ -7,7 +7,11 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES +=
+#LIBS += -lfl -LC:/GnuWin32/lib
+#INCLUDEPATH += C:/GnuWin32/include
+
+SOURCES += \
+    tsplib.yy.c
 
 HEADERS +=
 
