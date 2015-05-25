@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS = parser \
-          lexer \
+#          lexer \
           standalone \
           tests
 
