@@ -32,7 +32,7 @@
 
 /**
  ** \file parser/stack.hh
- ** Define the yy::stack class.
+ ** Define the TSPLIB::stack class.
  */
 
 #ifndef YY_YY_PARSER_STACK_HH_INCLUDED
@@ -40,8 +40,8 @@
 
 # include <vector>
 
-
-namespace yy {
+#line 37 "parser/tsplib.y" // stack.hh:133
+namespace TSPLIB {
 #line 46 "parser/stack.hh" // stack.hh:133
   template <class T, class S = std::vector<T> >
   class stack
@@ -151,8 +151,8 @@ namespace yy {
     unsigned int range_;
   };
 
-
-} // yy
+#line 37 "parser/tsplib.y" // stack.hh:133
+} // TSPLIB
 #line 157 "parser/stack.hh" // stack.hh:133
 
 #endif // !YY_YY_PARSER_STACK_HH_INCLUDED

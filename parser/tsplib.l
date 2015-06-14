@@ -1,79 +1,139 @@
-%{ /* -*- C++ -*- */
-# include <cerrno>
-# include <climits>
-# include <cstdlib>
-# include <string>
-# include "tsplib_driver.h"
-# include "tsplib_parser.hpp"
+/* $Id: scanner.ll 44 2008-10-23 09:03:19Z tb $ -*- mode: c++ -*- */
+/** \file scanner.ll Define the TSPLIB Flex lexical scanner */
 
-// Work around an incompatibility in flex (at least versions
-// 2.5.31 through 2.5.33): it generates code that does
-// not conform to C89.  See Debian bug 333231
-// <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.
-# undef yywrap
-# define yywrap() 1
+%{ /*** C/C++ Declarations ***/
 
-// The location of the current token.
-static yy::location loc;
+#include <string>
+#include <iostream>
+
+#include "tsplib_lexer.h"
+
+/* import the parser's token type into a local typedef */
+typedef TSPLIB::Parser::token token;
+typedef TSPLIB::Parser::token_type token_type;
+
+/* By default yylex returns int, we use token_type. Unfortunately yyterminate
+ * by default returns 0, which is not of token_type. */
+#define yyterminate() return token::END
+
+/* This disables inclusion of unistd.h, which is not available under Visual C++
+ * on Win32. The C++ scanner uses STL streams instead. */
+#define YY_NO_UNISTD_H
+
 %}
 
-%option noyywrap nounput batch debug noinput
+/*** Flex Declarations and Options ***/
 
-id    [a-zA-Z][a-zA-Z_0-9]*
-int   [0-9]+
-blank [ \t]
+/* enable c++ scanner class generation */
+%option c++
 
+/* change the name of the scanner class. results in "TSPLIBFlexLexer" */
+%option prefix="TSPLIB"
+
+/* the manual says "somewhat more optimized" */
+%option batch
+
+/* enable scanner to generate debug output. disable this for release
+ * versions. */
+%option debug
+
+/* no support for include files is planned */
+%option yywrap nounput
+
+/* enables the use of start condition stacks */
+%option stack
+
+/* The following paragraph suffices to track locations accurately. Each time
+ * yylex is invoked, the begin position is moved onto the end position. */
 %{
-  // Code run each time a pattern is matched.
-  # define YY_USER_ACTION  loc.columns (yyleng);
+#define YY_USER_ACTION  yylloc->columns(yyleng);
 %}
 
-%%
+%% /*** Regular Expressions Part ***/
 
+ /* code to place at the beginning of yylex() */
 %{
-  // Code run each time yylex is called.
-  loc.step ();
+    // reset location
+    yylloc->step();
 %}
 
-{blank}+   loc.step ();
-[\n]+      loc.lines (yyleng); loc.step ();
+ /*** BEGIN TSPLIB - Change the TSPLIB lexer rules below ***/
 
-"-"      return yy::tsplib_parser::make_MINUS(loc);
-"+"      return yy::tsplib_parser::make_PLUS(loc);
-"*"      return yy::tsplib_parser::make_STAR(loc);
-"/"      return yy::tsplib_parser::make_SLASH(loc);
-"("      return yy::tsplib_parser::make_LPAREN(loc);
-")"      return yy::tsplib_parser::make_RPAREN(loc);
-":="     return yy::tsplib_parser::make_ASSIGN(loc);
-
-{int}      {
-  errno = 0;
-  long n = strtol (yytext, NULL, 10);
-  if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
-    driver.error (loc, "integer is out of range");
-  return yy::tsplib_parser::make_NUMBER(n, loc);
+[0-9]+ {
+    yylval->integerVal = atoi(yytext);
+    return token::INTEGER;
 }
 
-{id}       return yy::tsplib_parser::make_IDENTIFIER(yytext, loc);
-.          driver.error (loc, "invalid character");
-<<EOF>>    return yy::tsplib_parser::make_END(loc);
-%%
-
-void
-tsplib_driver::scan_begin ()
-{
-  yy_flex_debug = trace_scanning;
-  if (file.empty () || file == "-")
-    yyin = stdin;
-  else if (!(yyin = fopen (file.c_str (), "r")))
-    {
-      error ("cannot open " + file + ": " + strerror(errno));
-      exit (EXIT_FAILURE);
-    }
+[0-9]+"."[0-9]* {
+    yylval->doubleVal = atof(yytext);
+    return token::DOUBLE;
 }
 
-void
-tsplib_driver::scan_end ()
+[A-Za-z][A-Za-z0-9_,.-]* {
+    yylval->stringVal = new std::string(yytext, yyleng);
+    return token::STRING;
+}
+
+ /* gobble up white-spaces */
+[ \t\r]+ {
+    yylloc->step();
+}
+
+ /* gobble up end-of-lines */
+\n {
+    yylloc->lines(yyleng); yylloc->step();
+    return token::EOL;
+}
+
+ /* pass all other characters up to bison */
+. {
+    return static_cast<token_type>(*yytext);
+}
+
+ /*** END TSPLIB - Change the TSPLIB lexer rules above ***/
+
+%% /*** Additional Code ***/
+
+namespace TSPLIB {
+
+Scanner::Scanner(std::istream* in,
+         std::ostream* out)
+    : TSPLIBFlexLexer(in, out)
 {
-  fclose (yyin);
+}
+
+Scanner::~Scanner()
+{
+}
+
+void Scanner::set_debug(bool b)
+{
+    yy_flex_debug = b;
+}
+
+}
+
+/* This implementation of TSPLIBFlexLexer::yylex() is required to fill the
+ * vtable of the class TSPLIBFlexLexer. We define the scanner's main yylex
+ * function via YY_DECL to reside in the Scanner class instead. */
+
+#ifdef yylex
+#undef yylex
+#endif
+
+int TSPLIBFlexLexer::yylex()
+{
+    std::cerr << "in TSPLIBFlexLexer::yylex() !" << std::endl;
+    return 0;
+}
+
+/* When the scanner receives an end-of-file indication from YY_INPUT, it then
+ * checks the yywrap() function. If yywrap() returns false (zero), then it is
+ * assumed that the function has gone ahead and set up `yyin' to point to
+ * another input file, and scanning continues. If it returns true (non-zero),
+ * then the scanner terminates, returning 0 to its caller. */
+
+int TSPLIBFlexLexer::yywrap()
+{
+    return 1;
 }

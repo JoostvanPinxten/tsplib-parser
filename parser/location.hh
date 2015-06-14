@@ -32,7 +32,7 @@
 
 /**
  ** \file parser/location.hh
- ** Define the yy::location class.
+ ** Define the TSPLIB::location class.
  */
 
 #ifndef YY_YY_PARSER_LOCATION_HH_INCLUDED
@@ -40,8 +40,8 @@
 
 # include "position.hh"
 
-
-namespace yy {
+#line 37 "parser/tsplib.y" // location.cc:291
+namespace TSPLIB {
 #line 46 "parser/location.hh" // location.cc:291
   /// Abstract a location.
   class location
@@ -181,7 +181,7 @@ namespace yy {
     return ostr;
   }
 
-
-} // yy
+#line 37 "parser/tsplib.y" // location.cc:291
+} // TSPLIB
 #line 187 "parser/location.hh" // location.cc:291
 #endif // !YY_YY_PARSER_LOCATION_HH_INCLUDED

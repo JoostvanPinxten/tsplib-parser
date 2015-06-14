@@ -32,7 +32,7 @@
 
 /**
  ** \file parser/position.hh
- ** Define the yy::position class.
+ ** Define the TSPLIB::position class.
  */
 
 #ifndef YY_YY_PARSER_POSITION_HH_INCLUDED
@@ -50,8 +50,8 @@
 #  endif
 # endif
 
-
-namespace yy {
+#line 37 "parser/tsplib.y" // location.cc:291
+namespace TSPLIB {
 #line 56 "parser/position.hh" // location.cc:291
   /// Abstract a position.
   class position
@@ -174,7 +174,7 @@ namespace yy {
     return ostr << pos.line << '.' << pos.column;
   }
 
-
-} // yy
+#line 37 "parser/tsplib.y" // location.cc:291
+} // TSPLIB
 #line 180 "parser/position.hh" // location.cc:291
 #endif // !YY_YY_PARSER_POSITION_HH_INCLUDED

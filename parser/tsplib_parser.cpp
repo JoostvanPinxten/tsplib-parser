@@ -32,8 +32,17 @@
 
 
 // First part of user declarations.
+#line 4 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:398
+ /*** C/C++ Declarations ***/
 
-#line 37 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:398
+#include <stdio.h>
+#include <string>
+#include <vector>
+
+
+
+
+#line 46 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:398
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -46,14 +55,20 @@
 #include "tsplib_parser.hpp"
 
 // User implementation prologue.
+#line 81 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:406
 
-#line 51 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:406
-// Unqualified %code blocks.
-#line 30 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:407
 
-# include "tsplib_driver.h"
+#include "tsplib_driver.h"
+#include "tsplib_lexer.h"
 
-#line 57 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:407
+/* this "connects" the bison parser in the driver to the flex scanner class
+ * object. it defines the yylex() function call to pull the next token from the
+ * current lexer object of the driver context. */
+#undef yylex
+#define yylex driver.lexer->lex
+
+
+#line 72 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:406
 
 
 #ifndef YY_
@@ -137,9 +152,9 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-
-namespace yy {
-#line 143 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:473
+#line 37 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:473
+namespace TSPLIB {
+#line 158 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:473
 
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
@@ -147,7 +162,7 @@ namespace yy {
      apostrophe, a comma, or backslash (other than backslash-backslash).
      YYSTR is taken from yytname.  */
   std::string
-  tsplib_parser::yytnamerr_ (const char *yystr)
+  Parser::yytnamerr_ (const char *yystr)
   {
     if (*yystr == '"')
       {
@@ -180,7 +195,7 @@ namespace yy {
 
 
   /// Build a parser object.
-  tsplib_parser::tsplib_parser (tsplib_driver& driver_yyarg)
+  Parser::Parser (class Driver& driver_yyarg)
     :
 #if YYDEBUG
       yydebug_ (false),
@@ -189,7 +204,7 @@ namespace yy {
       driver (driver_yyarg)
   {}
 
-  tsplib_parser::~tsplib_parser ()
+  Parser::~Parser ()
   {}
 
 
@@ -197,87 +212,147 @@ namespace yy {
   | Symbol types.  |
   `---------------*/
 
+  inline
+  Parser::syntax_error::syntax_error (const location_type& l, const std::string& m)
+    : std::runtime_error (m)
+    , location (l)
+  {}
+
+  // basic_symbol.
+  template <typename Base>
+  inline
+  Parser::basic_symbol<Base>::basic_symbol ()
+    : value ()
+  {}
+
+  template <typename Base>
+  inline
+  Parser::basic_symbol<Base>::basic_symbol (const basic_symbol& other)
+    : Base (other)
+    , value ()
+    , location (other.location)
+  {
+    value = other.value;
+  }
+
+
+  template <typename Base>
+  inline
+  Parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const semantic_type& v, const location_type& l)
+    : Base (t)
+    , value (v)
+    , location (l)
+  {}
+
+
+  /// Constructor for valueless symbols.
+  template <typename Base>
+  inline
+  Parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const location_type& l)
+    : Base (t)
+    , value ()
+    , location (l)
+  {}
+
+  template <typename Base>
+  inline
+  Parser::basic_symbol<Base>::~basic_symbol ()
+  {
+  }
+
+  template <typename Base>
+  inline
+  void
+  Parser::basic_symbol<Base>::move (basic_symbol& s)
+  {
+    super_type::move(s);
+    value = s.value;
+    location = s.location;
+  }
+
+  // by_type.
+  inline
+  Parser::by_type::by_type ()
+     : type (empty)
+  {}
+
+  inline
+  Parser::by_type::by_type (const by_type& other)
+    : type (other.type)
+  {}
+
+  inline
+  Parser::by_type::by_type (token_type t)
+    : type (yytranslate_ (t))
+  {}
+
+  inline
+  void
+  Parser::by_type::move (by_type& that)
+  {
+    type = that.type;
+    that.type = empty;
+  }
+
+  inline
+  int
+  Parser::by_type::type_get () const
+  {
+    return type;
+  }
 
 
   // by_state.
   inline
-  tsplib_parser::by_state::by_state ()
+  Parser::by_state::by_state ()
     : state (empty)
   {}
 
   inline
-  tsplib_parser::by_state::by_state (const by_state& other)
+  Parser::by_state::by_state (const by_state& other)
     : state (other.state)
   {}
 
   inline
   void
-  tsplib_parser::by_state::move (by_state& that)
+  Parser::by_state::move (by_state& that)
   {
     state = that.state;
     that.state = empty;
   }
 
   inline
-  tsplib_parser::by_state::by_state (state_type s)
+  Parser::by_state::by_state (state_type s)
     : state (s)
   {}
 
   inline
-  tsplib_parser::symbol_number_type
-  tsplib_parser::by_state::type_get () const
+  Parser::symbol_number_type
+  Parser::by_state::type_get () const
   {
     return state == empty ? 0 : yystos_[state];
   }
 
   inline
-  tsplib_parser::stack_symbol_type::stack_symbol_type ()
+  Parser::stack_symbol_type::stack_symbol_type ()
   {}
 
 
   inline
-  tsplib_parser::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& that)
+  Parser::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& that)
     : super_type (s, that.location)
   {
-      switch (that.type_get ())
-    {
-      case 11: // "number"
-      case 16: // exp
-        value.move< int > (that.value);
-        break;
-
-      case 10: // "identifier"
-        value.move< std::string > (that.value);
-        break;
-
-      default:
-        break;
-    }
-
+    value = that.value;
     // that is emptied.
     that.type = empty;
   }
 
   inline
-  tsplib_parser::stack_symbol_type&
-  tsplib_parser::stack_symbol_type::operator= (const stack_symbol_type& that)
+  Parser::stack_symbol_type&
+  Parser::stack_symbol_type::operator= (const stack_symbol_type& that)
   {
     state = that.state;
-      switch (that.type_get ())
-    {
-      case 11: // "number"
-      case 16: // exp
-        value.copy< int > (that.value);
-        break;
-
-      case 10: // "identifier"
-        value.copy< std::string > (that.value);
-        break;
-
-      default:
-        break;
-    }
-
+    value = that.value;
     location = that.location;
     return *this;
   }
@@ -286,16 +361,31 @@ namespace yy {
   template <typename Base>
   inline
   void
-  tsplib_parser::yy_destroy_ (const char* yymsg, basic_symbol<Base>& yysym) const
+  Parser::yy_destroy_ (const char* yymsg, basic_symbol<Base>& yysym) const
   {
     if (yymsg)
       YY_SYMBOL_PRINT (yymsg, yysym);
+
+    // User destructor.
+    switch (yysym.type_get ())
+    {
+            case 6: // "string"
+
+#line 75 "..\..\tsplib-parser\parser\tsplib.y" // lalr1.cc:598
+        { delete (yysym.value.stringVal); }
+#line 377 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:598
+        break;
+
+
+      default:
+        break;
+    }
   }
 
 #if YYDEBUG
   template <typename Base>
   void
-  tsplib_parser::yy_print_ (std::ostream& yyo,
+  Parser::yy_print_ (std::ostream& yyo,
                                      const basic_symbol<Base>& yysym) const
   {
     std::ostream& yyoutput = yyo;
@@ -304,40 +394,14 @@ namespace yy {
     yyo << (yytype < yyntokens_ ? "token" : "nterm")
         << ' ' << yytname_[yytype] << " ("
         << yysym.location << ": ";
-    switch (yytype)
-    {
-            case 10: // "identifier"
-
-#line 50 "..\..\tsplib-parser\parser\tsplib.y" // lalr1.cc:616
-        { yyoutput << yysym.value.template as< std::string > (); }
-#line 314 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:616
-        break;
-
-      case 11: // "number"
-
-#line 50 "..\..\tsplib-parser\parser\tsplib.y" // lalr1.cc:616
-        { yyoutput << yysym.value.template as< int > (); }
-#line 321 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:616
-        break;
-
-      case 16: // exp
-
-#line 50 "..\..\tsplib-parser\parser\tsplib.y" // lalr1.cc:616
-        { yyoutput << yysym.value.template as< int > (); }
-#line 328 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:616
-        break;
-
-
-      default:
-        break;
-    }
+    YYUSE (yytype);
     yyo << ')';
   }
 #endif
 
   inline
   void
-  tsplib_parser::yypush_ (const char* m, state_type s, symbol_type& sym)
+  Parser::yypush_ (const char* m, state_type s, symbol_type& sym)
   {
     stack_symbol_type t (s, sym);
     yypush_ (m, t);
@@ -345,7 +409,7 @@ namespace yy {
 
   inline
   void
-  tsplib_parser::yypush_ (const char* m, stack_symbol_type& s)
+  Parser::yypush_ (const char* m, stack_symbol_type& s)
   {
     if (m)
       YY_SYMBOL_PRINT (m, s);
@@ -354,40 +418,40 @@ namespace yy {
 
   inline
   void
-  tsplib_parser::yypop_ (unsigned int n)
+  Parser::yypop_ (unsigned int n)
   {
     yystack_.pop (n);
   }
 
 #if YYDEBUG
   std::ostream&
-  tsplib_parser::debug_stream () const
+  Parser::debug_stream () const
   {
     return *yycdebug_;
   }
 
   void
-  tsplib_parser::set_debug_stream (std::ostream& o)
+  Parser::set_debug_stream (std::ostream& o)
   {
     yycdebug_ = &o;
   }
 
 
-  tsplib_parser::debug_level_type
-  tsplib_parser::debug_level () const
+  Parser::debug_level_type
+  Parser::debug_level () const
   {
     return yydebug_;
   }
 
   void
-  tsplib_parser::set_debug_level (debug_level_type l)
+  Parser::set_debug_level (debug_level_type l)
   {
     yydebug_ = l;
   }
 #endif // YYDEBUG
 
-  inline tsplib_parser::state_type
-  tsplib_parser::yy_lr_goto_state_ (state_type yystate, int yylhs)
+  inline Parser::state_type
+  Parser::yy_lr_goto_state_ (state_type yystate, int yylhs)
   {
     int yyr = yypgoto_[yylhs - yyntokens_] + yystate;
     if (0 <= yyr && yyr <= yylast_ && yycheck_[yyr] == yystate)
@@ -397,19 +461,19 @@ namespace yy {
   }
 
   inline bool
-  tsplib_parser::yy_pact_value_is_default_ (int yyvalue)
+  Parser::yy_pact_value_is_default_ (int yyvalue)
   {
     return yyvalue == yypact_ninf_;
   }
 
   inline bool
-  tsplib_parser::yy_table_value_is_error_ (int yyvalue)
+  Parser::yy_table_value_is_error_ (int yyvalue)
   {
     return yyvalue == yytable_ninf_;
   }
 
   int
-  tsplib_parser::parse ()
+  Parser::parse ()
   {
     /// Whether yyla contains a lookahead.
     bool yyempty = true;
@@ -442,13 +506,13 @@ namespace yy {
 
 
     // User initialization code.
-    #line 21 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:726
+    #line 45 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:726
 {
-  // Initialize the initial location.
-  yyla.location.begin.filename = yyla.location.end.filename = &driver.file;
+    // initialize the initial location object
+    yyla.location.begin.filename = yyla.location.end.filename = &driver.streamname;
 }
 
-#line 452 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:726
+#line 516 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:726
 
     /* Initialize the stack.  The initial state will be set in
        yynewstate, since the latter expects the semantical and the
@@ -481,8 +545,7 @@ namespace yy {
         YYCDEBUG << "Reading a token: ";
         try
           {
-            symbol_type yylookahead (yylex (driver));
-            yyla.move (yylookahead);
+            yyla.type = yytranslate_ (yylex (&yyla.value, &yyla.location));
           }
         catch (const syntax_error& yyexc)
           {
@@ -535,24 +598,16 @@ namespace yy {
   yyreduce:
     yylen = yyr2_[yyn];
     yylhs.state = yy_lr_goto_state_(yystack_[yylen].state, yyr1_[yyn]);
-    /* Variants are always initialized to an empty instance of the
-       correct type. The default $$=$1 action is NOT applied when using
-       variants.  */
-      switch (yyr1_[yyn])
-    {
-      case 11: // "number"
-      case 16: // exp
-        yylhs.value.build< int > ();
-        break;
+    /* If YYLEN is nonzero, implement the default value of the action:
+       '$$ = $1'.  Otherwise, use the top of the stack.
 
-      case 10: // "identifier"
-        yylhs.value.build< std::string > ();
-        break;
-
-      default:
-        break;
-    }
-
+       Otherwise, the following line sets YYLHS.VALUE to garbage.
+       This behavior is undocumented and Bison
+       users should not rely upon it.  */
+    if (yylen)
+      yylhs.value = yystack_[yylen - 1].value;
+    else
+      yylhs.value = yystack_[0].value;
 
     // Compute the default @$.
     {
@@ -567,73 +622,203 @@ namespace yy {
         switch (yyn)
           {
   case 2:
-#line 54 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    { driver.result = yystack_[0].value.as< int > (); }
-#line 573 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 99 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//           $$ = new CNConstant($1);
+       }
+#line 630 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 3:
-#line 57 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    {}
-#line 579 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 103 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//           $$ = new CNConstant($1);
+       }
+#line 638 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 4:
-#line 58 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    {}
-#line 585 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 108 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//           if (!driver.calc.existsVariable(*$1)) {
+//           error(@$, std::string("Unknown variable \"") + *$1 + "\"");
+//           delete $1;
+//           YYERROR;
+//           }
+//           else {
+//           $$ = new CNConstant( driver.calc.getVariable(*$1) );
+//           delete $1;
+//           }
+       }
+#line 654 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 5:
-#line 61 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    { driver.variables[yystack_[2].value.as< std::string > ()] = yystack_[0].value.as< int > (); }
-#line 591 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 121 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//           $$ = $1;
+       }
+#line 662 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 6:
-#line 66 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    { yylhs.value.as< int > () = yystack_[2].value.as< int > () + yystack_[0].value.as< int > (); }
-#line 597 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 125 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//           $$ = $1;
+       }
+#line 670 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 7:
-#line 67 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    { yylhs.value.as< int > () = yystack_[2].value.as< int > () - yystack_[0].value.as< int > (); }
-#line 603 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 129 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//           $$ = $2;
+       }
+#line 678 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 8:
-#line 68 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    { yylhs.value.as< int > () = yystack_[2].value.as< int > () * yystack_[0].value.as< int > (); }
-#line 609 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 134 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          $$ = $1;
+      }
+#line 686 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 9:
-#line 69 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    { yylhs.value.as< int > () = yystack_[2].value.as< int > () / yystack_[0].value.as< int > (); }
-#line 615 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 138 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          $$ = new CNPower($1, $3);
+      }
+#line 694 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 10:
-#line 70 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    { std::swap (yylhs.value.as< int > (), yystack_[1].value.as< int > ()); }
-#line 621 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 143 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//        $$ = $1;
+        }
+#line 702 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 11:
-#line 71 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    { yylhs.value.as< int > () = driver.variables[yystack_[0].value.as< std::string > ()]; }
-#line 627 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 147 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//        $$ = $2;
+        }
+#line 710 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 12:
-#line 72 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    { std::swap (yylhs.value.as< int > (), yystack_[0].value.as< int > ()); }
-#line 633 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 151 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//        $$ = new CNNegate($2);
+        }
+#line 718 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 13:
+#line 156 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          $$ = $1;
+      }
+#line 726 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 14:
+#line 160 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          $$ = new CNMultiply($1, $3);
+      }
+#line 734 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 15:
+#line 164 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          $$ = new CNDivide($1, $3);
+      }
+#line 742 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 16:
+#line 168 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          $$ = new CNModulo($1, $3);
+      }
+#line 750 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 17:
+#line 173 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          $$ = $1;
+      }
+#line 758 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 18:
+#line 177 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          $$ = new CNAdd($1, $3);
+      }
+#line 766 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 19:
+#line 181 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          $$ = new CNSubtract($1, $3);
+      }
+#line 774 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 20:
+#line 186 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          $$ = $1;
+      }
+#line 782 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 21:
+#line 191 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//         driver.calc.variables[*$1] = $3->evaluate();
+//         std::cout << "Setting variable " << *$1
+//               << " = " << driver.calc.variables[*$1] << "\n";
+//         delete $1;
+//         delete $3;
+         }
+#line 794 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 28:
+#line 206 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          driver.calc.expressions.push_back($2);
+      }
+#line 802 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 29:
+#line 210 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          driver.calc.expressions.push_back($2);
+      }
+#line 810 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 30:
+#line 214 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+//          driver.calc.expressions.push_back($2);
+      }
+#line 818 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
 
-#line 637 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 822 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
           default:
             break;
           }
@@ -696,9 +881,6 @@ namespace yy {
     if (false)
       goto yyerrorlab;
     yyerror_range[1].location = yystack_[yylen - 1].location;
-    /* $$ was initialized before running the user action.  */
-    YY_SYMBOL_PRINT ("Error: discarding", yylhs);
-    yylhs.~stack_symbol_type();
     /* Do not reclaim the symbols of the rule whose action triggered
        this YYERROR.  */
     yypop_ (yylen);
@@ -789,14 +971,14 @@ namespace yy {
   }
 
   void
-  tsplib_parser::error (const syntax_error& yyexc)
+  Parser::error (const syntax_error& yyexc)
   {
     error (yyexc.location, yyexc.what());
   }
 
   // Generate an error message.
   std::string
-  tsplib_parser::yysyntax_error_ (state_type yystate, symbol_number_type yytoken) const
+  Parser::yysyntax_error_ (state_type yystate, symbol_number_type yytoken) const
   {
     std::string yyres;
     // Number of reported tokens (one for the "unexpected", one per
@@ -890,74 +1072,90 @@ namespace yy {
   }
 
 
-  const signed char tsplib_parser::yypact_ninf_ = -5;
+  const signed char Parser::yypact_ninf_ = -15;
 
-  const signed char tsplib_parser::yytable_ninf_ = -1;
+  const signed char Parser::yytable_ninf_ = -1;
 
   const signed char
-  tsplib_parser::yypact_[] =
+  Parser::yypact_[] =
   {
-      -5,     5,     9,    -5,    13,    15,    -5,    -5,     8,    -5,
-      -3,    13,    13,    13,    13,    13,    -5,     8,    19,    19,
-      -5,    -5
+     -15,     0,   -15,   -15,   -15,   -15,   -14,    16,    27,    27,
+     -15,   -15,   -15,   -15,    -1,   -15,    23,     8,     9,    14,
+      16,   -15,     5,    -1,    -1,    27,    16,    16,    16,    16,
+      16,   -15,   -15,   -15,   -15,   -15,   -15,   -15,   -15,   -15,
+     -15,   -15,   -15,    23,    23
   };
 
   const unsigned char
-  tsplib_parser::yydefact_[] =
+  Parser::yydefact_[] =
   {
-       3,     0,     0,     1,     0,    11,    12,     4,     2,    11,
-       0,     0,     0,     0,     0,     0,    10,     5,     7,     6,
-       8,     9
-  };
-
-  const signed char
-  tsplib_parser::yypgoto_[] =
-  {
-      -5,    -5,    -5,    -5,    -4
+      22,     0,     1,    24,     2,     3,     4,     0,     0,     0,
+      23,     5,     6,     8,    10,    13,    17,    20,     0,     0,
+       0,     4,     0,    11,    12,     0,     0,     0,     0,     0,
+       0,    30,    29,    28,    27,    26,    25,    21,     7,     9,
+      14,    15,    16,    18,    19
   };
 
   const signed char
-  tsplib_parser::yydefgoto_[] =
+  Parser::yypgoto_[] =
   {
-      -1,     1,     2,     7,     8
-  };
-
-  const unsigned char
-  tsplib_parser::yytable_[] =
-  {
-      10,    12,    13,    14,    15,     3,    16,    17,    18,    19,
-      20,    21,    12,    13,    14,    15,     0,     4,    11,     5,
-       6,     4,     0,     9,     6,    14,    15
+     -15,   -15,   -15,    19,    20,    12,    13,   -15,    -5,   -15,
+     -15
   };
 
   const signed char
-  tsplib_parser::yycheck_[] =
+  Parser::yydefgoto_[] =
   {
-       4,     4,     5,     6,     7,     0,     9,    11,    12,    13,
-      14,    15,     4,     5,     6,     7,    -1,     8,     3,    10,
-      11,     8,    -1,    10,    11,     6,     7
+      -1,    11,    12,    13,    14,    15,    16,    17,    18,    19,
+       1
   };
 
   const unsigned char
-  tsplib_parser::yystos_[] =
+  Parser::yytable_[] =
   {
-       0,    13,    14,     0,     8,    10,    11,    15,    16,    10,
-      16,     3,     4,     5,     6,     7,     9,    16,    16,    16,
-      16,    16
+       2,    20,    22,     3,     4,     5,     6,     7,    25,    31,
+       8,     9,    32,    38,    34,    37,    10,    35,    29,    30,
+       4,     5,    21,     7,     0,    33,     8,     9,    23,    24,
+      36,     4,     5,    21,     7,    26,    27,    28,    40,    41,
+      42,     0,    43,    44,    39
+  };
+
+  const signed char
+  Parser::yycheck_[] =
+  {
+       0,    15,     7,     3,     4,     5,     6,     7,     9,     0,
+      10,    11,     3,     8,     0,    20,    16,     3,    10,    11,
+       4,     5,     6,     7,    -1,    16,    10,    11,     8,     9,
+      16,     4,     5,     6,     7,    12,    13,    14,    26,    27,
+      28,    -1,    29,    30,    25
   };
 
   const unsigned char
-  tsplib_parser::yyr1_[] =
+  Parser::yystos_[] =
   {
-       0,    12,    13,    14,    14,    15,    16,    16,    16,    16,
-      16,    16,    16
+       0,    27,     0,     3,     4,     5,     6,     7,    10,    11,
+      16,    18,    19,    20,    21,    22,    23,    24,    25,    26,
+      15,     6,    25,    21,    21,     9,    12,    13,    14,    10,
+      11,     0,     3,    16,     0,     3,    16,    25,     8,    20,
+      22,    22,    22,    23,    23
   };
 
   const unsigned char
-  tsplib_parser::yyr2_[] =
+  Parser::yyr1_[] =
   {
-       0,     2,     2,     0,     2,     3,     3,     3,     3,     3,
-       3,     1,     1
+       0,    17,    18,    18,    19,    20,    20,    20,    21,    21,
+      22,    22,    22,    23,    23,    23,    23,    24,    24,    24,
+      25,    26,    27,    27,    27,    27,    27,    27,    27,    27,
+      27
+  };
+
+  const unsigned char
+  Parser::yyr2_[] =
+  {
+       0,     2,     1,     1,     1,     1,     1,     3,     1,     3,
+       1,     2,     2,     1,     3,     3,     3,     1,     3,     3,
+       1,     3,     0,     2,     2,     3,     3,     3,     3,     3,
+       3
   };
 
 
@@ -965,24 +1163,28 @@ namespace yy {
   // YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
   // First, the terminals, then, starting at \a yyntokens_, nonterminals.
   const char*
-  const tsplib_parser::yytname_[] =
+  const Parser::yytname_[] =
   {
-  "\"end of file\"", "error", "$undefined", "\":=\"", "\"-\"", "\"+\"",
-  "\"*\"", "\"/\"", "\"(\"", "\")\"", "\"identifier\"", "\"number\"",
-  "$accept", "unit", "assignments", "assignment", "exp", YY_NULL
+  "\"end of file\"", "error", "$undefined", "\"end of line\"",
+  "\"integer\"", "\"double\"", "\"string\"", "'('", "')'", "'^'", "'+'",
+  "'-'", "'*'", "'/'", "'%'", "'='", "';'", "$accept", "constant",
+  "variable", "atomexpr", "powexpr", "unaryexpr", "mulexpr", "addexpr",
+  "expr", "assignment", "start", YY_NULL
   };
 
 #if YYDEBUG
   const unsigned char
-  tsplib_parser::yyrline_[] =
+  Parser::yyrline_[] =
   {
-       0,    54,    54,    57,    58,    61,    66,    67,    68,    69,
-      70,    71,    72
+       0,    98,    98,   102,   107,   120,   124,   128,   133,   137,
+     142,   146,   150,   155,   159,   163,   167,   172,   176,   180,
+     185,   190,   199,   200,   201,   202,   203,   204,   205,   209,
+     213
   };
 
   // Print the state stack on the debug stream.
   void
-  tsplib_parser::yystack_print_ ()
+  Parser::yystack_print_ ()
   {
     *yycdebug_ << "Stack now";
     for (stack_type::const_iterator
@@ -995,7 +1197,7 @@ namespace yy {
 
   // Report on the debug stream that the rule \a yyrule is going to be reduced.
   void
-  tsplib_parser::yy_reduce_print_ (int yyrule)
+  Parser::yy_reduce_print_ (int yyrule)
   {
     unsigned int yylno = yyrline_[yyrule];
     int yynrhs = yyr2_[yyrule];
@@ -1009,16 +1211,62 @@ namespace yy {
   }
 #endif // YYDEBUG
 
+  // Symbol number corresponding to token number t.
+  inline
+  Parser::token_number_type
+  Parser::yytranslate_ (int t)
+  {
+    static
+    const token_number_type
+    translate_table[] =
+    {
+     0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,    14,     2,     2,
+       7,     8,    12,    10,     2,    11,     2,    13,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,    16,
+       2,    15,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     9,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
+       5,     6
+    };
+    const unsigned int user_token_number_max_ = 261;
+    const token_number_type undef_token_ = 2;
 
+    if (static_cast<int>(t) <= yyeof_)
+      return yyeof_;
+    else if (static_cast<unsigned int> (t) <= user_token_number_max_)
+      return translate_table[t];
+    else
+      return undef_token_;
+  }
 
-} // yy
-#line 1016 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:1156
-#line 73 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1157
+#line 37 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1156
+} // TSPLIB
+#line 1265 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:1156
+#line 220 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1157
+ /*** Additional Code ***/
 
-
-void
-yy::tsplib_parser::error (const location_type& l,
-                          const std::string& m)
+void TSPLIB::Parser::error(const Parser::location_type& l,
+                const std::string& m)
 {
-  driver.error (l, m);
+    driver.error(l, m);
 }

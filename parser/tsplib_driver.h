@@ -1,42 +1,84 @@
-#ifndef tsplib_driver_HH
-# define tsplib_driver_HH
-# include <string>
-# include <map>
-# include "../parser/tsplib_parser.hpp"
+// $Id: driver.h 17 2007-08-19 18:51:39Z tb $
+/** \file driver.h Declaration of the TSPLIB::Driver class. */
 
-// Tell Flex the lexer's prototype ...
-# define YY_DECL \
-  yy::tsplib_parser::symbol_type yylex (tsplib_driver& driver)
-// ... and declare it for the parser's sake.
-YY_DECL;
+#ifndef TSPLIB_DRIVER_H
+#define TSPLIB_DRIVER_H
 
-// Conducting the whole scanning and parsing of Calc++.
-class tsplib_driver
+#include <string>
+#include <vector>
+
+// forward declaration
+class CalcContext;
+
+/** The TSPLIB namespace is used to encapsulate the three parser classes
+ * TSPLIB::Parser, TSPLIB::Scanner and TSPLIB::Driver */
+namespace TSPLIB {
+
+/** The Driver class brings together all components. It creates an instance of
+ * the Parser and Scanner classes and connects them. Then the input stream is
+ * fed into the scanner object and the parser gets it's token
+ * sequence. Furthermore the driver object is available in the grammar rules as
+ * a parameter. Therefore the driver class contains a reference to the
+ * structure into which the parsed data is saved. */
+class Driver
 {
 public:
-  tsplib_driver ();
-  virtual ~tsplib_driver ();
+    /// construct a new parser driver context
+    Driver();
 
-  std::map<std::string, int> variables;
+    /// enable debug output in the flex scanner
+    bool trace_scanning;
 
-  int result;
+    /// enable debug output in the bison parser
+    bool trace_parsing;
 
-  // Handling the scanner.
-  void scan_begin ();
-  void scan_end ();
-  bool trace_scanning;
+    /// stream name (file or input stream) used for error messages.
+    std::string streamname;
 
-  // Run the parser on file F.
-  // Return 0 on success.
-  int parse (const std::string& f);
-  // The name of the file being parsed.
-  // Used later to pass the file name to the location tracker.
-  std::string file;
-  // Whether parser traces should be generated.
-  bool trace_parsing;
+    /** Invoke the scanner and parser for a stream.
+     * @param in	input stream
+     * @param sname	stream name for error messages
+     * @return		true if successfully parsed
+     */
+    bool parse_stream(std::istream& in,
+              const std::string& sname = "stream input");
 
-  // Error handling.
-  void error (const yy::location& l, const std::string& m);
-  void error (const std::string& m);
+    /** Invoke the scanner and parser on an input string.
+     * @param input	input string
+     * @param sname	stream name for error messages
+     * @return		true if successfully parsed
+     */
+    bool parse_string(const std::string& input,
+              const std::string& sname = "string stream");
+
+    /** Invoke the scanner and parser on a file. Use parse_stream with a
+     * std::ifstream if detection of file reading errors is required.
+     * @param filename	input file name
+     * @return		true if successfully parsed
+     */
+    bool parse_file(const std::string& filename);
+
+    // To demonstrate pure handling of parse errors, instead of
+    // simply dumping them on the standard error output, we will pass
+    // them to the driver using the following two member functions.
+
+    /** Error handling with associated line number. This can be modified to
+     * output the error e.g. to a dialog box. */
+    void error(const class location& l, const std::string& m);
+
+    /** General error handling. This can be modified to output the error
+     * e.g. to a dialog box. */
+    void error(const std::string& m);
+
+    /** Pointer to the current lexer instance, this is used to connect the
+     * parser to the scanner. It is used in the yylex macro. */
+    class Scanner* lexer;
+
+    /** Reference to the calculator context filled during parsing of the
+     * expressions. */
+//    class CalcContext& calc;
 };
-#endif // ! tsplib_driver_HH
+
+} // namespace TSPLIB
+
+#endif // TSPLIB_DRIVER_H

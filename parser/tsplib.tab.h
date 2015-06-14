@@ -32,7 +32,7 @@
 
 /**
  ** \file parser/tsplib.tab.h
- ** Define the yy::parser class.
+ ** Define the TSPLIB::parser class.
  */
 
 // C++ LALR(1) parser skeleton written by Akim Demaille.
@@ -40,25 +40,19 @@
 #ifndef YY_YY_PARSER_TSPLIB_TAB_H_INCLUDED
 # define YY_YY_PARSER_TSPLIB_TAB_H_INCLUDED
 // //                    "%code requires" blocks.
-#line 11 "parser/tsplib.y" // lalr1.cc:371
+#line 14 "parser/tsplib.y" // lalr1.cc:371
 
-#include <string>
-class tsplib_driver;
+//    #include "expression.h"
 
-#line 49 "parser/tsplib.tab.h" // lalr1.cc:371
+#line 48 "parser/tsplib.tab.h" // lalr1.cc:371
 
-# include <cassert>
+
 # include <vector>
 # include <iostream>
 # include <stdexcept>
 # include <string>
 # include "stack.hh"
 # include "location.hh"
-#include <typeinfo>
-#ifndef YYASSERT
-# include <cassert>
-# define YYASSERT assert
-#endif
 
 
 /* Debug traces.  */
@@ -66,186 +60,30 @@ class tsplib_driver;
 # define YYDEBUG 1
 #endif
 
+#line 37 "parser/tsplib.y" // lalr1.cc:371
+namespace TSPLIB {
+#line 66 "parser/tsplib.tab.h" // lalr1.cc:371
 
-namespace yy {
-#line 72 "parser/tsplib.tab.h" // lalr1.cc:371
 
 
-
-  /// A char[S] buffer to store and retrieve objects.
-  ///
-  /// Sort of a variant, but does not keep track of the nature
-  /// of the stored data, since that knowledge is available
-  /// via the current state.
-  template <size_t S>
-  struct variant
-  {
-    /// Type of *this.
-    typedef variant<S> self_type;
-
-    /// Empty construction.
-    variant ()
-      : yytname_ (YY_NULL)
-    {}
-
-    /// Construct and fill.
-    template <typename T>
-    variant (const T& t)
-      : yytname_ (typeid (T).name ())
-    {
-      YYASSERT (sizeof (T) <= S);
-      new (yyas_<T> ()) T (t);
-    }
-
-    /// Destruction, allowed only if empty.
-    ~variant ()
-    {
-      YYASSERT (!yytname_);
-    }
-
-    /// Instantiate an empty \a T in here.
-    template <typename T>
-    T&
-    build ()
-    {
-      YYASSERT (!yytname_);
-      YYASSERT (sizeof (T) <= S);
-      yytname_ = typeid (T).name ();
-      return *new (yyas_<T> ()) T;
-    }
-
-    /// Instantiate a \a T in here from \a t.
-    template <typename T>
-    T&
-    build (const T& t)
-    {
-      YYASSERT (!yytname_);
-      YYASSERT (sizeof (T) <= S);
-      yytname_ = typeid (T).name ();
-      return *new (yyas_<T> ()) T (t);
-    }
-
-    /// Accessor to a built \a T.
-    template <typename T>
-    T&
-    as ()
-    {
-      YYASSERT (yytname_ == typeid (T).name ());
-      YYASSERT (sizeof (T) <= S);
-      return *yyas_<T> ();
-    }
-
-    /// Const accessor to a built \a T (for %printer).
-    template <typename T>
-    const T&
-    as () const
-    {
-      YYASSERT (yytname_ == typeid (T).name ());
-      YYASSERT (sizeof (T) <= S);
-      return *yyas_<T> ();
-    }
-
-    /// Swap the content with \a other, of same type.
-    ///
-    /// Both variants must be built beforehand, because swapping the actual
-    /// data requires reading it (with as()), and this is not possible on
-    /// unconstructed variants: it would require some dynamic testing, which
-    /// should not be the variant's responsability.
-    /// Swapping between built and (possibly) non-built is done with
-    /// variant::move ().
-    template <typename T>
-    void
-    swap (self_type& other)
-    {
-      YYASSERT (yytname_);
-      YYASSERT (yytname_ == other.yytname_);
-      std::swap (as<T> (), other.as<T> ());
-    }
-
-    /// Move the content of \a other to this.
-    ///
-    /// Destroys \a other.
-    template <typename T>
-    void
-    move (self_type& other)
-    {
-      YYASSERT (!yytname_);
-      build<T> ();
-      swap<T> (other);
-      other.destroy<T> ();
-    }
-
-    /// Copy the content of \a other to this.
-    template <typename T>
-    void
-    copy (const self_type& other)
-    {
-      build<T> (other.as<T> ());
-    }
-
-    /// Destroy the stored \a T.
-    template <typename T>
-    void
-    destroy ()
-    {
-      as<T> ().~T ();
-      yytname_ = YY_NULL;
-    }
-
-  private:
-    /// Prohibit blind copies.
-    self_type& operator=(const self_type&);
-    variant (const self_type&);
-
-    /// Accessor to raw memory as \a T.
-    template <typename T>
-    T*
-    yyas_ ()
-    {
-      void *yyp = yybuffer_.yyraw;
-      return static_cast<T*> (yyp);
-     }
-
-    /// Const accessor to raw memory as \a T.
-    template <typename T>
-    const T*
-    yyas_ () const
-    {
-      const void *yyp = yybuffer_.yyraw;
-      return static_cast<const T*> (yyp);
-     }
-
-    union
-    {
-      /// Strongest alignment constraints.
-      long double yyalign_me;
-      /// A buffer large enough to store any of the semantic values.
-      char yyraw[S];
-    } yybuffer_;
-
-    /// Whether the content is built: if defined, the name of the stored type.
-    const char *yytname_;
-  };
 
 
   /// A Bison parser.
-  class tsplib_parser
+  class Parser
   {
   public:
 #ifndef YYSTYPE
-    /// An auxiliary type to compute the largest semantic type.
-    union union_type
-    {
-      // "number"
-      // exp
-      char dummy1[sizeof(int)];
-
-      // "identifier"
-      char dummy2[sizeof(std::string)];
-};
-
     /// Symbol semantic values.
-    typedef variant<sizeof(union_type)> semantic_type;
+    union semantic_type
+    {
+    #line 60 "parser/tsplib.y" // lalr1.cc:371
+
+    int  			integerVal;
+    double 			doubleVal;
+    std::string*		stringVal;
+
+#line 86 "parser/tsplib.tab.h" // lalr1.cc:371
+    };
 #else
     typedef YYSTYPE semantic_type;
 #endif
@@ -264,16 +102,11 @@ namespace yy {
     {
       enum yytokentype
       {
-        TOK_END = 0,
-        TOK_ASSIGN = 258,
-        TOK_MINUS = 259,
-        TOK_PLUS = 260,
-        TOK_STAR = 261,
-        TOK_SLASH = 262,
-        TOK_LPAREN = 263,
-        TOK_RPAREN = 264,
-        TOK_IDENTIFIER = 265,
-        TOK_NUMBER = 266
+        END = 0,
+        EOL = 258,
+        INTEGER = 259,
+        DOUBLE = 260,
+        STRING = 261
       };
     };
 
@@ -304,14 +137,9 @@ namespace yy {
       /// Copy constructor.
       basic_symbol (const basic_symbol& other);
 
-      /// Constructor for valueless symbols, and symbols from each type.
-
-  basic_symbol (typename Base::kind_type t, const location_type& l);
-
-  basic_symbol (typename Base::kind_type t, const int v, const location_type& l);
-
-  basic_symbol (typename Base::kind_type t, const std::string v, const location_type& l);
-
+      /// Constructor for valueless symbols.
+      basic_symbol (typename Base::kind_type t,
+                    const location_type& l);
 
       /// Constructor for symbols with semantic value.
       basic_symbol (typename Base::kind_type t,
@@ -369,51 +197,10 @@ namespace yy {
     /// "External" symbols: returned by the scanner.
     typedef basic_symbol<by_type> symbol_type;
 
-    // Symbol constructors declarations.
-    static inline
-    symbol_type
-    make_END (const location_type& l);
-
-    static inline
-    symbol_type
-    make_ASSIGN (const location_type& l);
-
-    static inline
-    symbol_type
-    make_MINUS (const location_type& l);
-
-    static inline
-    symbol_type
-    make_PLUS (const location_type& l);
-
-    static inline
-    symbol_type
-    make_STAR (const location_type& l);
-
-    static inline
-    symbol_type
-    make_SLASH (const location_type& l);
-
-    static inline
-    symbol_type
-    make_LPAREN (const location_type& l);
-
-    static inline
-    symbol_type
-    make_RPAREN (const location_type& l);
-
-    static inline
-    symbol_type
-    make_IDENTIFIER (const std::string& v, const location_type& l);
-
-    static inline
-    symbol_type
-    make_NUMBER (const int& v, const location_type& l);
-
 
     /// Build a parser object.
-    tsplib_parser (tsplib_driver& driver_yyarg);
-    virtual ~tsplib_parser ();
+    Parser (class Driver& driver_yyarg);
+    virtual ~Parser ();
 
     /// Parse.
     /// \returns  0 iff parsing succeeded.
@@ -443,8 +230,8 @@ namespace yy {
 
   private:
     /// This class is not copyable.
-    tsplib_parser (const tsplib_parser&);
-    tsplib_parser& operator= (const tsplib_parser&);
+    Parser (const Parser&);
+    Parser& operator= (const Parser&);
 
     /// State numbers.
     typedef int state_type;
@@ -472,7 +259,7 @@ namespace yy {
     static const signed char yytable_ninf_;
 
     /// Convert a scanner token number \a t to a symbol number.
-    static token_number_type yytranslate_ (token_type t);
+    static token_number_type yytranslate_ (int t);
 
     // Tables.
   // YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
@@ -610,330 +397,24 @@ namespace yy {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 26,           //< Last index in yytable_.
-      yynnts_ = 5,  //< Number of nonterminal symbols.
+      yylast_ = 44,           //< Last index in yytable_.
+      yynnts_ = 11,  //< Number of nonterminal symbols.
       yyempty_ = -2,
-      yyfinal_ = 3, //< Termination state number.
+      yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 12    //< Number of tokens.
+      yyntokens_ = 17    //< Number of tokens.
     };
 
 
     // User arguments.
-    tsplib_driver& driver;
+    class Driver& driver;
   };
 
-  // Symbol number corresponding to token number t.
-  inline
-  tsplib_parser::token_number_type
-  tsplib_parser::yytranslate_ (token_type t)
-  {
-    static
-    const token_number_type
-    translate_table[] =
-    {
-     0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11
-    };
-    const unsigned int user_token_number_max_ = 266;
-    const token_number_type undef_token_ = 2;
 
-    if (static_cast<int>(t) <= yyeof_)
-      return yyeof_;
-    else if (static_cast<unsigned int> (t) <= user_token_number_max_)
-      return translate_table[t];
-    else
-      return undef_token_;
-  }
-
-  inline
-  tsplib_parser::syntax_error::syntax_error (const location_type& l, const std::string& m)
-    : std::runtime_error (m)
-    , location (l)
-  {}
-
-  // basic_symbol.
-  template <typename Base>
-  inline
-  tsplib_parser::basic_symbol<Base>::basic_symbol ()
-    : value ()
-  {}
-
-  template <typename Base>
-  inline
-  tsplib_parser::basic_symbol<Base>::basic_symbol (const basic_symbol& other)
-    : Base (other)
-    , value ()
-    , location (other.location)
-  {
-      switch (other.type_get ())
-    {
-      case 11: // "number"
-      case 16: // exp
-        value.copy< int > (other.value);
-        break;
-
-      case 10: // "identifier"
-        value.copy< std::string > (other.value);
-        break;
-
-      default:
-        break;
-    }
-
-  }
-
-
-  template <typename Base>
-  inline
-  tsplib_parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const semantic_type& v, const location_type& l)
-    : Base (t)
-    , value ()
-    , location (l)
-  {
-    (void) v;
-      switch (this->type_get ())
-    {
-      case 11: // "number"
-      case 16: // exp
-        value.copy< int > (v);
-        break;
-
-      case 10: // "identifier"
-        value.copy< std::string > (v);
-        break;
-
-      default:
-        break;
-    }
-}
-
-
-  // Implementation of basic_symbol constructor for each type.
-
-  template <typename Base>
-  tsplib_parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const location_type& l)
-    : Base (t)
-    , value ()
-    , location (l)
-  {}
-
-  template <typename Base>
-  tsplib_parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const int v, const location_type& l)
-    : Base (t)
-    , value (v)
-    , location (l)
-  {}
-
-  template <typename Base>
-  tsplib_parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const std::string v, const location_type& l)
-    : Base (t)
-    , value (v)
-    , location (l)
-  {}
-
-
-  template <typename Base>
-  inline
-  tsplib_parser::basic_symbol<Base>::~basic_symbol ()
-  {
-    // User destructor.
-    symbol_number_type yytype = this->type_get ();
-    switch (yytype)
-    {
-   default:
-      break;
-    }
-
-    // Type destructor.
-    switch (yytype)
-    {
-      case 11: // "number"
-      case 16: // exp
-        value.template destroy< int > ();
-        break;
-
-      case 10: // "identifier"
-        value.template destroy< std::string > ();
-        break;
-
-      default:
-        break;
-    }
-
-  }
-
-  template <typename Base>
-  inline
-  void
-  tsplib_parser::basic_symbol<Base>::move (basic_symbol& s)
-  {
-    super_type::move(s);
-      switch (this->type_get ())
-    {
-      case 11: // "number"
-      case 16: // exp
-        value.move< int > (s.value);
-        break;
-
-      case 10: // "identifier"
-        value.move< std::string > (s.value);
-        break;
-
-      default:
-        break;
-    }
-
-    location = s.location;
-  }
-
-  // by_type.
-  inline
-  tsplib_parser::by_type::by_type ()
-     : type (empty)
-  {}
-
-  inline
-  tsplib_parser::by_type::by_type (const by_type& other)
-    : type (other.type)
-  {}
-
-  inline
-  tsplib_parser::by_type::by_type (token_type t)
-    : type (yytranslate_ (t))
-  {}
-
-  inline
-  void
-  tsplib_parser::by_type::move (by_type& that)
-  {
-    type = that.type;
-    that.type = empty;
-  }
-
-  inline
-  int
-  tsplib_parser::by_type::type_get () const
-  {
-    return type;
-  }
-
-  inline
-  tsplib_parser::token_type
-  tsplib_parser::by_type::token () const
-  {
-    // YYTOKNUM[NUM] -- (External) token number corresponding to the
-    // (internal) symbol number NUM (which must be that of a token).  */
-    static
-    const unsigned short int
-    yytoken_number_[] =
-    {
-       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266
-    };
-    return static_cast<token_type> (yytoken_number_[type]);
-  }
-  // Implementation of make_symbol for each symbol type.
-  tsplib_parser::symbol_type
-  tsplib_parser::make_END (const location_type& l)
-  {
-    return symbol_type (token::TOK_END, l);
-
-  }
-
-  tsplib_parser::symbol_type
-  tsplib_parser::make_ASSIGN (const location_type& l)
-  {
-    return symbol_type (token::TOK_ASSIGN, l);
-
-  }
-
-  tsplib_parser::symbol_type
-  tsplib_parser::make_MINUS (const location_type& l)
-  {
-    return symbol_type (token::TOK_MINUS, l);
-
-  }
-
-  tsplib_parser::symbol_type
-  tsplib_parser::make_PLUS (const location_type& l)
-  {
-    return symbol_type (token::TOK_PLUS, l);
-
-  }
-
-  tsplib_parser::symbol_type
-  tsplib_parser::make_STAR (const location_type& l)
-  {
-    return symbol_type (token::TOK_STAR, l);
-
-  }
-
-  tsplib_parser::symbol_type
-  tsplib_parser::make_SLASH (const location_type& l)
-  {
-    return symbol_type (token::TOK_SLASH, l);
-
-  }
-
-  tsplib_parser::symbol_type
-  tsplib_parser::make_LPAREN (const location_type& l)
-  {
-    return symbol_type (token::TOK_LPAREN, l);
-
-  }
-
-  tsplib_parser::symbol_type
-  tsplib_parser::make_RPAREN (const location_type& l)
-  {
-    return symbol_type (token::TOK_RPAREN, l);
-
-  }
-
-  tsplib_parser::symbol_type
-  tsplib_parser::make_IDENTIFIER (const std::string& v, const location_type& l)
-  {
-    return symbol_type (token::TOK_IDENTIFIER, v, l);
-
-  }
-
-  tsplib_parser::symbol_type
-  tsplib_parser::make_NUMBER (const int& v, const location_type& l)
-  {
-    return symbol_type (token::TOK_NUMBER, v, l);
-
-  }
-
-
-
-} // yy
-#line 937 "parser/tsplib.tab.h" // lalr1.cc:371
+#line 37 "parser/tsplib.y" // lalr1.cc:371
+} // TSPLIB
+#line 418 "parser/tsplib.tab.h" // lalr1.cc:371
 
 
 
