@@ -40,7 +40,7 @@
 #ifndef YY_YY_PARSER_TSPLIB_TAB_H_INCLUDED
 # define YY_YY_PARSER_TSPLIB_TAB_H_INCLUDED
 // //                    "%code requires" blocks.
-#line 14 "parser/tsplib.y" // lalr1.cc:371
+#line 12 "parser/tsplib.y" // lalr1.cc:371
 
 //    #include "expression.h"
 
@@ -60,7 +60,7 @@
 # define YYDEBUG 1
 #endif
 
-#line 37 "parser/tsplib.y" // lalr1.cc:371
+#line 35 "parser/tsplib.y" // lalr1.cc:371
 namespace TSPLIB {
 #line 66 "parser/tsplib.tab.h" // lalr1.cc:371
 
@@ -76,7 +76,7 @@ namespace TSPLIB {
     /// Symbol semantic values.
     union semantic_type
     {
-    #line 60 "parser/tsplib.y" // lalr1.cc:371
+    #line 58 "parser/tsplib.y" // lalr1.cc:371
 
     int  			integerVal;
     double 			doubleVal;
@@ -106,7 +106,8 @@ namespace TSPLIB {
         EOL = 258,
         INTEGER = 259,
         DOUBLE = 260,
-        STRING = 261
+        STRING = 261,
+        KEY_VALUE_SEPARATOR = 262
       };
     };
 
@@ -397,13 +398,13 @@ namespace TSPLIB {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 44,           //< Last index in yytable_.
-      yynnts_ = 11,  //< Number of nonterminal symbols.
+      yylast_ = 9,           //< Last index in yytable_.
+      yynnts_ = 5,  //< Number of nonterminal symbols.
       yyempty_ = -2,
       yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 17    //< Number of tokens.
+      yyntokens_ = 9    //< Number of tokens.
     };
 
 
@@ -412,9 +413,9 @@ namespace TSPLIB {
   };
 
 
-#line 37 "parser/tsplib.y" // lalr1.cc:371
+#line 35 "parser/tsplib.y" // lalr1.cc:371
 } // TSPLIB
-#line 418 "parser/tsplib.tab.h" // lalr1.cc:371
+#line 419 "parser/tsplib.tab.h" // lalr1.cc:371
 
 
 

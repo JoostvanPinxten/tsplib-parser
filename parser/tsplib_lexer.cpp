@@ -398,8 +398,8 @@ typedef unsigned char YY_CHAR;
 	(yy_c_buf_p) = yy_cp;
 
 /* %% [4.0] data tables for the DFA and the user's section 1 definitions go here */
-#define YY_NUM_RULES 7
-#define YY_END_OF_BUFFER 8
+#define YY_NUM_RULES 9
+#define YY_END_OF_BUFFER 10
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -407,10 +407,11 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[15] =
+static yyconst flex_int16_t yy_accept[27] =
     {   0,
-        0,    0,    8,    6,    4,    5,    1,    3,    4,    2,
-        1,    3,    2,    0
+        0,    0,    6,    6,   10,    8,    4,    7,    1,    3,
+        5,    6,    4,    1,    3,    4,    2,    1,    5,    6,
+        4,    2,    1,    2,    2,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -419,12 +420,12 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    2,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    4,    4,    5,    1,    6,    6,    6,
-        6,    6,    6,    6,    6,    6,    6,    1,    1,    1,
+        1,    1,    1,    1,    1,    4,    1,    5,    5,    5,
+        5,    5,    5,    5,    5,    5,    5,    6,    1,    1,
         1,    1,    1,    1,    7,    7,    7,    7,    7,    7,
         7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
         7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
-        1,    1,    1,    1,    4,    1,    7,    7,    7,    7,
+        1,    1,    1,    1,    1,    1,    7,    7,    7,    7,
 
         7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
         7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
@@ -447,38 +448,42 @@ static yyconst flex_int32_t yy_ec[256] =
 
 static yyconst flex_int32_t yy_meta[8] =
     {   0,
-        1,    1,    1,    2,    2,    2,    2
+        1,    1,    2,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int16_t yy_base[16] =
+static yyconst flex_int16_t yy_base[28] =
     {   0,
-        0,    0,   15,   16,   12,   16,    3,    0,   11,    6,
-        0,    0,    5,   16,    8
+        0,    0,    7,    0,   30,   31,   27,   31,   11,   31,
+       21,    0,   25,   13,    0,   24,   20,    0,   17,    0,
+       21,   17,    0,   16,   15,   31,   18
     } ;
 
-static yyconst flex_int16_t yy_def[16] =
+static yyconst flex_int16_t yy_def[28] =
     {   0,
-       14,    1,   14,   14,   14,   14,   14,   15,   14,   14,
-        7,   15,   14,    0,   14
+       26,    1,   26,    3,   26,   26,   26,   26,   26,   26,
+       26,   27,   27,   27,   27,   26,   26,    9,   26,   27,
+       27,   27,   14,   26,   27,    0,   26
     } ;
 
-static yyconst flex_int16_t yy_nxt[24] =
+static yyconst flex_int16_t yy_nxt[39] =
     {   0,
-        4,    5,    6,    4,    4,    7,    8,   10,   11,   12,
-       13,   13,    9,    9,   14,    3,   14,   14,   14,   14,
-       14,   14,   14
+        6,    7,    8,    6,    9,   10,   11,   12,   13,    8,
+       12,   14,   15,   12,   17,   18,   22,   23,   20,   25,
+       24,   25,   21,   19,   24,   16,   21,   19,   16,   26,
+        5,   26,   26,   26,   26,   26,   26,   26
     } ;
 
-static yyconst flex_int16_t yy_chk[24] =
+static yyconst flex_int16_t yy_chk[39] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,    7,    7,   15,
-       13,   10,    9,    5,    3,   14,   14,   14,   14,   14,
-       14,   14,   14
+        1,    1,    1,    1,    1,    1,    1,    3,    3,    3,
+        3,    3,    3,    3,    9,    9,   14,   14,   27,   25,
+       24,   22,   21,   19,   17,   16,   13,   11,    7,    5,
+       26,   26,   26,   26,   26,   26,   26,   26
     } ;
 
-static yyconst flex_int16_t yy_rule_linenum[7] =
+static yyconst flex_int16_t yy_rule_linenum[9] =
     {   0,
-       62,   67,   72,   78,   83,   89
+       64,   69,   73,   79,   84,   91,   98,  104
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -510,6 +515,7 @@ typedef TSPLIB::Parser::token_type token_type;
  * on Win32. The C++ scanner uses STL streams instead. */
 #define YY_NO_UNISTD_H
 
+
 /*** Flex Declarations and Options ***/
 /* enable c++ scanner class generation */
 /* change the name of the scanner class. results in "TSPLIBFlexLexer" */
@@ -520,11 +526,12 @@ typedef TSPLIB::Parser::token_type token_type;
 /* enables the use of start condition stacks */
 /* The following paragraph suffices to track locations accurately. Each time
  * yylex is invoked, the begin position is moved onto the end position. */
-#line 49 "parser/tsplib.l"
+#line 51 "parser/tsplib.l"
 #define YY_USER_ACTION  yylloc->columns(yyleng);
-#line 526 "parser/tsplib_lexer.cpp"
+#line 532 "parser/tsplib_lexer.cpp"
 
 #define INITIAL 0
+#define VALUE 1
 
 #ifndef YY_NO_UNISTD_H
 /* Special case for "unistd.h", since it is non-ANSI. We include it way
@@ -679,7 +686,7 @@ YY_DECL
 	register int yy_act;
     
 /* %% [7.0] user's declarations go here */
-#line 52 "parser/tsplib.l"
+#line 54 "parser/tsplib.l"
 
 
  /* code to place at the beginning of yylex() */
@@ -690,7 +697,7 @@ YY_DECL
 
  /*** BEGIN TSPLIB - Change the TSPLIB lexer rules below ***/
 
-#line 694 "parser/tsplib_lexer.cpp"
+#line 701 "parser/tsplib_lexer.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -753,13 +760,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 15 )
+				if ( yy_current_state >= 27 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_current_state != 14 );
+		while ( yy_current_state != 26 );
 		yy_cp = (yy_last_accepting_cpos);
 		yy_current_state = (yy_last_accepting_state);
 
@@ -778,12 +785,12 @@ do_action:	/* This label is used only to access EOF actions. */
 			{
 			if ( yy_act == 0 )
 				std::cerr << "--scanner backing up\n";
-			else if ( yy_act < 7 )
+			else if ( yy_act < 9 )
 				std::cerr << "--accepting rule at line " << yy_rule_linenum[yy_act] <<
 				         "(\"" << yytext << "\")\n";
-			else if ( yy_act == 7 )
+			else if ( yy_act == 9 )
 				std::cerr << "--accepting default rule (\"" << yytext << "\")\n";
-			else if ( yy_act == 8 )
+			else if ( yy_act == 10 )
 				std::cerr << "--(end of buffer or a NUL)\n";
 			else
 				std::cerr << "--EOF (start condition " << YY_START << ")\n";
@@ -801,7 +808,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 62 "parser/tsplib.l"
+#line 64 "parser/tsplib.l"
 {
     yylval->integerVal = atoi(yytext);
     return token::INTEGER;
@@ -809,7 +816,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 67 "parser/tsplib.l"
+#line 69 "parser/tsplib.l"
 {
     yylval->doubleVal = atof(yytext);
     return token::DOUBLE;
@@ -817,46 +824,67 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 72 "parser/tsplib.l"
+#line 73 "parser/tsplib.l"
 {
-    yylval->stringVal = new std::string(yytext, yyleng);
-    return token::STRING;
+    BEGIN(VALUE);
+    return token::KEY_VALUE_SEPARATOR;
 }
 	YY_BREAK
 /* gobble up white-spaces */
 case 4:
 YY_RULE_SETUP
-#line 78 "parser/tsplib.l"
+#line 79 "parser/tsplib.l"
 {
     yylloc->step();
 }
 	YY_BREAK
-/* gobble up end-of-lines */
+/* read a single word */
 case 5:
-/* rule 5 can match eol */
 YY_RULE_SETUP
-#line 83 "parser/tsplib.l"
+#line 84 "parser/tsplib.l"
+{
+        yylval->stringVal = new std::string(yytext, yyleng);
+        BEGIN(INITIAL);
+        return token::STRING;
+}
+	YY_BREAK
+/* read the rest of the line as a single string */
+case 6:
+YY_RULE_SETUP
+#line 91 "parser/tsplib.l"
+{
+    yylval->stringVal = new std::string(yytext, yyleng);
+    BEGIN(INITIAL);
+    return token::STRING;
+}
+	YY_BREAK
+/* gobble up end-of-lines */
+case 7:
+/* rule 7 can match eol */
+YY_RULE_SETUP
+#line 98 "parser/tsplib.l"
 {
     yylloc->lines(yyleng); yylloc->step();
     return token::EOL;
 }
 	YY_BREAK
 /* pass all other characters up to bison */
-case 6:
+case 8:
 YY_RULE_SETUP
-#line 89 "parser/tsplib.l"
+#line 104 "parser/tsplib.l"
 {
     return static_cast<token_type>(*yytext);
 }
 	YY_BREAK
 /*** END TSPLIB - Change the TSPLIB lexer rules above ***/
-case 7:
+case 9:
 YY_RULE_SETUP
-#line 95 "parser/tsplib.l"
+#line 110 "parser/tsplib.l"
 ECHO;
 	YY_BREAK
-#line 859 "parser/tsplib_lexer.cpp"
+#line 886 "parser/tsplib_lexer.cpp"
 case YY_STATE_EOF(INITIAL):
+case YY_STATE_EOF(VALUE):
 	yyterminate();
 
 	case YY_END_OF_BUFFER:
@@ -1257,7 +1285,7 @@ int yyFlexLexer::yy_get_next_buffer()
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 15 )
+			if ( yy_current_state >= 27 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1290,11 +1318,11 @@ int yyFlexLexer::yy_get_next_buffer()
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 15 )
+		if ( yy_current_state >= 27 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 14);
+	yy_is_jam = (yy_current_state == 26);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1895,7 +1923,7 @@ void TSPLIBfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 94 "parser/tsplib.l"
+#line 109 "parser/tsplib.l"
 
 
 

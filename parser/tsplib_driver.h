@@ -77,6 +77,9 @@ public:
     /** Reference to the calculator context filled during parsing of the
      * expressions. */
 //    class CalcContext& calc;
+
+    void start_field(const std::string *name);
+    void add_value(const std::string *val);
 };
 
 } // namespace TSPLIB

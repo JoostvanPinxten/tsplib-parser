@@ -40,7 +40,7 @@
 
 # include "position.hh"
 
-#line 37 "parser/tsplib.y" // location.cc:291
+#line 35 "parser/tsplib.y" // location.cc:291
 namespace TSPLIB {
 #line 46 "parser/location.hh" // location.cc:291
   /// Abstract a location.
@@ -181,7 +181,7 @@ namespace TSPLIB {
     return ostr;
   }
 
-#line 37 "parser/tsplib.y" // location.cc:291
+#line 35 "parser/tsplib.y" // location.cc:291
 } // TSPLIB
 #line 187 "parser/location.hh" // location.cc:291
 #endif // !YY_YY_PARSER_LOCATION_HH_INCLUDED

@@ -22,6 +22,8 @@ typedef TSPLIB::Parser::token_type token_type;
 
 %}
 
+%s VALUE
+
 /*** Flex Declarations and Options ***/
 
 /* enable c++ scanner class generation */
@@ -68,15 +70,28 @@ typedef TSPLIB::Parser::token_type token_type;
     yylval->doubleVal = atof(yytext);
     return token::DOUBLE;
 }
-
-[A-Za-z][A-Za-z0-9_,.-]* {
-    yylval->stringVal = new std::string(yytext, yyleng);
-    return token::STRING;
+":" {
+    BEGIN(VALUE);
+    return token::KEY_VALUE_SEPARATOR;
 }
 
  /* gobble up white-spaces */
 [ \t\r]+ {
     yylloc->step();
+}
+
+ /* read a single word */
+<INITIAL>[A-Za-z]+ {
+        yylval->stringVal = new std::string(yytext, yyleng);
+        BEGIN(INITIAL);
+        return token::STRING;
+}
+
+ /* read the rest of the line as a single string */
+<VALUE>[^\n]* {
+    yylval->stringVal = new std::string(yytext, yyleng);
+    BEGIN(INITIAL);
+    return token::STRING;
 }
 
  /* gobble up end-of-lines */

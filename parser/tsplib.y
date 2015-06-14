@@ -7,8 +7,6 @@
 #include <string>
 #include <vector>
 
-
-
 %}
 
 %code requires{
@@ -68,9 +66,12 @@
 %token <integerVal> 	INTEGER		"integer"
 %token <doubleVal> 	DOUBLE		"double"
 %token <stringVal> 	STRING		"string"
+%token          KEY_VALUE_SEPARATOR
 
-%type <calcnode>	constant variable
-%type <calcnode>	atomexpr powexpr unaryexpr mulexpr addexpr expr
+%type<stringVal> value keyword
+
+//%type <calcnode>	constant variable
+//%type <calcnode>	atomexpr powexpr unaryexpr mulexpr addexpr expr
 
 %destructor { delete $$; } STRING
 //%destructor { delete $$; } constant variable
@@ -104,8 +105,9 @@ constant : INTEGER
 //           $$ = new CNConstant($1);
        }
 
-variable : STRING
+value : STRING
            {
+            $$ = $1;
 //           if (!driver.calc.existsVariable(*$1)) {
 //           error(@$, std::string("Unknown variable \"") + *$1 + "\"");
 //           delete $1;
@@ -117,100 +119,25 @@ variable : STRING
 //           }
        }
 
-atomexpr : constant
-           {
-//           $$ = $1;
-       }
-         | variable
-           {
-//           $$ = $1;
-       }
-         | '(' expr ')'
-           {
-//           $$ = $2;
-       }
+keyword : STRING {
+        $$ = $1;
+    }
 
-powexpr	: atomexpr
-          {
-//          $$ = $1;
-      }
-        | powexpr '^' atomexpr
-          {
-//          $$ = new CNPower($1, $3);
-      }
+separator : KEY_VALUE_SEPARATOR {
 
-unaryexpr : powexpr
-            {
-//        $$ = $1;
-        }
-          | '+' powexpr
-            {
-//        $$ = $2;
-        }
-          | '-' powexpr
-            {
-//        $$ = new CNNegate($2);
-        }
+    } | %empty {
 
-mulexpr : unaryexpr
-          {
-//          $$ = $1;
-      }
-        | mulexpr '*' unaryexpr
-          {
-//          $$ = new CNMultiply($1, $3);
-      }
-        | mulexpr '/' unaryexpr
-          {
-//          $$ = new CNDivide($1, $3);
-      }
-        | mulexpr '%' unaryexpr
-          {
-//          $$ = new CNModulo($1, $3);
-      }
-
-addexpr : mulexpr
-          {
-//          $$ = $1;
-      }
-        | addexpr '+' mulexpr
-          {
-//          $$ = new CNAdd($1, $3);
-      }
-        | addexpr '-' mulexpr
-          {
-//          $$ = new CNSubtract($1, $3);
-      }
-
-expr	: addexpr
-          {
-//          $$ = $1;
-      }
-
-assignment : STRING '=' expr
-             {
-//         driver.calc.variables[*$1] = $3->evaluate();
-//         std::cout << "Setting variable " << *$1
-//               << " = " << driver.calc.variables[*$1] << "\n";
-//         delete $1;
-//         delete $3;
-         }
-
-start	: /* empty */
+    }
+start	: %empty
         | start ';'
         | start EOL
-    | start assignment ';'
-    | start assignment EOL
-    | start assignment END
-        | start expr ';'
+        | start keyword separator value EOL
           {
+            driver.start_field($2);
+            driver.add_value($4);
 //          driver.calc.expressions.push_back($2);
       }
-        | start expr EOL
-          {
-//          driver.calc.expressions.push_back($2);
-      }
-        | start expr END
+        | start keyword END
           {
 //          driver.calc.expressions.push_back($2);
       }
