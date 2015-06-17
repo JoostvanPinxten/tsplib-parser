@@ -29,6 +29,8 @@ typedef TSPLIB::Parser::token_type token_type;
 /* enable c++ scanner class generation */
 %option c++
 
+%option case-insensitive
+
 /* change the name of the scanner class. results in "TSPLIBFlexLexer" */
 %option prefix="TSPLIB"
 
@@ -45,6 +47,10 @@ typedef TSPLIB::Parser::token_type token_type;
 /* enables the use of start condition stacks */
 %option stack
 
+KEYWORD             [a-z][a-z_]*
+INTEGER             -?[1-9][0-9]*
+FLOAT               -[[:digit:]]+"."[[:digit:]]
+
 /* The following paragraph suffices to track locations accurately. Each time
  * yylex is invoked, the begin position is moved onto the end position. */
 %{
@@ -52,6 +58,7 @@ typedef TSPLIB::Parser::token_type token_type;
 %}
 
 %% /*** Regular Expressions Part ***/
+
 
  /* code to place at the beginning of yylex() */
 %{
@@ -61,12 +68,12 @@ typedef TSPLIB::Parser::token_type token_type;
 
  /*** BEGIN TSPLIB - Change the TSPLIB lexer rules below ***/
 
-[0-9]+ {
+INTEGER {
     yylval->integerVal = atoi(yytext);
     return token::INTEGER;
 }
 
-[0-9]+"."[0-9]* {
+FLOAT {
     yylval->doubleVal = atof(yytext);
     return token::DOUBLE;
 }

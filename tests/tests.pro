@@ -7,4 +7,5 @@ include(gtest.pri)
 INCLUDEPATH += ../parser/
 LIBS += -L$$OUT_PWD/../parser/debug/ -lparser
 
-SOURCES += lexertest.cpp
+SOURCES += \
+    parsertest.cpp

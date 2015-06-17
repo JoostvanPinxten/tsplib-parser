@@ -2,7 +2,7 @@
 #include <tsplib_driver.h>
 #include <string>
 
-TEST(LexerTest, Simple) {
+TEST(LexerTest, Name) {
 
     std::string str = "NAME : This is a test\n";
     TSPLIB::Driver driver;

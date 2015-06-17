@@ -96,14 +96,6 @@
 
  /*** BEGIN TSPLIB - Change the TSPLIB grammar rules below ***/
 
-constant : INTEGER
-           {
-//           $$ = new CNConstant($1);
-       }
-         | DOUBLE
-           {
-//           $$ = new CNConstant($1);
-       }
 
 value : STRING
            {
