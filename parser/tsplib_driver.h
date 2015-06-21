@@ -6,7 +6,6 @@
 
 #include <string>
 #include <vector>
-#include <list>
 
 // forward declaration
 class CalcContext;
@@ -80,7 +79,7 @@ public:
 //    class CalcContext& calc;
 
     void add_field(const std::string *name, const std::string *val);
-    void add_field(const std::string *name, const std::list<int> *list);
+    void add_field(const std::string *name, const std::vector<int> *list);
 };
 
 } // namespace TSPLIB

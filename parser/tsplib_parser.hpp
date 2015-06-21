@@ -43,7 +43,7 @@
 #line 12 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 
 //    #include "expression.h"
-    #include<list>
+    #include<vector>
 
 #line 49 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
@@ -82,8 +82,8 @@ namespace TSPLIB {
     int  			integerVal;
     double 			doubleVal;
     std::string*		stringVal;
-    std::list<int>*     integerList;
-    std::list<float>*   floatList;
+    std::vector<int>*     integerList;
+    std::vector<float>*   floatList;
 
 #line 89 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
     };
@@ -402,7 +402,7 @@ namespace TSPLIB {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 9,           //< Last index in yytable_.
+      yylast_ = 13,           //< Last index in yytable_.
       yynnts_ = 8,  //< Number of nonterminal symbols.
       yyempty_ = -2,
       yyfinal_ = 2, //< Termination state number.

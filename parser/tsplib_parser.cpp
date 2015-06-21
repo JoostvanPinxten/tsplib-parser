@@ -652,31 +652,40 @@ namespace TSPLIB {
     break;
 
   case 6:
-#line 121 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 122 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+        (yylhs.value.integerList) = new std::vector<int>();
+        (yylhs.value.integerList)->push_back((yystack_[0].value.integerVal));
+    }
+#line 661 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 7:
+#line 126 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         (yylhs.value.integerList)->push_back((yystack_[0].value.integerVal));
     }
-#line 660 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
-    break;
-
-  case 12:
-#line 132 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
-    {
-            driver.add_field((yystack_[3].value.stringVal), (yystack_[1].value.integerList));
-        }
-#line 668 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 669 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 13:
-#line 136 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 137 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    {
+            driver.add_field((yystack_[3].value.stringVal), (yystack_[1].value.integerList));
+        }
+#line 677 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 14:
+#line 141 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
            driver.add_field((yystack_[3].value.stringVal), (yystack_[1].value.stringVal));
         }
-#line 676 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 685 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
 
-#line 680 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 689 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
           default:
             break;
           }
@@ -930,28 +939,28 @@ namespace TSPLIB {
   }
 
 
-  const signed char Parser::yypact_ninf_ = -7;
+  const signed char Parser::yypact_ninf_ = -6;
 
   const signed char Parser::yytable_ninf_ = -1;
 
   const signed char
   Parser::yypact_[] =
   {
-      -7,     0,    -7,    -7,    -7,    -5,    -7,     3,    -7,    -7,
-       1,     1,    -7,    -7,    -7,    -7,    -7
+      -6,     0,    -6,    -6,    -6,    -5,    -6,     5,    -6,    -6,
+       7,     1,    -6,    -6,    -6,    -6,    -6,    -6
   };
 
   const unsigned char
   Parser::yydefact_[] =
   {
-      10,     0,     1,    11,     3,     5,     4,     0,     7,     2,
-       0,     0,     6,     9,     8,    13,    12
+      11,     0,     1,    12,     3,     5,     4,     0,     8,     2,
+       0,     0,     6,    10,     9,    14,     7,    13
   };
 
   const signed char
   Parser::yypgoto_[] =
   {
-      -7,    -7,    -7,    -7,    -7,    -7,    -6,    -7
+      -6,    -6,    -6,    -6,    -6,    -3,     2,    -6
   };
 
   const signed char
@@ -963,34 +972,36 @@ namespace TSPLIB {
   const unsigned char
   Parser::yytable_[] =
   {
-       2,    13,     6,     3,    14,    16,     4,     8,     0,     9
+       2,    13,     6,     3,    14,     8,     4,    13,    16,     8,
+      14,     9,     0,    17
   };
 
   const signed char
   Parser::yycheck_[] =
   {
-       0,     0,     7,     3,     3,    11,     6,     4,    -1,     6
+       0,     0,     7,     3,     3,     4,     6,     0,    11,     4,
+       3,     6,    -1,    11
   };
 
   const unsigned char
   Parser::yystos_[] =
   {
        0,    16,     0,     3,     6,    11,     7,    12,     4,     6,
-      10,    13,    14,     0,     3,    15,    15
+      10,    13,    14,     0,     3,    15,    14,    15
   };
 
   const unsigned char
   Parser::yyr1_[] =
   {
-       0,     9,    10,    11,    12,    12,    13,    14,    15,    15,
-      16,    16,    16,    16
+       0,     9,    10,    11,    12,    12,    13,    13,    14,    15,
+      15,    16,    16,    16,    16
   };
 
   const unsigned char
   Parser::yyr2_[] =
   {
-       0,     2,     1,     1,     1,     0,     1,     1,     1,     1,
-       0,     2,     5,     5
+       0,     2,     1,     1,     1,     0,     1,     2,     1,     1,
+       1,     0,     2,     5,     5
   };
 
 
@@ -1010,8 +1021,8 @@ namespace TSPLIB {
   const unsigned char
   Parser::yyrline_[] =
   {
-       0,   107,   107,   111,   115,   117,   121,   125,   127,   127,
-     129,   130,   131,   135
+       0,   107,   107,   111,   115,   117,   121,   126,   130,   132,
+     132,   134,   135,   136,   140
   };
 
   // Print the state stack on the debug stream.
@@ -1093,8 +1104,8 @@ namespace TSPLIB {
 
 #line 36 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1156
 } // TSPLIB
-#line 1097 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:1156
-#line 142 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1157
+#line 1108 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:1156
+#line 147 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1157
  /*** Additional Code ***/
 
 void TSPLIB::Parser::error(const Parser::location_type& l,

@@ -10,8 +10,7 @@
 %}
 
 %code requires{
-//    #include "expression.h"
-    #include<list>
+    #include<vector>
 }
 
 /*** yacc/bison Declarations ***/
@@ -60,8 +59,8 @@
     int  			integerVal;
     double 			doubleVal;
     std::string*		stringVal;
-    std::list<int>*     integerList;
-    std::list<float>*   floatList;
+    std::vector<int>*     integerList;
+    std::vector<float>*   floatList;
 }
 
 %token			END	     0	"end of file"
@@ -118,8 +117,13 @@ separator : KEY_VALUE_SEPARATOR {
         // Separator is optional
     }
 
-integer_list : integer {
+integer_list : integer
+    {
+        $$ = new std::vector<int>();
         $$->push_back($1);
+    }
+    | integer_list integer {
+        $$->push_back($2);
     }
 
 integer : INTEGER;

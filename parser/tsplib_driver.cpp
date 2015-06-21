@@ -59,8 +59,13 @@ void Driver::add_field(const std::string *name, const std::string *val)
     std::cout << "value: " << *val << std::endl;
 }
 
-void Driver::add_field(const std::string *name, const std::list<int> * list) {
-
+void Driver::add_field(const std::string *name, const std::vector<int> * list) {
+    std::cout << "field: " << *name << std::endl;
+    std::cout << "value:";
+    for(const auto &i : *list) {
+        std::cout << " " << i;
+    }
+    std::cout << std::endl;
 }
 
 
