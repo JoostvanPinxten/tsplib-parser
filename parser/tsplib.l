@@ -50,6 +50,7 @@ typedef TSPLIB::Parser::token_type token_type;
 KEYWORD             [a-z][a-z_]*
 INTEGER             -?[1-9][0-9]*
 FLOAT               -[[:digit:]]+"."[[:digit:]]
+WHITESPACE          [[:blank:]\r]
 
 /* The following paragraph suffices to track locations accurately. Each time
  * yylex is invoked, the begin position is moved onto the end position. */
@@ -68,37 +69,49 @@ FLOAT               -[[:digit:]]+"."[[:digit:]]
 
  /*** BEGIN TSPLIB - Change the TSPLIB lexer rules below ***/
 
-INTEGER {
+{INTEGER} {
     yylval->integerVal = atoi(yytext);
     return token::INTEGER;
 }
 
-FLOAT {
+{FLOAT} {
     yylval->doubleVal = atof(yytext);
     return token::DOUBLE;
 }
 ":" {
     BEGIN(VALUE);
+    #ifdef FLEX_SCANNER_DEBUG
+        std::cout << "sep" << std::endl;
+    #endif
     return token::KEY_VALUE_SEPARATOR;
-}
-
- /* gobble up white-spaces */
-[ \t\r]+ {
-    yylloc->step();
 }
 
  /* read a single word */
 <INITIAL>[A-Za-z]+ {
         yylval->stringVal = new std::string(yytext, yyleng);
-        BEGIN(INITIAL);
+        #ifdef FLEX_SCANNER_DEBUG
+            std::cout << "string: " << *(yylval->stringVal) << std::endl;
+        #endif
         return token::STRING;
 }
 
  /* read the rest of the line as a single string */
-<VALUE>[^\n]* {
+<VALUE>[[:^blank:]][^\n]+ {
     yylval->stringVal = new std::string(yytext, yyleng);
+    #ifdef FLEX_SCANNER_DEBUG
+        std::cout << "rest_of_line: " << *(yylval->stringVal) << std::endl;
+    #endif
+
     BEGIN(INITIAL);
     return token::STRING;
+}
+
+ /* gobble up white-spaces */
+{WHITESPACE} {
+   #ifdef FLEX_SCANNER_DEBUG
+    std::cout << "ws" << yytext << std::endl;
+   #endif
+   yylloc->step();
 }
 
  /* gobble up end-of-lines */
@@ -109,7 +122,11 @@ FLOAT {
 
  /* pass all other characters up to bison */
 . {
-    return static_cast<token_type>(*yytext);
+     yylval->stringVal = new std::string(yytext, yyleng);
+     #ifdef FLEX_SCANNER_DEBUG
+        std::cout << "UNMATCHED INPUT! " << yytext << std::endl;
+     #endif
+     return token::UNMATCHED_TOKEN;
 }
 
  /*** END TSPLIB - Change the TSPLIB lexer rules above ***/
@@ -145,7 +162,6 @@ void Scanner::set_debug(bool b)
 
 int TSPLIBFlexLexer::yylex()
 {
-    std::cerr << "in TSPLIBFlexLexer::yylex() !" << std::endl;
     return 0;
 }
 

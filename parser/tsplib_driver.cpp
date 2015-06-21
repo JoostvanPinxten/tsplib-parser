@@ -53,14 +53,15 @@ void Driver::error(const std::string& m)
     std::cerr << m << std::endl;
 }
 
-void Driver::start_field(const std::string *name)
+void Driver::add_field(const std::string *name, const std::string *val)
 {
     std::cout << "field: " << *name << std::endl;
-}
-
-void Driver::add_value(const std::string *val)
-{
     std::cout << "value: " << *val << std::endl;
 }
+
+void Driver::add_field(const std::string *name, const std::list<int> * list) {
+
+}
+
 
 } // namespace TSPLIB

@@ -50,7 +50,7 @@
 #  endif
 # endif
 
-#line 35 "..\\..\\tsplib-parser\\parser\\tsplib.y" // location.cc:291
+#line 36 "..\\..\\tsplib-parser\\parser\\tsplib.y" // location.cc:291
 namespace TSPLIB {
 #line 56 "..\\..\\tsplib-parser\\parser/position.hh" // location.cc:291
   /// Abstract a position.
@@ -174,7 +174,7 @@ namespace TSPLIB {
     return ostr << pos.line << '.' << pos.column;
   }
 
-#line 35 "..\\..\\tsplib-parser\\parser\\tsplib.y" // location.cc:291
+#line 36 "..\\..\\tsplib-parser\\parser\\tsplib.y" // location.cc:291
 } // TSPLIB
 #line 180 "..\\..\\tsplib-parser\\parser/position.hh" // location.cc:291
 #endif // !YY_YY_TSPLIB_PARSER_PARSER_POSITION_HH_INCLUDED

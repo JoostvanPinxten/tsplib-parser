@@ -43,8 +43,9 @@
 #line 12 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 
 //    #include "expression.h"
+    #include<list>
 
-#line 48 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 49 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 # include <vector>
@@ -60,9 +61,9 @@
 # define YYDEBUG 1
 #endif
 
-#line 35 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+#line 36 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 namespace TSPLIB {
-#line 66 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 67 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 
@@ -76,13 +77,15 @@ namespace TSPLIB {
     /// Symbol semantic values.
     union semantic_type
     {
-    #line 58 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+    #line 59 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 
     int  			integerVal;
     double 			doubleVal;
     std::string*		stringVal;
+    std::list<int>*     integerList;
+    std::list<float>*   floatList;
 
-#line 86 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 89 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -107,7 +110,8 @@ namespace TSPLIB {
         INTEGER = 259,
         DOUBLE = 260,
         STRING = 261,
-        KEY_VALUE_SEPARATOR = 262
+        KEY_VALUE_SEPARATOR = 262,
+        UNMATCHED_TOKEN = 263
       };
     };
 
@@ -399,7 +403,7 @@ namespace TSPLIB {
     {
       yyeof_ = 0,
       yylast_ = 9,           //< Last index in yytable_.
-      yynnts_ = 5,  //< Number of nonterminal symbols.
+      yynnts_ = 8,  //< Number of nonterminal symbols.
       yyempty_ = -2,
       yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
@@ -413,9 +417,9 @@ namespace TSPLIB {
   };
 
 
-#line 35 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+#line 36 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 } // TSPLIB
-#line 419 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 423 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 

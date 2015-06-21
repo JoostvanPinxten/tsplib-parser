@@ -11,12 +11,13 @@
 
 %code requires{
 //    #include "expression.h"
+    #include<list>
 }
 
 /*** yacc/bison Declarations ***/
 
-/* Require bison 2.3 or later */
-%require "2.3"
+/* Require bison 3.0 or later */
+%require "3.0"
 
 /* add debug output code to generated parser. disable this for release
  * versions. */
@@ -59,6 +60,8 @@
     int  			integerVal;
     double 			doubleVal;
     std::string*		stringVal;
+    std::list<int>*     integerList;
+    std::list<float>*   floatList;
 }
 
 %token			END	     0	"end of file"
@@ -67,8 +70,12 @@
 %token <doubleVal> 	DOUBLE		"double"
 %token <stringVal> 	STRING		"string"
 %token          KEY_VALUE_SEPARATOR
+%token <stringVal> UNMATCHED_TOKEN "unmatched input token"
 
-%type<stringVal> value keyword
+%type<stringVal> string_value keyword
+%type<integerVal> integer
+%type<floatList> float_list
+%type<integerList> integer_list
 
 //%type <calcnode>	constant variable
 //%type <calcnode>	atomexpr powexpr unaryexpr mulexpr addexpr expr
@@ -97,42 +104,38 @@
  /*** BEGIN TSPLIB - Change the TSPLIB grammar rules below ***/
 
 
-value : STRING
-           {
-            $$ = $1;
-//           if (!driver.calc.existsVariable(*$1)) {
-//           error(@$, std::string("Unknown variable \"") + *$1 + "\"");
-//           delete $1;
-//           YYERROR;
-//           }
-//           else {
-//           $$ = new CNConstant( driver.calc.getVariable(*$1) );
-//           delete $1;
-//           }
-       }
+string_value : STRING {
+        $$ = $1;
+    }
 
 keyword : STRING {
         $$ = $1;
     }
 
 separator : KEY_VALUE_SEPARATOR {
-
+        // Found a field separator
     } | %empty {
-
+        // Separator is optional
     }
+
+integer_list : integer {
+        $$->push_back($1);
+    }
+
+integer : INTEGER;
+
+end : EOL | END;
+
 start	: %empty
-        | start ';'
         | start EOL
-        | start keyword separator value EOL
-          {
-            driver.start_field($2);
-            driver.add_value($4);
-//          driver.calc.expressions.push_back($2);
-      }
-        | start keyword END
-          {
-//          driver.calc.expressions.push_back($2);
-      }
+        | start keyword separator integer_list end
+        {
+            driver.add_field($2, $4);
+        }
+        | start keyword separator string_value end
+        {
+           driver.add_field($2, $4);
+        }
 
  /*** END TSPLIB - Change the TSPLIB grammar rules above ***/
 

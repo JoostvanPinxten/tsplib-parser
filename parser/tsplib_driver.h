@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 
 // forward declaration
 class CalcContext;
@@ -78,8 +79,8 @@ public:
      * expressions. */
 //    class CalcContext& calc;
 
-    void start_field(const std::string *name);
-    void add_value(const std::string *val);
+    void add_field(const std::string *name, const std::string *val);
+    void add_field(const std::string *name, const std::list<int> *list);
 };
 
 } // namespace TSPLIB
