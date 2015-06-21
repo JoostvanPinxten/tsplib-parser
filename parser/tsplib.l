@@ -87,7 +87,7 @@ WHITESPACE          [[:blank:]\r]
 }
 
  /* read a single word */
-<INITIAL>[A-Za-z]+ {
+<INITIAL>[a-z][^[:blank:]\n]+ {
         yylval->stringVal = new std::string(yytext, yyleng);
         #ifdef FLEX_SCANNER_DEBUG
             std::cout << "string: " << *(yylval->stringVal) << std::endl;
