@@ -4,15 +4,19 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <assert.h>
 
 #include "tsplib_driver.h"
 #include "tsplib_lexer.h"
+
+#include <basetsplibinstance.h>
 
 namespace TSPLIB {
 
 Driver::Driver()
     : trace_scanning(false),
-      trace_parsing(false)
+      trace_parsing(false),
+      instance(0)
 {
 }
 
@@ -70,6 +74,7 @@ void Driver::set_name(const std::string *name) {
  * Create an instance of a TSPLIB specification with the given @param type.
  */
 TSPLIB::Instance * Driver::create_instance(TSP::TYPE type) {
+    return new TSPLIB::BaseInstance();
 }
 
 TSPLIB::Instance * Driver::get_instance()
