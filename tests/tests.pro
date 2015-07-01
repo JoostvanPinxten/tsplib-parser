@@ -4,8 +4,9 @@
 
 include(gtest.pri)
 
-INCLUDEPATH += ../parser/
-LIBS += -L$$OUT_PWD/../parser/debug/ -lparser
+INCLUDEPATH += ../parser/ ../common/
+
+LIBS += -L$$OUT_PWD/../parser/$$LOCATION/ -lparser -L$$OUT_PWD/../common/$$LOCATION/ -lcommon
 
 SOURCES += \
     parsertest.cpp

@@ -48,7 +48,9 @@ INCLUDEPATH += $$PWD
 CONFIG -= app_bundle
 CONFIG -= qt
 
-LIBS +=
+INCLUDEPATH += ../common/
+
+LIBS += -L$$OUT_PWD/../common/$$LOCATION/ -lcommon
 
 CONFIG += debug_and_release
 

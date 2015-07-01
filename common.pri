@@ -5,3 +5,9 @@ OBJECTS_DIR = objs
 INCLUDEPATH += . .. ../common
 
 CONFIG += c++11
+
+CONFIG(release, debug|release) {
+    LOCATION = release
+} else {
+    LOCATION = debug
+}
