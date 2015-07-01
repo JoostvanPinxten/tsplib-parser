@@ -90,13 +90,12 @@
 
 %type<stringVal> string_value
 %type<integerVal> integer
-%type<doubleVal> real
-%type<floatList> float_list
+%type<doubleVal> real, number
 %type<integerList> integer_list
 %type<coordMap> coord_section
 %type<coordList> coords
 
-%destructor { delete $$; } STRING integer_list float_list coord_section coords
+%destructor { delete $$; } STRING coord_section coords
 
 
  /*** END TSPLIB - Change the TSPLIB grammar's tokens above ***/
@@ -138,21 +137,28 @@ integer_list : integer {
         $1->push_back($2);
     }
 
-coord_section : separator integer coords {
+coord_section : integer coords end {
         $$ = new std::map<int, std::vector<double>>();
-        (*$$)[$2] = *$3;
+        std::cout << "set of coords" << std::endl;
+        (*$$)[$1] = *$2;
     }
     | coord_section integer coords {
         $$ = $1;
+        std::cout << "set of coords" << std::endl;
         (*$$)[$2] = *$3;
     }
-coords : real {
+coords : number {
+        std::cout << "started coords" << std::endl;
         $$ = new std::vector<double>();
+        $$->push_back($1);
     }
-    | coords real {
+    | coords number {
+        std::cout << "coord appended" << std::endl;
         $$ = $1;
         $1->push_back($2);
     }
+
+number : real | integer;
 
 real : DOUBLE; // TODO: also accept integers
 
@@ -167,10 +173,10 @@ specification : NAME separator string_value {
         driver.create_instance($3);
     }
 
-data : NODE_COORD_SECTION coord_section {
+data : NODE_COORD_SECTION separator coord_section {
         TSPLIB::Instance * instance = driver.get_instance();
         if(instance = driver.get_instance()) {
-            instance->set_coordinate_section(* $2);
+            instance->set_coordinate_section(* $3);
         } else {
             driver.error(@$, "Unexpected coordinate section, not able to construct ");
         }
