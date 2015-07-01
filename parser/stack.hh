@@ -40,7 +40,7 @@
 
 # include <vector>
 
-#line 36 "..\\..\\tsplib-parser\\parser\\tsplib.y" // stack.hh:133
+#line 37 "..\\..\\tsplib-parser\\parser\\tsplib.y" // stack.hh:133
 namespace TSPLIB {
 #line 46 "..\\..\\tsplib-parser\\parser/stack.hh" // stack.hh:133
   template <class T, class S = std::vector<T> >
@@ -151,7 +151,7 @@ namespace TSPLIB {
     unsigned int range_;
   };
 
-#line 36 "..\\..\\tsplib-parser\\parser\\tsplib.y" // stack.hh:133
+#line 37 "..\\..\\tsplib-parser\\parser\\tsplib.y" // stack.hh:133
 } // TSPLIB
 #line 157 "..\\..\\tsplib-parser\\parser/stack.hh" // stack.hh:133
 

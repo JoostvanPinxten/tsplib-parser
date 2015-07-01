@@ -40,12 +40,14 @@
 #ifndef YY_YY_TSPLIB_PARSER_PARSER_TSPLIB_PARSER_HPP_INCLUDED
 # define YY_YY_TSPLIB_PARSER_PARSER_TSPLIB_PARSER_HPP_INCLUDED
 // //                    "%code requires" blocks.
-#line 12 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+#line 11 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 
-//    #include "expression.h"
+    #include <map>
     #include<vector>
+    #include <common/tsp.h>
+    #include <common/tsplibinstance.h>
 
-#line 49 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 51 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 # include <vector>
@@ -61,9 +63,9 @@
 # define YYDEBUG 1
 #endif
 
-#line 36 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+#line 37 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 namespace TSPLIB {
-#line 67 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 69 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 
@@ -77,15 +79,23 @@ namespace TSPLIB {
     /// Symbol semantic values.
     union semantic_type
     {
-    #line 59 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+    #line 60 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 
     int  			integerVal;
     double 			doubleVal;
     std::string*		stringVal;
     std::vector<int>*     integerList;
     std::vector<float>*   floatList;
+    std::map<int, std::vector<double>>* coordMap;
+    std::vector<double>* coordList;
+    TSP::TYPE           tspType;
+    TSP::EDGE_WEIGHT_TYPE   edgeWeightType;
+//    TSP::EDGE_WEIGHT_FORMAT edgeWeightFormat;
+//    TSP::EDGE_DATA_FORMAT   edgeDataFormat;
+    TSP::NODE_COORD_TYPE    nodeCoordType;
+//    TSP::DISPLAY_DATA_TYPE  displayDataType;
 
-#line 89 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 99 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -111,7 +121,13 @@ namespace TSPLIB {
         DOUBLE = 260,
         STRING = 261,
         KEY_VALUE_SEPARATOR = 262,
-        UNMATCHED_TOKEN = 263
+        UNMATCHED_TOKEN = 263,
+        TSPTYPE = 264,
+        NAME = 265,
+        TYPE = 266,
+        COMMENT = 267,
+        DIMENSION = 268,
+        NODE_COORD_SECTION = 269
       };
     };
 
@@ -402,13 +418,13 @@ namespace TSPLIB {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 13,           //< Last index in yytable_.
-      yynnts_ = 8,  //< Number of nonterminal symbols.
+      yylast_ = 19,           //< Last index in yytable_.
+      yynnts_ = 11,  //< Number of nonterminal symbols.
       yyempty_ = -2,
       yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 9    //< Number of tokens.
+      yyntokens_ = 15    //< Number of tokens.
     };
 
 
@@ -417,9 +433,9 @@ namespace TSPLIB {
   };
 
 
-#line 36 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+#line 37 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 } // TSPLIB
-#line 423 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 439 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 

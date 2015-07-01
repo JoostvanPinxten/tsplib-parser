@@ -22,7 +22,7 @@ typedef TSPLIB::Parser::token_type token_type;
 
 %}
 
-%s VALUE
+%s REST_OF_LINE_STRING
 
 /*** Flex Declarations and Options ***/
 
@@ -52,6 +52,90 @@ INTEGER             -?[1-9][0-9]*
 FLOAT               -[[:digit:]]+"."[[:digit:]]
 WHITESPACE          [[:blank:]\r]
 
+/* literal keywords */
+KEYWORD_NAME        name
+KEYWORD_TYPE        type
+KEYWORD_COMMENT     comment
+
+/* normal TSP types, as defined in TSPLIB */
+KEYWORD_TSP         tsp
+KEYWORD_ATSP        atsp
+KEYWORD_SOP         sop
+
+KEYWORD_HCP         hcp
+KEYWORD_CVRP        cvrp
+KEYWORD_TOUR        tour
+
+/* generalized TSP extension, according to the rules specified in:
+ * http://www.cs.rhul.ac.uk/home/zvero/GTSPLIB/ and
+ * http://www.cs.nott.ac.uk/~dxk/gtsp.html
+ */
+
+KEYWORD_GTSP        gtsp
+KEYWORD_AGTSP       agtsp
+
+/*
+ * Other attributes
+ */
+KEYWORD_DIMENSION   dimension
+KEYWORD_CAPACITY    capacity
+KEYWORD_EDGE_WEIGHT_TYPE  edge_weight_type
+KEYWORD_EDGE_WEIGHT_FORMAT edge_weight_format
+KEYWORD_EDGE_DATA_FORMAT   edge_data_format
+KEYWORD_NODE_COORD_TYPE node_coord_type
+KEYWORD_NODE_COORD_SECTION node_coord_section
+
+/*
+ * Edge weight types
+ */
+KEYWORD_EXPLICIT    explicit
+KEYWORD_EUC_2D      euc_2d
+KEYWORD_EUC_3D      euc_3d
+KEYWORD_MAX_2D      max_2d
+KEYWORD_MAX_3D      max_3d
+KEYWORD_CEIL_2D     ceil_2d
+KEYWORD_GEO         geo
+KEYWORD_ATT         att
+KEYWORD_XRAY1       xray1
+KEYWORD_XRAY2       xray2
+KEYWORD_SPECIAL     special
+
+/*
+ * Edge weight formats
+ */
+KEYWORD_FUNCTION    function
+KEYWORD_FULL_MATRIX full_matrix
+KEYWORD_UPPER_ROW   upper_row
+KEYWORD_LOWER_ROW   lower_row
+KEYWORD_UPPER_COL   upper_col
+KEYWORD_LOWER_COL   lower_col
+KEYWORD_UPPER_DIAG_COL  upper_diag_col
+KEYWORD_LOWER_DIAG_COL  lower_diag_col
+
+/*
+ * Edge data formats
+ */
+KEYWORD_EDGE_LIST edge_list
+KEYWORD_ADJ_LIST  adj_list
+
+/*
+ * Node coordinates types
+ */
+KEYWORD_TWOD_COORDS twod_coords
+KEYWORD_THREED_COORDS threed_coords
+KEYWORD_NO_COORDS no_coords
+
+/*
+ * Display data types
+ */
+KEYRWORD_COORD_DISPLAY  coord_display
+KEYWORD_TWOD_DISPLAY    twod_display
+KEYWORD_NO_DISPLAY      no_display
+
+SEPARATOR               ":"
+
+KEYWORD_EOF eof
+
 /* The following paragraph suffices to track locations accurately. Each time
  * yylex is invoked, the begin position is moved onto the end position. */
 %{
@@ -78,25 +162,26 @@ WHITESPACE          [[:blank:]\r]
     yylval->doubleVal = atof(yytext);
     return token::DOUBLE;
 }
-":" {
-    BEGIN(VALUE);
+{SEPARATOR} {
     #ifdef FLEX_SCANNER_DEBUG
         std::cout << "sep" << std::endl;
     #endif
     return token::KEY_VALUE_SEPARATOR;
 }
 
- /* read a single word */
-<INITIAL>[a-z][^[:blank:]\n]+ {
-        yylval->stringVal = new std::string(yytext, yyleng);
-        #ifdef FLEX_SCANNER_DEBUG
-            std::cout << "string: " << *(yylval->stringVal) << std::endl;
-        #endif
-        return token::STRING;
+{KEYWORD_NAME} {
+    BEGIN(REST_OF_LINE_STRING);
+
+    return token::NAME;
 }
 
+{KEYWORD_NODE_COORD_SECTION} {
+    return token::NODE_COORD_SECTION;
+}
+
+
  /* read the rest of the line as a single string */
-<VALUE>[[:^blank:]][^\n]+ {
+<REST_OF_LINE_STRING>[[:^blank:]][^\n]+ {
     yylval->stringVal = new std::string(yytext, yyleng);
     #ifdef FLEX_SCANNER_DEBUG
         std::cout << "rest_of_line: " << *(yylval->stringVal) << std::endl;

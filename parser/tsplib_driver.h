@@ -6,6 +6,9 @@
 
 #include <string>
 #include <vector>
+#include <common/tsp.h>
+
+#include <tsplibinstance.h>
 
 // forward declaration
 class CalcContext;
@@ -74,12 +77,14 @@ public:
      * parser to the scanner. It is used in the yylex macro. */
     class Scanner* lexer;
 
-    /** Reference to the calculator context filled during parsing of the
-     * expressions. */
-//    class CalcContext& calc;
+    void set_name(const std::string *name);
 
-    void add_field(const std::string *name, const std::string *val);
-    void add_field(const std::string *name, const std::vector<int> *list);
+    Instance * get_instance();
+    Instance * create_instance(TSP::TYPE type);
+
+protected:
+    TSPLIB::Instance * instance;
+
 };
 
 } // namespace TSPLIB
