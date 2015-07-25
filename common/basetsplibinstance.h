@@ -8,8 +8,7 @@ namespace TSPLIB {
     class BaseInstance : public Instance
     {
     public:
-        BaseInstance();
-        bool set_name(const std::string &name);
+        BaseInstance(const Instance &i); // initialization from another instance
         bool set_coordinate_section(std::map<int, std::vector<double> > coordinates);
     };
 }

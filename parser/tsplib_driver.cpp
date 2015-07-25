@@ -58,31 +58,30 @@ void Driver::error(const std::string& m)
 }
 
 void Driver::set_name(const std::string *name) {
-
+    get_instance().set_name(*name);
 }
-
-//void Driver::add_field(const std::string *name, const std::vector<int> * list) {
-//    std::cout << "field: " << *name << std::endl;
-//    std::cout << "value:";
-//    for(const auto &i : *list) {
-//        std::cout << " " << i;
-//    }
-//    std::cout << std::endl;
-//}
 
 /**
  * Create an instance of a TSPLIB specification with the given @param type.
  */
-TSPLIB::Instance * Driver::create_instance(TSP::TYPE type) {
-    return new TSPLIB::BaseInstance();
+TSPLIB::Instance& Driver::create_instance(TSP::TYPE type) {
+
+    switch(type) {
+    default:
+    case TSP::TYPE::STUB:
+        instance = new TSPLIB::BaseInstance(*instance);
+        break;
+
+    }
+    return *instance;
 }
 
-TSPLIB::Instance * Driver::get_instance()
+TSPLIB::Instance& Driver::get_instance()
 {
-    if (! instance ) {
-        instance = create_instance(TSP::TYPE::STUB);
+    if(!instance) {
+        return create_instance(TSP::TYPE::STUB);
     }
-    return instance;
+    return *instance;
 }
 
 } // namespace TSPLIB

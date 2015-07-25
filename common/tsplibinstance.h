@@ -8,10 +8,19 @@
 namespace TSPLIB {
     class Instance
     {
-    public:
+    protected:
+        std::string name, comment;
         Instance();
-        virtual bool set_name(const std::string &name) = 0;
+        virtual ~Instance();
+    public:
+        bool set_name(const std::string &_name);
+        std::string get_name() const;
+
+        bool set_comment(const std::string &_comment);
+        std::string get_comment() const;
+
         virtual bool set_coordinate_section(std::map<int, std::vector<double> > coordinates) = 0;
+
     };
 }
 #endif // TSPLIBINSTANCE_H

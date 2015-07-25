@@ -1,14 +1,13 @@
+#include <iostream>
 #include "basetsplibinstance.h"
 
 namespace TSPLIB {
-    BaseInstance::BaseInstance()
+    BaseInstance::BaseInstance(const Instance& i)
     {
-
-    }
-
-    bool BaseInstance::set_name(const std::string &name)
-    {
-        return false;
+        if(&i){ // check for null reference... very nasty!
+            name = i.get_name();
+            comment = i.get_comment();
+        }
     }
 
     bool BaseInstance::set_coordinate_section(std::map<int, std::vector<double> > coordinates)

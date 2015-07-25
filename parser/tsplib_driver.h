@@ -9,6 +9,7 @@
 #include <common/tsp.h>
 
 #include <tsplibinstance.h>
+#include <basetsplibinstance.h>
 
 // forward declaration
 class CalcContext;
@@ -79,8 +80,8 @@ public:
 
     void set_name(const std::string *name);
 
-    Instance * get_instance();
-    Instance * create_instance(TSP::TYPE type);
+    Instance & get_instance();
+    Instance & create_instance(TSP::TYPE type);
 
 protected:
     TSPLIB::Instance * instance;

@@ -660,7 +660,7 @@ namespace TSPLIB {
 #line 140 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         (yylhs.value.coordMap) = new std::map<int, std::vector<double>>();
-        std::cout << "set of coords" << std::endl;
+//        std::cout << "set of coords" << std::endl;
         (*(yylhs.value.coordMap))[(yystack_[2].value.integerVal)] = *(yystack_[1].value.coordList);
     }
 #line 667 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
@@ -670,7 +670,7 @@ namespace TSPLIB {
 #line 145 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         (yylhs.value.coordMap) = (yystack_[2].value.coordMap);
-        std::cout << "set of coords" << std::endl;
+//        std::cout << "set of coords" << std::endl;
         (*(yylhs.value.coordMap))[(yystack_[1].value.integerVal)] = *(yystack_[0].value.coordList);
     }
 #line 677 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
@@ -679,7 +679,7 @@ namespace TSPLIB {
   case 7:
 #line 150 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
-        std::cout << "started coords" << std::endl;
+//        std::cout << "started coords" << std::endl;
         (yylhs.value.coordList) = new std::vector<double>();
         (yylhs.value.coordList)->push_back((yystack_[0].value.doubleVal));
     }
@@ -689,11 +689,17 @@ namespace TSPLIB {
   case 8:
 #line 155 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
-        std::cout << "coord appended" << std::endl;
+//        std::cout << "coord appended" << std::endl;
         (yylhs.value.coordList) = (yystack_[1].value.coordList);
         (yystack_[1].value.coordList)->push_back((yystack_[0].value.doubleVal));
     }
 #line 697 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+    break;
+
+  case 10:
+#line 161 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+    { (yylhs.value.doubleVal) = (yystack_[0].value.integerVal);}
+#line 703 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 15:
@@ -701,7 +707,7 @@ namespace TSPLIB {
     {
        driver.set_name((yystack_[0].value.stringVal));
     }
-#line 705 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 711 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 16:
@@ -709,24 +715,23 @@ namespace TSPLIB {
     {
         driver.create_instance((yystack_[0].value.tspType));
     }
-#line 713 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 719 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 17:
 #line 176 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
-        TSPLIB::Instance * instance = driver.get_instance();
-        if(instance = driver.get_instance()) {
-            instance->set_coordinate_section(* (yystack_[0].value.coordMap));
-        } else {
-            driver.error(yylhs.location, "Unexpected coordinate section, not able to construct ");
-        }
+        TSPLIB::Instance & instance = driver.get_instance();
+        instance.set_coordinate_section(* (yystack_[0].value.coordMap));
+//        } else {
+//            driver.error(@$, "Unexpected coordinate section, not able to construct ");
+//        }
     }
-#line 726 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 731 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
 
-#line 730 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
+#line 735 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
           default:
             break;
           }
@@ -1077,8 +1082,8 @@ namespace TSPLIB {
   Parser::yyrline_[] =
   {
        0,   121,   121,   125,   127,   140,   145,   150,   155,   161,
-     161,   163,   165,   167,   167,   169,   172,   176,   185,   186,
-     187,   188
+     161,   163,   165,   167,   167,   169,   172,   176,   184,   185,
+     186,   187
   };
 
   // Print the state stack on the debug stream.
@@ -1160,8 +1165,8 @@ namespace TSPLIB {
 
 #line 37 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1156
 } // TSPLIB
-#line 1164 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:1156
-#line 192 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1157
+#line 1169 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:1156
+#line 191 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1157
  /*** Additional Code ***/
 
 void TSPLIB::Parser::error(const Parser::location_type& l,
