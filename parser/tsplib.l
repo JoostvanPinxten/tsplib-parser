@@ -175,8 +175,31 @@ KEYWORD_EOF eof
     return token::NAME;
 }
 
+{KEYWORD_NODE_COORD_TYPE} {
+    return token::NODE_COORD_TYPE;
+}
+
+{KEYWORD_EUC_2D} {
+    yylval->nodeCoordType = TSP::NODE_COORD_TYPE::TWO_D;
+    return token::NODE_COORD_TYPE_LITERAL;
+}
+
+{KEYWORD_EUC_3D} {
+    yylval->nodeCoordType = TSP::NODE_COORD_TYPE::THREE_D;
+    return token::NODE_COORD_TYPE_LITERAL;
+}
+
+{KEYWORD_NO_COORDS} {
+    yylval->nodeCoordType = TSP::NODE_COORD_TYPE::NONE;
+    return token::NODE_COORD_TYPE_LITERAL;
+}
+
 {KEYWORD_NODE_COORD_SECTION} {
     return token::NODE_COORD_SECTION;
+}
+
+{KEYWORD_DIMENSION} {
+    return token::DIMENSION;
 }
 
 
@@ -207,11 +230,14 @@ KEYWORD_EOF eof
 
  /* pass all other characters up to bison */
 . {
-     yylval->stringVal = new std::string(yytext, yyleng);
-     #ifdef FLEX_SCANNER_DEBUG
-        std::cout << "UNMATCHED INPUT! " << yytext << std::endl;
-     #endif
-     return token::UNMATCHED_TOKEN;
+    yylval->stringVal = new std::string(yytext, yyleng);
+    #ifdef FLEX_SCANNER_DEBUG
+       std::cout << "UNMATCHED INPUT! " << yytext << std::endl;
+    #endif
+    std::stringstream err;
+    err << "syntax error, unmatched input token: " << *yylval->stringVal;
+    driver.error(err.str());
+    return token::UNMATCHED_TOKEN;
 }
 
  /*** END TSPLIB - Change the TSPLIB lexer rules above ***/

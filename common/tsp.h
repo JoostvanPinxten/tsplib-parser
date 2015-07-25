@@ -22,7 +22,8 @@ namespace TSP {
 
     enum class NODE_COORD_TYPE {
         TWO_D,
-        THREE_D
+        THREE_D,
+        NONE
     };
 }
 

@@ -71,7 +71,6 @@ TSPLIB::Instance& Driver::create_instance(TSP::TYPE type) {
     case TSP::TYPE::STUB:
         instance = new TSPLIB::BaseInstance(*instance);
         break;
-
     }
     return *instance;
 }

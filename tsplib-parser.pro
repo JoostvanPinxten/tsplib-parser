@@ -1,8 +1,11 @@
+! include(common.pri) {
+    error("Common project file not found")
+}
+
 TEMPLATE = subdirs
 
-SUBDIRS = parser \
-          common \
-#          lexer \
+SUBDIRS = common \
+          parser \
           standalone \
           tests
 

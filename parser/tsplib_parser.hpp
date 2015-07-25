@@ -46,8 +46,9 @@
     #include<vector>
     #include <common/tsp.h>
     #include <common/tsplibinstance.h>
+    #include <sstream>
 
-#line 51 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 52 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 # include <vector>
@@ -63,9 +64,9 @@
 # define YYDEBUG 1
 #endif
 
-#line 37 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+#line 38 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 namespace TSPLIB {
-#line 69 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 70 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 
@@ -79,7 +80,7 @@ namespace TSPLIB {
     /// Symbol semantic values.
     union semantic_type
     {
-    #line 60 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+    #line 61 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 
     int  			integerVal;
     double 			doubleVal;
@@ -95,7 +96,7 @@ namespace TSPLIB {
     TSP::NODE_COORD_TYPE    nodeCoordType;
 //    TSP::DISPLAY_DATA_TYPE  displayDataType;
 
-#line 99 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 100 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -127,7 +128,9 @@ namespace TSPLIB {
         TYPE = 266,
         COMMENT = 267,
         DIMENSION = 268,
-        NODE_COORD_SECTION = 269
+        NODE_COORD_SECTION = 269,
+        NODE_COORD_TYPE = 270,
+        NODE_COORD_TYPE_LITERAL = 271
       };
     };
 
@@ -418,13 +421,13 @@ namespace TSPLIB {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 25,           //< Last index in yytable_.
+      yylast_ = 31,           //< Last index in yytable_.
       yynnts_ = 12,  //< Number of nonterminal symbols.
       yyempty_ = -2,
       yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 15    //< Number of tokens.
+      yyntokens_ = 17    //< Number of tokens.
     };
 
 
@@ -433,9 +436,9 @@ namespace TSPLIB {
   };
 
 
-#line 37 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+#line 38 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 } // TSPLIB
-#line 439 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 442 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 

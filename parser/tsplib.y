@@ -13,6 +13,7 @@
     #include<vector>
     #include <common/tsp.h>
     #include <common/tsplibinstance.h>
+    #include <sstream>
 }
 
 /*** yacc/bison Declarations ***/
@@ -51,7 +52,7 @@
  * provides a simple but effective pure interface, not relying on global
  * variables. */
 %parse-param { class Driver& driver }
-
+%lex-param { class Driver& driver }
 /* verbose error messages */
 %error-verbose
 
@@ -87,6 +88,8 @@
 %token          COMMENT
 %token          DIMENSION
 %token          NODE_COORD_SECTION
+%token          NODE_COORD_TYPE
+%token <nodeCoordType> NODE_COORD_TYPE_LITERAL
 
 %type<stringVal> string_value
 %type<integerVal> integer
@@ -139,21 +142,17 @@ integer_list : integer {
 
 coord_section : integer coords end {
         $$ = new std::map<int, std::vector<double>>();
-//        std::cout << "set of coords" << std::endl;
         (*$$)[$1] = *$2;
     }
     | coord_section integer coords {
         $$ = $1;
-//        std::cout << "set of coords" << std::endl;
         (*$$)[$2] = *$3;
     }
 coords : number {
-//        std::cout << "started coords" << std::endl;
         $$ = new std::vector<double>();
         $$->push_back($1);
     }
     | coords number {
-//        std::cout << "coord appended" << std::endl;
         $$ = $1;
         $1->push_back($2);
     }
@@ -166,19 +165,23 @@ integer : INTEGER;
 
 end : EOL | END;
 
-specification : NAME separator string_value {
+specification :
+    NAME separator string_value {
        driver.set_name($3);
     }
     | TYPE separator TSPTYPE {
         driver.create_instance($3);
     }
+    | NODE_COORD_TYPE separator NODE_COORD_TYPE_LITERAL{
+        driver.get_instance().set_node_coordinate_type($3);
+    }
+    | DIMENSION separator integer {
+        driver.get_instance().set_dimension($3);
+    }
 
 data : NODE_COORD_SECTION separator coord_section {
         TSPLIB::Instance & instance = driver.get_instance();
-        instance.set_coordinate_section(* $3);
-//        } else {
-//            driver.error(@$, "Unexpected coordinate section, not able to construct ");
-//        }
+        instance.set_node_coordinate_section(* $3);
     }
 
 start	: %empty
@@ -195,3 +198,4 @@ void TSPLIB::Parser::error(const Parser::location_type& l,
 {
     driver.error(l, m);
 }
+

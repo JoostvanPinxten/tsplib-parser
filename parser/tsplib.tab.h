@@ -40,11 +40,15 @@
 #ifndef YY_YY_PARSER_TSPLIB_TAB_H_INCLUDED
 # define YY_YY_PARSER_TSPLIB_TAB_H_INCLUDED
 // //                    "%code requires" blocks.
-#line 12 "parser/tsplib.y" // lalr1.cc:371
+#line 11 "parser/tsplib.y" // lalr1.cc:371
 
-//    #include "expression.h"
+    #include <map>
+    #include<vector>
+    #include <common/tsp.h>
+    #include <common/tsplibinstance.h>
+    #include <sstream>
 
-#line 48 "parser/tsplib.tab.h" // lalr1.cc:371
+#line 52 "parser/tsplib.tab.h" // lalr1.cc:371
 
 
 # include <vector>
@@ -60,9 +64,9 @@
 # define YYDEBUG 1
 #endif
 
-#line 35 "parser/tsplib.y" // lalr1.cc:371
+#line 38 "parser/tsplib.y" // lalr1.cc:371
 namespace TSPLIB {
-#line 66 "parser/tsplib.tab.h" // lalr1.cc:371
+#line 70 "parser/tsplib.tab.h" // lalr1.cc:371
 
 
 
@@ -76,13 +80,23 @@ namespace TSPLIB {
     /// Symbol semantic values.
     union semantic_type
     {
-    #line 58 "parser/tsplib.y" // lalr1.cc:371
+    #line 61 "parser/tsplib.y" // lalr1.cc:371
 
     int  			integerVal;
     double 			doubleVal;
     std::string*		stringVal;
+    std::vector<int>*     integerList;
+    std::vector<float>*   floatList;
+    std::map<int, std::vector<double>>* coordMap;
+    std::vector<double>* coordList;
+    TSP::TYPE           tspType;
+    TSP::EDGE_WEIGHT_TYPE   edgeWeightType;
+//    TSP::EDGE_WEIGHT_FORMAT edgeWeightFormat;
+//    TSP::EDGE_DATA_FORMAT   edgeDataFormat;
+    TSP::NODE_COORD_TYPE    nodeCoordType;
+//    TSP::DISPLAY_DATA_TYPE  displayDataType;
 
-#line 86 "parser/tsplib.tab.h" // lalr1.cc:371
+#line 100 "parser/tsplib.tab.h" // lalr1.cc:371
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -107,7 +121,16 @@ namespace TSPLIB {
         INTEGER = 259,
         DOUBLE = 260,
         STRING = 261,
-        KEY_VALUE_SEPARATOR = 262
+        KEY_VALUE_SEPARATOR = 262,
+        UNMATCHED_TOKEN = 263,
+        TSPTYPE = 264,
+        NAME = 265,
+        TYPE = 266,
+        COMMENT = 267,
+        DIMENSION = 268,
+        NODE_COORD_SECTION = 269,
+        NODE_COORD_TYPE = 270,
+        NODE_COORD_TYPE_LITERAL = 271
       };
     };
 
@@ -283,7 +306,7 @@ namespace TSPLIB {
   // number is the opposite.  If YYTABLE_NINF, syntax error.
   static const unsigned char yytable_[];
 
-  static const signed char yycheck_[];
+  static const unsigned char yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -398,13 +421,13 @@ namespace TSPLIB {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 9,           //< Last index in yytable_.
-      yynnts_ = 5,  //< Number of nonterminal symbols.
+      yylast_ = 31,           //< Last index in yytable_.
+      yynnts_ = 12,  //< Number of nonterminal symbols.
       yyempty_ = -2,
       yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 9    //< Number of tokens.
+      yyntokens_ = 17    //< Number of tokens.
     };
 
 
@@ -413,9 +436,9 @@ namespace TSPLIB {
   };
 
 
-#line 35 "parser/tsplib.y" // lalr1.cc:371
+#line 38 "parser/tsplib.y" // lalr1.cc:371
 } // TSPLIB
-#line 419 "parser/tsplib.tab.h" // lalr1.cc:371
+#line 442 "parser/tsplib.tab.h" // lalr1.cc:371
 
 
 

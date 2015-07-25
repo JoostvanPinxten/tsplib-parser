@@ -2,17 +2,19 @@
 
 #ifndef TSPLIB_SCANNER_H
 #define TSPLIB_SCANNER_H
+#include <tsplib_driver.h>
 
 // Flex expects the signature of yylex to be defined in the macro YY_DECL, and
 // the C++ parser expects it to be declared. We can factor both as follows.
 
 #ifndef YY_DECL
 
-#define	YY_DECL						\
+#define	YY_DECL                             \
     TSPLIB::Parser::token_type				\
-    TSPLIB::Scanner::lex(				\
-    TSPLIB::Parser::semantic_type* yylval,		\
-    TSPLIB::Parser::location_type* yylloc		\
+    TSPLIB::Scanner::lex(                   \
+    TSPLIB::Parser::semantic_type* yylval,	\
+    TSPLIB::Parser::location_type* yylloc,	\
+    TSPLIB::Driver driver                   \
     )
 #endif
 
@@ -48,7 +50,8 @@ public:
      * calls this virtual function to fetch new tokens. */
     virtual Parser::token_type lex(
 	Parser::semantic_type* yylval,
-	Parser::location_type* yylloc
+    Parser::location_type* yylloc,
+    class Driver
 	);
 
     /** Enable debug output (via arg_yyout) if compiled into the scanner. */
