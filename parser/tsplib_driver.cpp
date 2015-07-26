@@ -10,13 +10,17 @@
 #include "tsplib_lexer.h"
 
 #include <basetsplibinstance.h>
+#include <tsplibtourinstance.h>
+#include <tsplibdummyinstance.h>
+
+#include <parser/exceptions/inconsistentdefinition.h>
 
 namespace TSPLIB {
 
 Driver::Driver()
     : trace_scanning(false),
       trace_parsing(false),
-      instance(0)
+      instance(new TSPLIB::DummyInstance)
 {
 }
 
@@ -67,20 +71,37 @@ void Driver::set_name(const std::string *name) {
 TSPLIB::Instance& Driver::create_instance(TSP::TYPE type) {
 
     switch(type) {
-    default:
-    case TSP::TYPE::STUB:
-        instance = new TSPLIB::BaseInstance(*instance);
-        break;
+        case TSP::TYPE::TOUR:
+        {
+            Instance * old = instance;
+            instance = new TSPLIB::TourInstance(*old);
+            delete old;
+            break;
+        }
+        case TSP::TYPE::TSP:
+        {
+            Instance * old = instance;
+            instance = new TSPLIB::BaseInstance(*old);
+            delete old;
+            break;
+        }
+
     }
     return *instance;
 }
 
 TSPLIB::Instance& Driver::get_instance()
 {
-    if(!instance) {
-        return create_instance(TSP::TYPE::STUB);
-    }
     return *instance;
+}
+
+BaseInstance &Driver::get_tsp_instance()
+{
+    BaseInstance * tsp = dynamic_cast<BaseInstance*>(instance);
+    if(!tsp) {
+        throw TSP::PARSER::Inconsistent_definition_exception("Please check the information for consistency with the provided type");
+    }
+    return *tsp;
 }
 
 } // namespace TSPLIB

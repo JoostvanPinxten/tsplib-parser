@@ -81,6 +81,8 @@ public:
     void set_name(const std::string *name);
 
     Instance & get_instance();
+    BaseInstance & get_tsp_instance();
+
     Instance & create_instance(TSP::TYPE type);
 
 protected:

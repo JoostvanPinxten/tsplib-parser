@@ -43,7 +43,7 @@
 #line 11 "parser/tsplib.y" // lalr1.cc:371
 
     #include <map>
-    #include<vector>
+    #include <vector>
     #include <common/tsp.h>
     #include <common/tsplibinstance.h>
     #include <sstream>

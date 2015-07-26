@@ -5,10 +5,14 @@
 HEADERS += \
     tsp.h \
     tsplibinstance.h \
-    basetsplibinstance.h
+    basetsplibinstance.h \
+    tsplibdummyinstance.h \
+    tsplibtourinstance.h
 
 TEMPLATE = lib
 
 SOURCES += \
     tsplibinstance.cpp \
-    basetsplibinstance.cpp
+    basetsplibinstance.cpp \
+    tsplibdummyinstance.cpp \
+    tsplibtourinstance.cpp

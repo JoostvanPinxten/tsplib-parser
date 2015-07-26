@@ -175,9 +175,7 @@ KEYWORD_EOF eof
     return token::NAME;
 }
 
-{KEYWORD_NODE_COORD_TYPE} {
-    return token::NODE_COORD_TYPE;
-}
+{KEYWORD_NODE_COORD_TYPE} { return token::NODE_COORD_TYPE; }
 
 {KEYWORD_EUC_2D} {
     yylval->nodeCoordType = TSP::NODE_COORD_TYPE::TWO_D;
@@ -194,12 +192,25 @@ KEYWORD_EOF eof
     return token::NODE_COORD_TYPE_LITERAL;
 }
 
-{KEYWORD_NODE_COORD_SECTION} {
-    return token::NODE_COORD_SECTION;
+{KEYWORD_NODE_COORD_SECTION} { return token::NODE_COORD_SECTION; }
+
+{KEYWORD_DIMENSION} { return token::DIMENSION; }
+
+{KEYWORD_TYPE} { return token::TYPE; }
+
+{KEYWORD_TOUR} {
+    yylval->tspType = TSP::TYPE::TOUR;
+    return token::TSPTYPE;
 }
 
-{KEYWORD_DIMENSION} {
-    return token::DIMENSION;
+{KEYWORD_TSP} {
+    yylval->tspType = TSP::TYPE::TSP;
+    return token::TSPTYPE;
+}
+
+{KEYWORD_TSP} {
+    yylval->tspType = TSP::TYPE::TSP;
+    return token::TSPTYPE;
 }
 
 

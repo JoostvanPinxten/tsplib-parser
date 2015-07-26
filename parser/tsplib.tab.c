@@ -717,7 +717,7 @@ namespace TSPLIB {
   case 17:
 #line 175 "parser/tsplib.y" // lalr1.cc:846
     {
-        driver.get_instance().set_node_coordinate_type((yystack_[0].value.nodeCoordType));
+        driver.get_tsp_instance().set_node_coordinate_type((yystack_[0].value.nodeCoordType));
     }
 #line 723 "parser/tsplib.tab.c" // lalr1.cc:846
     break;
@@ -725,7 +725,7 @@ namespace TSPLIB {
   case 18:
 #line 178 "parser/tsplib.y" // lalr1.cc:846
     {
-        driver.get_instance().set_dimension((yystack_[0].value.integerVal));
+        driver.get_tsp_instance().set_dimension((yystack_[0].value.integerVal));
     }
 #line 731 "parser/tsplib.tab.c" // lalr1.cc:846
     break;
@@ -733,7 +733,7 @@ namespace TSPLIB {
   case 19:
 #line 182 "parser/tsplib.y" // lalr1.cc:846
     {
-        TSPLIB::Instance & instance = driver.get_instance();
+        TSPLIB::BaseInstance & instance = driver.get_tsp_instance();
         instance.set_node_coordinate_section(* (yystack_[0].value.coordMap));
     }
 #line 740 "parser/tsplib.tab.c" // lalr1.cc:846

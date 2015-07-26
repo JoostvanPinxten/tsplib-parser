@@ -26,6 +26,7 @@ namespace TSPLIB {
 
     bool Instance::set_comment(const std::string &_comment) {
         comment = _comment;
+        return true;
     }
 
     std::string Instance::get_comment() const {

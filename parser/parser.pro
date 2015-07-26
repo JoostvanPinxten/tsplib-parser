@@ -40,7 +40,8 @@ SOURCES += \
 HEADERS += \
     tsplib_driver.h \
     FlexLexer.h \
-    tsplib_lexer.h
+    tsplib_lexer.h \
+    exceptions/inconsistentdefinition.h
 #    tsplib_parser.hpp
 
 TEMPLATE = lib

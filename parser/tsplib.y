@@ -10,7 +10,7 @@
 
 %code requires{
     #include <map>
-    #include<vector>
+    #include <vector>
     #include <common/tsp.h>
     #include <common/tsplibinstance.h>
     #include <sstream>
@@ -173,14 +173,14 @@ specification :
         driver.create_instance($3);
     }
     | NODE_COORD_TYPE separator NODE_COORD_TYPE_LITERAL{
-        driver.get_instance().set_node_coordinate_type($3);
+        driver.get_tsp_instance().set_node_coordinate_type($3);
     }
     | DIMENSION separator integer {
-        driver.get_instance().set_dimension($3);
+        driver.get_tsp_instance().set_dimension($3);
     }
 
 data : NODE_COORD_SECTION separator coord_section {
-        TSPLIB::Instance & instance = driver.get_instance();
+        TSPLIB::BaseInstance & instance = driver.get_tsp_instance();
         instance.set_node_coordinate_section(* $3);
     }
 
