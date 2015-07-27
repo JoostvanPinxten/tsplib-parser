@@ -13,7 +13,7 @@
 #include <tsplibtourinstance.h>
 #include <tsplibdummyinstance.h>
 
-#include <parser/exceptions/inconsistentdefinition.h>
+#include <parser/exceptions/exceptions.h>
 
 namespace TSPLIB {
 
@@ -61,10 +61,6 @@ void Driver::error(const std::string& m)
     std::cerr << m << std::endl;
 }
 
-void Driver::set_name(const std::string *name) {
-    get_instance().set_name(*name);
-}
-
 /**
  * Create an instance of a TSPLIB specification with the given @param type.
  */
@@ -85,7 +81,10 @@ TSPLIB::Instance& Driver::create_instance(TSP::TYPE type) {
             delete old;
             break;
         }
-
+        default:
+        {
+            throw TSP::PARSER::Unsupported_exception("Type not supported");
+        }
     }
     return *instance;
 }

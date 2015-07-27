@@ -78,8 +78,6 @@ public:
      * parser to the scanner. It is used in the yylex macro. */
     class Scanner* lexer;
 
-    void set_name(const std::string *name);
-
     Instance & get_instance();
     BaseInstance & get_tsp_instance();
 

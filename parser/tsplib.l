@@ -22,7 +22,7 @@ typedef TSPLIB::Parser::token_type token_type;
 
 %}
 
-%s REST_OF_LINE_STRING
+%s EXPECT_REST_OF_LINE_STRING REST_OF_LINE_STRING
 
 /*** Flex Declarations and Options ***/
 
@@ -162,6 +162,11 @@ KEYWORD_EOF eof
     yylval->doubleVal = atof(yytext);
     return token::DOUBLE;
 }
+<EXPECT_REST_OF_LINE_STRING>{SEPARATOR} {
+    BEGIN(REST_OF_LINE_STRING);
+    return token::KEY_VALUE_SEPARATOR;
+}
+
 {SEPARATOR} {
     #ifdef FLEX_SCANNER_DEBUG
         std::cout << "sep" << std::endl;
@@ -170,9 +175,13 @@ KEYWORD_EOF eof
 }
 
 {KEYWORD_NAME} {
-    BEGIN(REST_OF_LINE_STRING);
-
+    BEGIN(EXPECT_REST_OF_LINE_STRING);
     return token::NAME;
+}
+
+{KEYWORD_COMMENT} {
+    BEGIN(EXPECT_REST_OF_LINE_STRING);
+    return token::COMMENT;
 }
 
 {KEYWORD_NODE_COORD_TYPE} { return token::NODE_COORD_TYPE; }
@@ -208,11 +217,10 @@ KEYWORD_EOF eof
     return token::TSPTYPE;
 }
 
-{KEYWORD_TSP} {
-    yylval->tspType = TSP::TYPE::TSP;
+{KEYWORD_ATSP} {
+    yylval->tspType = TSP::TYPE::ATSP;
     return token::TSPTYPE;
 }
-
 
  /* read the rest of the line as a single string */
 <REST_OF_LINE_STRING>[[:^blank:]][^\n]+ {

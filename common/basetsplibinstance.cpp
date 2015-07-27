@@ -1,5 +1,5 @@
 #include "basetsplibinstance.h"
-#include <parser/exceptions/inconsistentdefinition.h>
+#include <parser/exceptions/exceptions.h>
 #include <sstream>
 
 namespace TSPLIB {

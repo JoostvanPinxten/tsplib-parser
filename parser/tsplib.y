@@ -167,7 +167,11 @@ end : EOL | END;
 
 specification :
     NAME separator string_value {
-       driver.set_name($3);
+       driver.get_instance().set_name(*$3);
+    }
+    | COMMENT separator string_value {
+        std::cerr << "test";
+        driver.get_instance().set_comment(*$3);
     }
     | TYPE separator TSPTYPE {
         driver.create_instance($3);

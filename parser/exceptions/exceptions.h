@@ -7,9 +7,11 @@ namespace TSP {
     namespace PARSER {
         struct Inconsistent_definition_exception
             : std::runtime_error {
-            Inconsistent_definition_exception(const std::string& what) : std::runtime_error(what){
-
-            }
+            Inconsistent_definition_exception(const std::string& what) : std::runtime_error(what){ }
+        };
+        struct Unsupported_exception
+            : std::runtime_error {
+            Unsupported_exception(const std::string& what) : std::runtime_error(what){ }
         };
     }
 }

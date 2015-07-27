@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 #include <tsplib_driver.h>
-#include <parser/exceptions/inconsistentdefinition.h>
+#include <parser/exceptions/exceptions.h>
 
 TEST(Parser_TourTest, Basic) {
     std::string str = "TYPE : TOUR";
