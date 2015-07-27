@@ -9,12 +9,15 @@ namespace TSP {
         AGTSP, /// generalized asymmetric TSP
         SOP, /// sequential ordering problem
         CVRP, /// Capacitated vehicle routing problem
-        TOUR, /// A collection of tours
-        STUB /// For internal use only
+        TOUR /// A collection of tours
     };
 
     enum class EDGE_WEIGHT_TYPE {
-
+        EUC_2D,
+        EUC_3D,
+        MAX_2D,
+        MAX_3D,
+        CEIL_2D,
     };
 
     enum class NODE_COORD_TYPE {

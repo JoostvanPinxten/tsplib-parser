@@ -10,6 +10,7 @@
 
 #include <tsplibinstance.h>
 #include <basetsplibinstance.h>
+#include <tsplibtourinstance.h>
 
 // forward declaration
 class CalcContext;
@@ -78,8 +79,9 @@ public:
      * parser to the scanner. It is used in the yylex macro. */
     class Scanner* lexer;
 
-    Instance & get_instance();
-    BaseInstance & get_tsp_instance();
+    Instance & get_instance() const;
+    BaseInstance & get_tsp_instance() const;
+    TourInstance & get_tour_instance() const;
 
     Instance & create_instance(TSP::TYPE type);
 

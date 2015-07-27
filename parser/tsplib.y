@@ -89,7 +89,9 @@
 %token          DIMENSION
 %token          NODE_COORD_SECTION
 %token          NODE_COORD_TYPE
+%token          EDGE_WEIGHT_TYPE
 %token <nodeCoordType> NODE_COORD_TYPE_LITERAL
+%token <edgeWeightType> EDGE_WEIGHT_TYPE_LITERAL
 
 %type<stringVal> string_value
 %type<integerVal> integer

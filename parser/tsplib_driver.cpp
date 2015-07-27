@@ -89,14 +89,23 @@ TSPLIB::Instance& Driver::create_instance(TSP::TYPE type) {
     return *instance;
 }
 
-TSPLIB::Instance& Driver::get_instance()
+TSPLIB::Instance& Driver::get_instance() const
 {
     return *instance;
 }
 
-BaseInstance &Driver::get_tsp_instance()
+BaseInstance &Driver::get_tsp_instance() const
 {
     BaseInstance * tsp = dynamic_cast<BaseInstance*>(instance);
+    if(!tsp) {
+        throw TSP::PARSER::Inconsistent_definition_exception("Please check the information for consistency with the provided type");
+    }
+    return *tsp;
+}
+
+TourInstance &Driver::get_tour_instance() const
+{
+    TourInstance * tsp = dynamic_cast<TourInstance*>(instance);
     if(!tsp) {
         throw TSP::PARSER::Inconsistent_definition_exception("Please check the information for consistency with the provided type");
     }

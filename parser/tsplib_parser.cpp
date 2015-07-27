@@ -52,7 +52,7 @@
 #include "tsplib_parser.hpp"
 
 // User implementation prologue.
-#line 106 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:406
+#line 108 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:406
 
 
 #include "tsplib_driver.h"
@@ -368,21 +368,21 @@ namespace TSPLIB {
     {
             case 6: // "string"
 
-#line 101 "..\..\tsplib-parser\parser\tsplib.y" // lalr1.cc:598
+#line 103 "..\..\tsplib-parser\parser\tsplib.y" // lalr1.cc:598
         { delete (yysym.value.stringVal); }
 #line 374 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:598
         break;
 
-      case 20: // coord_section
+      case 22: // coord_section
 
-#line 101 "..\..\tsplib-parser\parser\tsplib.y" // lalr1.cc:598
+#line 103 "..\..\tsplib-parser\parser\tsplib.y" // lalr1.cc:598
         { delete (yysym.value.coordMap); }
 #line 381 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:598
         break;
 
-      case 21: // coords
+      case 23: // coords
 
-#line 101 "..\..\tsplib-parser\parser\tsplib.y" // lalr1.cc:598
+#line 103 "..\..\tsplib-parser\parser\tsplib.y" // lalr1.cc:598
         { delete (yysym.value.coordList); }
 #line 388 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:598
         break;
@@ -633,7 +633,7 @@ namespace TSPLIB {
         switch (yyn)
           {
   case 2:
-#line 124 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 126 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         (yylhs.value.stringVal) = (yystack_[0].value.stringVal);
     }
@@ -641,7 +641,7 @@ namespace TSPLIB {
     break;
 
   case 3:
-#line 128 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 130 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         // Found a field separator
     }
@@ -649,7 +649,7 @@ namespace TSPLIB {
     break;
 
   case 4:
-#line 130 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 132 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         // Separator is optional
     }
@@ -657,7 +657,7 @@ namespace TSPLIB {
     break;
 
   case 5:
-#line 143 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 145 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         (yylhs.value.coordMap) = new std::map<int, std::vector<double>>();
         (*(yylhs.value.coordMap))[(yystack_[2].value.integerVal)] = *(yystack_[1].value.coordList);
@@ -666,7 +666,7 @@ namespace TSPLIB {
     break;
 
   case 6:
-#line 147 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 149 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         (yylhs.value.coordMap) = (yystack_[3].value.coordMap);
         (*(yylhs.value.coordMap))[(yystack_[2].value.integerVal)] = *(yystack_[1].value.coordList);
@@ -675,7 +675,7 @@ namespace TSPLIB {
     break;
 
   case 7:
-#line 151 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 153 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         (yylhs.value.coordList) = new std::vector<double>();
         (yylhs.value.coordList)->push_back((yystack_[0].value.doubleVal));
@@ -684,7 +684,7 @@ namespace TSPLIB {
     break;
 
   case 8:
-#line 155 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 157 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         (yylhs.value.coordList) = (yystack_[1].value.coordList);
         (yystack_[1].value.coordList)->push_back((yystack_[0].value.doubleVal));
@@ -693,13 +693,13 @@ namespace TSPLIB {
     break;
 
   case 10:
-#line 160 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 162 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     { (yylhs.value.doubleVal) = (yystack_[0].value.integerVal);}
 #line 699 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
 
   case 15:
-#line 169 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 171 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
        driver.get_instance().set_name(*(yystack_[0].value.stringVal));
     }
@@ -707,7 +707,7 @@ namespace TSPLIB {
     break;
 
   case 16:
-#line 172 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 174 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         std::cerr << "test";
         driver.get_instance().set_comment(*(yystack_[0].value.stringVal));
@@ -716,7 +716,7 @@ namespace TSPLIB {
     break;
 
   case 17:
-#line 176 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 178 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         driver.create_instance((yystack_[0].value.tspType));
     }
@@ -724,7 +724,7 @@ namespace TSPLIB {
     break;
 
   case 18:
-#line 179 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 181 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         driver.get_tsp_instance().set_node_coordinate_type((yystack_[0].value.nodeCoordType));
     }
@@ -732,7 +732,7 @@ namespace TSPLIB {
     break;
 
   case 19:
-#line 182 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 184 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         driver.get_tsp_instance().set_dimension((yystack_[0].value.integerVal));
     }
@@ -740,7 +740,7 @@ namespace TSPLIB {
     break;
 
   case 20:
-#line 186 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
+#line 188 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
         TSPLIB::BaseInstance & instance = driver.get_tsp_instance();
         instance.set_node_coordinate_section(* (yystack_[0].value.coordMap));
@@ -1011,7 +1011,7 @@ namespace TSPLIB {
   Parser::yypact_[] =
   {
      -18,     1,   -18,   -18,    11,    11,    11,    11,    11,    11,
-      22,    22,   -18,    14,    15,    14,    29,    29,    10,   -18,
+      22,    22,   -18,    14,    15,    14,    29,    29,     9,   -18,
      -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,    29,
       -2,   -18,    -2,   -18,     5,   -18,   -18,   -18,     5,   -18,
      -18,   -18
@@ -1055,26 +1055,26 @@ namespace TSPLIB {
   {
       11,     0,     4,     5,     3,     0,    16,    17,     3,     4,
        5,    10,    11,    12,    13,    14,    15,    34,     7,    29,
-       6,    38,     0,    34,     9,     3,    16,    38,     5,     6,
+       6,    38,     0,    34,     9,     3,    17,    38,     5,     6,
        7,     8,     9,     4,    15,    32
   };
 
   const unsigned char
   Parser::yystos_[] =
   {
-       0,    28,     0,     3,    10,    11,    12,    13,    14,    15,
-      26,    27,     7,    19,    19,    19,    19,    19,    19,     0,
-       3,    25,    25,     6,    18,     9,    18,     4,    24,    20,
-      24,    16,    24,     5,    21,    22,    23,    24,    21,    22,
-      25,    25
+       0,    30,     0,     3,    10,    11,    12,    13,    14,    15,
+      28,    29,     7,    21,    21,    21,    21,    21,    21,     0,
+       3,    27,    27,     6,    20,     9,    20,     4,    26,    22,
+      26,    17,    26,     5,    23,    24,    25,    26,    23,    24,
+      27,    27
   };
 
   const unsigned char
   Parser::yyr1_[] =
   {
-       0,    17,    18,    19,    19,    20,    20,    21,    21,    22,
-      22,    23,    24,    25,    25,    26,    26,    26,    26,    26,
-      27,    28,    28,    28,    28
+       0,    19,    20,    21,    21,    22,    22,    23,    23,    24,
+      24,    25,    26,    27,    27,    28,    28,    28,    28,    28,
+      29,    30,    30,    30,    30
   };
 
   const unsigned char
@@ -1095,19 +1095,19 @@ namespace TSPLIB {
   "\"end of file\"", "error", "$undefined", "\"end of line\"",
   "\"integer\"", "\"double\"", "\"string\"", "\"key-value separator\"",
   "\"unmatched input token\"", "TSPTYPE", "NAME", "TYPE", "COMMENT",
-  "DIMENSION", "NODE_COORD_SECTION", "NODE_COORD_TYPE",
-  "NODE_COORD_TYPE_LITERAL", "$accept", "string_value", "separator",
-  "coord_section", "coords", "number", "real", "integer", "end",
-  "specification", "data", "start", YY_NULL
+  "DIMENSION", "NODE_COORD_SECTION", "NODE_COORD_TYPE", "EDGE_WEIGHT_TYPE",
+  "NODE_COORD_TYPE_LITERAL", "EDGE_WEIGHT_TYPE_LITERAL", "$accept",
+  "string_value", "separator", "coord_section", "coords", "number", "real",
+  "integer", "end", "specification", "data", "start", YY_NULL
   };
 
 #if YYDEBUG
   const unsigned char
   Parser::yyrline_[] =
   {
-       0,   124,   124,   128,   130,   143,   147,   151,   155,   160,
-     160,   162,   164,   166,   166,   169,   172,   176,   179,   182,
-     186,   191,   192,   193,   194
+       0,   126,   126,   130,   132,   145,   149,   153,   157,   162,
+     162,   164,   166,   168,   168,   171,   174,   178,   181,   184,
+     188,   193,   194,   195,   196
   };
 
   // Print the state stack on the debug stream.
@@ -1175,9 +1175,9 @@ namespace TSPLIB {
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16
+      15,    16,    17,    18
     };
-    const unsigned int user_token_number_max_ = 271;
+    const unsigned int user_token_number_max_ = 273;
     const token_number_type undef_token_ = 2;
 
     if (static_cast<int>(t) <= yyeof_)
@@ -1191,7 +1191,7 @@ namespace TSPLIB {
 #line 38 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1156
 } // TSPLIB
 #line 1194 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:1156
-#line 198 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1157
+#line 200 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:1157
  /*** Additional Code ***/
 
 void TSPLIB::Parser::error(const Parser::location_type& l,

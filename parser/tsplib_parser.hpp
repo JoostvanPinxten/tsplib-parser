@@ -130,7 +130,9 @@ namespace TSPLIB {
         DIMENSION = 268,
         NODE_COORD_SECTION = 269,
         NODE_COORD_TYPE = 270,
-        NODE_COORD_TYPE_LITERAL = 271
+        EDGE_WEIGHT_TYPE = 271,
+        NODE_COORD_TYPE_LITERAL = 272,
+        EDGE_WEIGHT_TYPE_LITERAL = 273
       };
     };
 
@@ -427,7 +429,7 @@ namespace TSPLIB {
       yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 17    //< Number of tokens.
+      yyntokens_ = 19    //< Number of tokens.
     };
 
 
@@ -438,7 +440,7 @@ namespace TSPLIB {
 
 #line 38 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 } // TSPLIB
-#line 442 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 444 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 

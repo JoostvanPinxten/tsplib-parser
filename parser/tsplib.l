@@ -222,6 +222,14 @@ KEYWORD_EOF eof
     return token::TSPTYPE;
 }
 
+{KEYWORD_EDGE_WEIGHT_TYPE} {
+    return token::EDGE_WEIGHT_TYPE;
+}
+
+{KEYWORD_EUC_2D} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::EUC_2D;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
  /* read the rest of the line as a single string */
 <REST_OF_LINE_STRING>[[:^blank:]][^\n]+ {
     yylval->stringVal = new std::string(yytext, yyleng);

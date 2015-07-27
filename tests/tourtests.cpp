@@ -7,16 +7,15 @@
 TEST(Parser_TourTest, Basic) {
     std::string str = "TYPE : TOUR";
     TSPLIB::Driver driver;
-    std::stringstream stream(str);
-    ASSERT_TRUE(driver.parse_stream(stream, "Test"));
+    ASSERT_TRUE(driver.parse_string(str, "Test"));
+
 }
 
 TEST(Parser_TourTest, IncorrectType) {
     std::string str = "TYPE : TOUR";
     TSPLIB::Driver driver;
 
-    std::stringstream stream(str);
-    ASSERT_TRUE(driver.parse_stream(stream, "Test"));
+    ASSERT_TRUE(driver.parse_string(str, "Test"));
 
     EXPECT_THROW(driver.get_tsp_instance(), TSP::PARSER::Inconsistent_definition_exception);
 }

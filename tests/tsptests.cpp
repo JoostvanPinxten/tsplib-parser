@@ -1,6 +1,9 @@
-#include <gtest/gtest.h>
-#include <tsplib_driver.h>
 #include <string>
+
+#include <gtest/gtest.h>
+
+#include <tsplib_driver.h>
+#include <parser/exceptions/exceptions.h>
 
 TEST(Parser_TSPTest, IntegerArray1) {
     std::string str = R"(
@@ -10,8 +13,7 @@ NODE_COORD_TYPE: EUC_2D
 NODE_COORD_SECTION: 1 2 3
 )";
     TSPLIB::Driver driver;
-    std::stringstream stream(str);
-    EXPECT_TRUE(driver.parse_stream(stream, "Test"));
+    ASSERT_TRUE(driver.parse_string(str, "Test"));
 
     auto coordinate_map = driver.get_tsp_instance().get_node_coordinate_section();
     ASSERT_FALSE(coordinate_map.empty());
@@ -30,8 +32,7 @@ NODE_COORD_SECTION : 1 102 103
 2 105 106
 )";
     TSPLIB::Driver driver;
-    std::stringstream stream(str);
-    EXPECT_TRUE(driver.parse_stream(stream, "Test"));
+    ASSERT_TRUE(driver.parse_string(str, "Test"));
 
     auto coordinate_map = driver.get_tsp_instance().get_node_coordinate_section();
     EXPECT_EQ(2u, coordinate_map.size());
@@ -61,8 +62,7 @@ NODE_COORD_SECTION : 1 102 103
 3 104 107
 )";
     TSPLIB::Driver driver;
-    std::stringstream stream(str);
-    EXPECT_TRUE(driver.parse_stream(stream, "Test"));
+    ASSERT_TRUE(driver.parse_string(str, "Test"));
     auto instance = driver.get_tsp_instance();
     auto coordinate_map = instance.get_node_coordinate_section();
     ASSERT_EQ(3u, coordinate_map.size());
@@ -94,8 +94,7 @@ NODE_COORD_TYPE : EUC_2D
 NODE_COORD_SECTION : 1 102.1 103.2
 2 105.4 106.3)";
     TSPLIB::Driver driver;
-    std::stringstream stream(str);
-    ASSERT_TRUE(driver.parse_stream(stream, "Test"));
+    ASSERT_TRUE(driver.parse_string(str, "Test"));
     auto instance = driver.get_tsp_instance();
     auto coordinate_map = instance.get_node_coordinate_section();
     ASSERT_EQ(2u, coordinate_map.size());
@@ -125,8 +124,7 @@ NODE_COORD_SECTION : 1 102.0 103 104.0
 2 105 106.1 107.0
 )";
     TSPLIB::Driver driver;
-    std::stringstream stream(str);
-    EXPECT_TRUE(driver.parse_stream(stream, "Test"));
+    ASSERT_TRUE(driver.parse_string(str, "Test"));
     auto instance = driver.get_tsp_instance();
     auto coordinate_map = instance.get_node_coordinate_section();
     EXPECT_EQ(2u, coordinate_map.size());
@@ -146,4 +144,20 @@ NODE_COORD_SECTION : 1 102.0 103 104.0
     EXPECT_EQ(105, value[0]);
     EXPECT_EQ(106.1, value[1]);
     EXPECT_EQ(107, value[2]);
+}
+
+TEST(Parser_TSPTest, IncorrectType) {
+    std::string str = "TYPE : TSP";
+    TSPLIB::Driver driver;
+    ASSERT_TRUE(driver.parse_string(str, "Test"));
+
+    EXPECT_THROW(driver.get_tour_instance(), TSP::PARSER::Inconsistent_definition_exception);
+}
+
+TEST(Parser_TSPTest, EdgeTest) {
+    std::string str = "TYPE : TSP";
+    TSPLIB::Driver driver;
+    ASSERT_TRUE(driver.parse_string(str, "Test"));
+
+    EXPECT_THROW(driver.get_tour_instance(), TSP::PARSER::Inconsistent_definition_exception);
 }
