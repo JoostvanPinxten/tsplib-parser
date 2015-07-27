@@ -668,8 +668,8 @@ namespace TSPLIB {
   case 6:
 #line 147 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:846
     {
-        (yylhs.value.coordMap) = (yystack_[2].value.coordMap);
-        (*(yylhs.value.coordMap))[(yystack_[1].value.integerVal)] = *(yystack_[0].value.coordList);
+        (yylhs.value.coordMap) = (yystack_[3].value.coordMap);
+        (*(yylhs.value.coordMap))[(yystack_[2].value.integerVal)] = *(yystack_[1].value.coordList);
     }
 #line 675 "..\\..\\tsplib-parser\\parser/tsplib_parser.cpp" // lalr1.cc:846
     break;
@@ -1002,9 +1002,9 @@ namespace TSPLIB {
   Parser::yypact_[] =
   {
      -29,     1,   -29,   -29,    -5,    -5,    -5,    -5,    -5,    10,
-      10,   -29,    12,    11,    25,    25,    14,   -29,   -29,   -29,
-     -29,   -29,   -29,   -29,   -29,   -29,    25,     4,   -29,     4,
-     -29,    19,   -29,   -29,   -29,     4,   -29,   -29
+      10,   -29,    12,    11,    26,    26,    15,   -29,   -29,   -29,
+     -29,   -29,   -29,   -29,   -29,   -29,    26,     4,   -29,     4,
+     -29,    19,   -29,   -29,   -29,    19,   -29,   -29,   -29
   };
 
   const unsigned char
@@ -1013,13 +1013,13 @@ namespace TSPLIB {
       20,     0,     1,    21,     4,     4,     4,     4,     4,     0,
        0,     3,     0,     0,     0,     0,     0,    14,    13,    22,
       23,     2,    15,    16,    12,    18,    19,     0,    17,     0,
-      11,     0,     7,     9,    10,     6,     8,     5
+      11,     0,     7,     9,    10,     0,     8,     5,     6
   };
 
   const signed char
   Parser::yypgoto_[] =
   {
-     -29,   -29,    20,   -29,     2,   -28,   -29,    -9,   -10,   -29,
+     -29,   -29,    21,   -29,     3,   -28,   -29,    -9,   -10,   -29,
      -29,   -29
   };
 
@@ -1035,8 +1035,8 @@ namespace TSPLIB {
   {
       20,     2,    11,    36,     3,    25,    27,    36,    24,    30,
       17,     4,     5,    18,     6,     7,     8,    29,    21,    17,
-      23,    37,    18,    24,    30,    13,    14,    15,    16,    24,
-      28,    35
+      23,    37,    18,    24,    30,    38,    13,    14,    15,    16,
+      24,    28,    35
   };
 
   const unsigned char
@@ -1044,8 +1044,8 @@ namespace TSPLIB {
   {
       10,     0,     7,    31,     3,    14,    15,    35,     4,     5,
        0,    10,    11,     3,    13,    14,    15,    26,     6,     0,
-       9,    31,     3,     4,     5,     5,     6,     7,     8,     4,
-      16,    29
+       9,    31,     3,     4,     5,    35,     5,     6,     7,     8,
+       4,    16,    29
   };
 
   const unsigned char
@@ -1054,7 +1054,7 @@ namespace TSPLIB {
        0,    28,     0,     3,    10,    11,    13,    14,    15,    26,
       27,     7,    19,    19,    19,    19,    19,     0,     3,    25,
       25,     6,    18,     9,     4,    24,    20,    24,    16,    24,
-       5,    21,    22,    23,    24,    21,    22,    25
+       5,    21,    22,    23,    24,    21,    22,    25,    25
   };
 
   const unsigned char
@@ -1068,7 +1068,7 @@ namespace TSPLIB {
   const unsigned char
   Parser::yyr2_[] =
   {
-       0,     2,     1,     1,     0,     3,     3,     1,     2,     1,
+       0,     2,     1,     1,     0,     3,     4,     1,     2,     1,
        1,     1,     1,     1,     1,     3,     3,     3,     3,     3,
        0,     2,     3,     3
   };

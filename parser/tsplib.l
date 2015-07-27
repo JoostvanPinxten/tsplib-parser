@@ -49,7 +49,7 @@ typedef TSPLIB::Parser::token_type token_type;
 
 KEYWORD             [a-z][a-z_]*
 INTEGER             -?[1-9][0-9]*
-FLOAT               -[[:digit:]]+"."[[:digit:]]
+FLOAT               -?[[:digit:]]+"."[[:digit:]]
 WHITESPACE          [[:blank:]\r]
 
 /* literal keywords */

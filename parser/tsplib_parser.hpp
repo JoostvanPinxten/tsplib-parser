@@ -421,7 +421,7 @@ namespace TSPLIB {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 31,           //< Last index in yytable_.
+      yylast_ = 32,           //< Last index in yytable_.
       yynnts_ = 12,  //< Number of nonterminal symbols.
       yyempty_ = -2,
       yyfinal_ = 2, //< Termination state number.

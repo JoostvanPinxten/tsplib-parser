@@ -31,18 +31,18 @@
 // version 2.2 of Bison.
 
 /**
- ** \file parser/location.hh
+ ** \file ..\..\tsplib-parser\parser/location.hh
  ** Define the TSPLIB::location class.
  */
 
-#ifndef YY_YY_PARSER_LOCATION_HH_INCLUDED
-# define YY_YY_PARSER_LOCATION_HH_INCLUDED
+#ifndef YY_YY_TSPLIB_PARSER_PARSER_LOCATION_HH_INCLUDED
+# define YY_YY_TSPLIB_PARSER_PARSER_LOCATION_HH_INCLUDED
 
 # include "position.hh"
 
-#line 38 "parser/tsplib.y" // location.cc:291
+#line 38 "..\\..\\tsplib-parser\\parser\\tsplib.y" // location.cc:291
 namespace TSPLIB {
-#line 46 "parser/location.hh" // location.cc:291
+#line 46 "..\\..\\tsplib-parser\\parser/location.hh" // location.cc:291
   /// Abstract a location.
   class location
   {
@@ -181,7 +181,7 @@ namespace TSPLIB {
     return ostr;
   }
 
-#line 38 "parser/tsplib.y" // location.cc:291
+#line 38 "..\\..\\tsplib-parser\\parser\\tsplib.y" // location.cc:291
 } // TSPLIB
-#line 187 "parser/location.hh" // location.cc:291
-#endif // !YY_YY_PARSER_LOCATION_HH_INCLUDED
+#line 187 "..\\..\\tsplib-parser\\parser/location.hh" // location.cc:291
+#endif // !YY_YY_TSPLIB_PARSER_PARSER_LOCATION_HH_INCLUDED

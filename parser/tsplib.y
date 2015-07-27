@@ -144,7 +144,7 @@ coord_section : integer coords end {
         $$ = new std::map<int, std::vector<double>>();
         (*$$)[$1] = *$2;
     }
-    | coord_section integer coords {
+    | coord_section integer coords end {
         $$ = $1;
         (*$$)[$2] = *$3;
     }
