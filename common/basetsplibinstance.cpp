@@ -73,6 +73,29 @@ namespace TSPLIB {
         return coord_type;
     }
 
+    bool BaseInstance::set_edge_weight_type(TSP::EDGE_WEIGHT_TYPE edge_type)
+    {
+        this->edge_type = edge_type;
+        switch(edge_type) {
+            case TSP::EDGE_WEIGHT_TYPE::EUC_2D:
+            case TSP::EDGE_WEIGHT_TYPE::CEIL_2D:
+            case TSP::EDGE_WEIGHT_TYPE::MAX_2D:
+                coord_type = TSP::NODE_COORD_TYPE::TWO_D;
+                break;
+            case TSP::EDGE_WEIGHT_TYPE::EUC_3D:
+            case TSP::EDGE_WEIGHT_TYPE::MAX_3D:
+                coord_type = TSP::NODE_COORD_TYPE::TWO_D;
+                break;
+        }
+
+        return true;
+    }
+
+    TSP::EDGE_WEIGHT_TYPE BaseInstance::get_edge_weight_type() const
+    {
+        return edge_type;
+    }
+
     bool BaseInstance::set_dimension(unsigned int dimension)
     {
         if(dimension == 0) {

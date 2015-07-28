@@ -178,6 +178,9 @@ specification :
     | TYPE separator TSPTYPE {
         driver.create_instance($3);
     }
+    | EDGE_WEIGHT_TYPE separator EDGE_WEIGHT_TYPE_LITERAL{
+        driver.get_tsp_instance().set_edge_weight_type($3);
+    }
     | NODE_COORD_TYPE separator NODE_COORD_TYPE_LITERAL{
         driver.get_tsp_instance().set_node_coordinate_type($3);
     }

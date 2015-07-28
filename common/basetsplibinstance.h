@@ -12,6 +12,7 @@ namespace TSPLIB {
     protected:
         std::map<int, std::vector<double> > coordinates;
         TSP::NODE_COORD_TYPE coord_type;
+        TSP::EDGE_WEIGHT_TYPE edge_type;
         unsigned int dimension;
     public:
         BaseInstance(const Instance &i); // initialization from another instance
@@ -21,6 +22,9 @@ namespace TSPLIB {
 
         bool set_node_coordinate_type(TSP::NODE_COORD_TYPE coord_type);
         TSP::NODE_COORD_TYPE get_node_coordinate_type() const;
+
+        bool set_edge_weight_type(TSP::EDGE_WEIGHT_TYPE edge_type);
+        TSP::EDGE_WEIGHT_TYPE get_edge_weight_type() const;
 
         bool set_dimension(unsigned int dimension);
         unsigned int get_dimension() const;

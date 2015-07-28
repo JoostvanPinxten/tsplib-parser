@@ -9,7 +9,7 @@ TEST(Parser_TSPTest, IntegerArray1) {
     std::string str = R"(
 TYPE : TSP
 DIMENSION : 1
-NODE_COORD_TYPE: EUC_2D
+NODE_COORD_TYPE: TWOD_COORDS
 NODE_COORD_SECTION: 1 2 3
 )";
     TSPLIB::Driver driver;
@@ -27,7 +27,7 @@ TEST(Parser_TSPTest, IntegerArray2) {
     std::string str = R"(
 TYPE : TSP
 DIMENSION : 2
-NODE_COORD_TYPE : EUC_2D
+NODE_COORD_TYPE : TWOD_COORDS
 NODE_COORD_SECTION : 1 102 103
 2 105 106
 )";
@@ -56,7 +56,7 @@ TEST(Parser_TSPTest, IntegerArray3) {
     std::string str = R"(
 TYPE : TSP
 DIMENSION : 2
-NODE_COORD_TYPE : EUC_2D
+NODE_COORD_TYPE : TWOD_COORDS
 NODE_COORD_SECTION : 1 102 103
 2 105 106
 3 104 107
@@ -90,7 +90,7 @@ TEST(Parser_TSPTest, RealArray1) {
     std::string str = R"(
 TYPE : TSP
 DIMENSION : 2
-NODE_COORD_TYPE : EUC_2D
+NODE_COORD_TYPE : TWOD_COORDS
 NODE_COORD_SECTION : 1 102.1 103.2
 2 105.4 106.3)";
     TSPLIB::Driver driver;
@@ -119,7 +119,7 @@ TEST(Parser_TSPTest, MixedArray1) {
     std::string str = R"(
 TYPE : TSP
 DIMENSION : 2
-NODE_COORD_TYPE : EUC_3D
+NODE_COORD_TYPE : THREED_COORDS
 NODE_COORD_SECTION : 1 102.0 103 104.0
 2 105 106.1 107.0
 )";
@@ -154,10 +154,22 @@ TEST(Parser_TSPTest, IncorrectType) {
     EXPECT_THROW(driver.get_tour_instance(), TSP::PARSER::Inconsistent_definition_exception);
 }
 
-TEST(Parser_TSPTest, EdgeTest) {
-    std::string str = "TYPE : TSP";
+TEST(Parser_TSPEdgeTest, EUC_2D) {
+    std::string str = R"(
+TYPE : TSP
+COMMENT : This is a test for the Euclidean 2D space edge weight type
+NAME : Euclidean test
+EDGE_WEIGHT_TYPE: EUC_2D
+DIMENSION : 2
+NODE_COORD_SECTION : 1 102.0 103
+2 105 106.1
+
+)";
     TSPLIB::Driver driver;
     ASSERT_TRUE(driver.parse_string(str, "Test"));
 
     EXPECT_THROW(driver.get_tour_instance(), TSP::PARSER::Inconsistent_definition_exception);
+
+    auto instance = driver.get_tsp_instance();
+    EXPECT_EQ(TSP::NODE_COORD_TYPE::TWO_D, instance.get_node_coordinate_type());
 }

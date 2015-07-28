@@ -186,12 +186,12 @@ KEYWORD_EOF eof
 
 {KEYWORD_NODE_COORD_TYPE} { return token::NODE_COORD_TYPE; }
 
-{KEYWORD_EUC_2D} {
+{KEYWORD_TWOD_COORDS} {
     yylval->nodeCoordType = TSP::NODE_COORD_TYPE::TWO_D;
     return token::NODE_COORD_TYPE_LITERAL;
 }
 
-{KEYWORD_EUC_3D} {
+{KEYWORD_THREED_COORDS} {
     yylval->nodeCoordType = TSP::NODE_COORD_TYPE::THREE_D;
     return token::NODE_COORD_TYPE_LITERAL;
 }
