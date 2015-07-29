@@ -93,6 +93,12 @@ namespace TSPLIB {
         return coord_type;
     }
 
+    bool BaseInstance::set_edge_weight_format(TSP::EDGE_WEIGHT_FORMAT edge_format)
+    {
+        edge_weight_format = edge_format;
+        return true;
+    }
+
     bool BaseInstance::set_edge_weight_type(TSP::EDGE_WEIGHT_TYPE edge_type)
     {
         this->edge_type = edge_type;
@@ -106,26 +112,39 @@ namespace TSPLIB {
             case TSP::EDGE_WEIGHT_TYPE::MAX_3D:
                 set_node_coordinate_type(TSP::NODE_COORD_TYPE::TWO_D);
                 break;
+            case TSP::EDGE_WEIGHT_TYPE::EXPLICIT:
+            default:
+                // do nothing
+                break;
         }
 
         return true;
     }
 
     bool BaseInstance::set_edge_weights(std::vector<int> weights) {
-        if(edge_type == TSP::EDGE_WEIGHT_TYPE::EXPLICIT) {
-            switch(edge_weight_format) {
-                case TSP::EDGE_WEIGHT_FORMAT::FULL_MATRIX:
-                    {
-                        for(int i=0; i< dimension; i++) {
-                            for(int j=0; j< dimension; j++) {
-                                matrix[i][j] = weights[i*dimension + j];
-                            }
+
+        if(edge_type != TSP::EDGE_WEIGHT_TYPE::EXPLICIT) {
+            throw TSP::PARSER::Inconsistent_definition_exception("Cannot set edge weights when edge weight type is not explicit");
+        }
+
+        switch(edge_weight_format) {
+            case TSP::EDGE_WEIGHT_FORMAT::FULL_MATRIX:
+                {
+                    if(weights.size() != dimension * dimension) {
+                        std::ostringstream err;
+                        err << "Expected " << dimension * dimension << " integers, but found " << weights.size();
+                        throw TSP::PARSER::Inconsistent_definition_exception(err.str());
+                    }
+                    for(unsigned int i=0; i< dimension; i++) {
+                        for(unsigned int j=0; j< dimension; j++) {
+                            matrix[i][j] = weights[i*dimension + j];
                         }
                     }
-                    break;
-                default:
-                    throw TSP::PARSER::Inconsistent_definition_exception("Unsupported explicit edge weight type");
-            }
+                }
+                valid_matrix = true;
+                break;
+            default:
+                throw TSP::PARSER::Unsupported_exception("Unsupported edge weight format for explicit edge weight type");
         }
         return true;
     }
@@ -155,7 +174,6 @@ namespace TSPLIB {
 
         this->dimension = dimension;
 
-        //
         matrix.resize(dimension);
         for(unsigned int i = 0; i < dimension; i++) {
             matrix[i].resize(dimension);

@@ -182,3 +182,53 @@ NODE_COORD_SECTION : 1 0 0
     EXPECT_EQ(4, matrix[0][2]);
     EXPECT_EQ(4, matrix[2][0]);
 }
+
+TEST(Parser_TSPEdgeTest, EXPLICIT_FULL_MATRIX_WRONG_DIMENSION) {
+    std::string str = R"(
+TYPE : TSP
+COMMENT : This is a test for the Euclidean 2D space edge weight type
+NAME : Euclidean test
+EDGE_WEIGHT_TYPE: EXPLICIT
+EDGE_WEIGHT_FORMAT FULL_MATRIX
+DIMENSION : 2
+EDGE_DATA_SECTION : 1 0 0
+2 4 0
+3 0 4
+)";
+    TSPLIB::Driver driver;
+    ASSERT_THROW(driver.parse_string(str, "Test"), TSP::PARSER::Inconsistent_definition_exception);
+}
+
+TEST(Parser_TSPEdgeTest, EXPLICIT_FULL_MATRIX) {
+    std::string str = R"(
+TYPE : TSP
+COMMENT : This is a test for the Euclidean 2D space edge weight type
+NAME : Euclidean test
+EDGE_WEIGHT_TYPE: EXPLICIT
+EDGE_WEIGHT_FORMAT FULL_MATRIX
+DIMENSION : 3
+EDGE_DATA_SECTION : 1 0 0
+2 4 0
+3 0 4
+)";
+    TSPLIB::Driver driver;
+    ASSERT_TRUE(driver.parse_string(str, "Test"));
+
+    EXPECT_THROW(driver.get_tour_instance(), TSP::PARSER::Inconsistent_definition_exception);
+
+    auto instance = driver.get_tsp_instance();
+    EXPECT_EQ(TSP::NODE_COORD_TYPE::NONE, instance.get_node_coordinate_type());
+    ASSERT_EQ(TSP::EDGE_WEIGHT_TYPE::EXPLICIT, instance.get_edge_weight_type());
+
+    auto matrix = instance.get_edge_weight_matrix();
+
+    ASSERT_EQ(instance.get_dimension(), matrix.size());
+    ASSERT_EQ(instance.get_dimension(), matrix[0].size());
+
+    TSPLIB::Matrix<int> val = {
+        {1,0,0},
+        {2,4,0},
+        {3,0,4}
+       };
+    ASSERT_EQ(val, matrix);
+}

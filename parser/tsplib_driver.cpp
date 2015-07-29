@@ -27,7 +27,6 @@ Driver::Driver()
 bool Driver::parse_stream(std::istream& in, const std::string& sname)
 {
     streamname = sname;
-
     Scanner scanner(&in);
     scanner.set_debug(trace_scanning);
     this->lexer = &scanner;

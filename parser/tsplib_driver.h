@@ -84,7 +84,6 @@ public:
     TourInstance & get_tour_instance() const;
 
     Instance & create_instance(TSP::TYPE type);
-
 protected:
     TSPLIB::Instance * instance;
 

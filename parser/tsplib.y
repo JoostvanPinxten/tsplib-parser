@@ -94,6 +94,7 @@
 %token <nodeCoordType> NODE_COORD_TYPE_LITERAL
 %token <edgeWeightType> EDGE_WEIGHT_TYPE_LITERAL
 %token <edgeWeightFormat> EDGE_WEIGHT_FORMAT_LITERAL
+%token          EDGE_DATA_SECTION
 
 %type<stringVal> string_value
 %type<integerVal> integer
@@ -135,11 +136,15 @@ separator : KEY_VALUE_SEPARATOR {
         // Separator is optional
     }
 
-integer_list : integer {
+integer_list : number {
         $$ = new std::vector<int>();
         $$->push_back($1);
     }
-    | integer_list integer {
+    | integer_list number end { // how to make this `end` token optional between two numbers?
+        $$ = $1;
+        $1->push_back($2);
+    }
+    | integer_list number {
         $$ = $1;
         $1->push_back($2);
     }
@@ -182,11 +187,17 @@ specification :
     | EDGE_WEIGHT_TYPE separator EDGE_WEIGHT_TYPE_LITERAL{
         driver.get_tsp_instance().set_edge_weight_type($3);
     }
+    | EDGE_WEIGHT_FORMAT separator EDGE_WEIGHT_FORMAT_LITERAL{
+        driver.get_tsp_instance().set_edge_weight_format($3);
+    }
     | NODE_COORD_TYPE separator NODE_COORD_TYPE_LITERAL{
         driver.get_tsp_instance().set_node_coordinate_type($3);
     }
     | DIMENSION separator integer {
         driver.get_tsp_instance().set_dimension($3);
+    }
+    | EDGE_DATA_SECTION separator integer_list {
+        driver.get_tsp_instance().set_edge_weights(*$3);
     }
 
 data : NODE_COORD_SECTION separator coord_section {

@@ -134,7 +134,8 @@ namespace TSPLIB {
         EDGE_WEIGHT_FORMAT = 272,
         NODE_COORD_TYPE_LITERAL = 273,
         EDGE_WEIGHT_TYPE_LITERAL = 274,
-        EDGE_WEIGHT_FORMAT_LITERAL = 275
+        EDGE_WEIGHT_FORMAT_LITERAL = 275,
+        EDGE_DATA_SECTION = 276
       };
     };
 
@@ -310,7 +311,7 @@ namespace TSPLIB {
   // number is the opposite.  If YYTABLE_NINF, syntax error.
   static const unsigned char yytable_[];
 
-  static const unsigned char yycheck_[];
+  static const signed char yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -425,13 +426,13 @@ namespace TSPLIB {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 38,           //< Last index in yytable_.
-      yynnts_ = 12,  //< Number of nonterminal symbols.
+      yylast_ = 48,           //< Last index in yytable_.
+      yynnts_ = 13,  //< Number of nonterminal symbols.
       yyempty_ = -2,
       yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 21    //< Number of tokens.
+      yyntokens_ = 22    //< Number of tokens.
     };
 
 
@@ -442,7 +443,7 @@ namespace TSPLIB {
 
 #line 38 "parser/tsplib.y" // lalr1.cc:371
 } // TSPLIB
-#line 446 "parser/tsplib.tab.h" // lalr1.cc:371
+#line 447 "parser/tsplib.tab.h" // lalr1.cc:371
 
 
 

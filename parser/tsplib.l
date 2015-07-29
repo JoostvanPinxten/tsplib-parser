@@ -82,6 +82,7 @@ KEYWORD_CAPACITY    capacity
 KEYWORD_EDGE_WEIGHT_TYPE  edge_weight_type
 KEYWORD_EDGE_WEIGHT_FORMAT edge_weight_format
 KEYWORD_EDGE_DATA_FORMAT   edge_data_format
+KEYWORD_EDGE_DATA_SECTION   edge_data_section
 KEYWORD_NODE_COORD_TYPE node_coord_type
 KEYWORD_NODE_COORD_SECTION node_coord_section
 
@@ -243,6 +244,9 @@ KEYWORD_EOF eof
     return token::EDGE_WEIGHT_FORMAT;
 }
 
+{KEYWORD_EDGE_DATA_SECTION} {
+    return token::EDGE_DATA_SECTION;
+}
 {KEYWORD_FULL_MATRIX} {
     yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::FULL_MATRIX;
     return token::EDGE_WEIGHT_FORMAT_LITERAL;
