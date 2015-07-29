@@ -48,7 +48,7 @@ typedef TSPLIB::Parser::token_type token_type;
 %option stack
 
 KEYWORD             [a-z][a-z_]*
-INTEGER             -?[1-9][0-9]*
+INTEGER             -?[[:digit:]][[:digit:]]*
 FLOAT               -?[[:digit:]]+"."[[:digit:]]
 WHITESPACE          [[:blank:]\r]
 
@@ -230,6 +230,24 @@ KEYWORD_EOF eof
     yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::EUC_2D;
     return token::EDGE_WEIGHT_TYPE_LITERAL;
 }
+{KEYWORD_EUC_3D} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::EUC_3D;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
+{KEYWORD_EXPLICIT} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::EXPLICIT;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
+
+{KEYWORD_EDGE_WEIGHT_FORMAT} {
+    return token::EDGE_WEIGHT_FORMAT;
+}
+
+{KEYWORD_FULL_MATRIX} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::FULL_MATRIX;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
+
  /* read the rest of the line as a single string */
 <REST_OF_LINE_STRING>[[:^blank:]][^\n]+ {
     yylval->stringVal = new std::string(yytext, yyleng);

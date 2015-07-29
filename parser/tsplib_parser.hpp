@@ -91,7 +91,7 @@ namespace TSPLIB {
     std::vector<double>* coordList;
     TSP::TYPE           tspType;
     TSP::EDGE_WEIGHT_TYPE   edgeWeightType;
-//    TSP::EDGE_WEIGHT_FORMAT edgeWeightFormat;
+    TSP::EDGE_WEIGHT_FORMAT edgeWeightFormat;
 //    TSP::EDGE_DATA_FORMAT   edgeDataFormat;
     TSP::NODE_COORD_TYPE    nodeCoordType;
 //    TSP::DISPLAY_DATA_TYPE  displayDataType;
@@ -131,8 +131,10 @@ namespace TSPLIB {
         NODE_COORD_SECTION = 269,
         NODE_COORD_TYPE = 270,
         EDGE_WEIGHT_TYPE = 271,
-        NODE_COORD_TYPE_LITERAL = 272,
-        EDGE_WEIGHT_TYPE_LITERAL = 273
+        EDGE_WEIGHT_FORMAT = 272,
+        NODE_COORD_TYPE_LITERAL = 273,
+        EDGE_WEIGHT_TYPE_LITERAL = 274,
+        EDGE_WEIGHT_FORMAT_LITERAL = 275
       };
     };
 
@@ -429,7 +431,7 @@ namespace TSPLIB {
       yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 19    //< Number of tokens.
+      yyntokens_ = 21    //< Number of tokens.
     };
 
 
@@ -440,7 +442,7 @@ namespace TSPLIB {
 
 #line 38 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 } // TSPLIB
-#line 444 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 446 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 

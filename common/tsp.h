@@ -18,6 +18,20 @@ namespace TSP {
         MAX_2D,
         MAX_3D,
         CEIL_2D,
+        EXPLICIT,
+    };
+
+    enum class EDGE_WEIGHT_FORMAT {
+        FUNCTION,
+        FULL_MATRIX,
+        UPPER_ROW,
+        LOWER_ROW,
+        UPPER_DIAG_ROW,
+        LOWER_DIAG_ROW,
+        UPPER_COL,
+        LOWER_COL,
+        UPPER_DIAG_COL,
+        LOWER_DIAG_COL
     };
 
     enum class NODE_COORD_TYPE {

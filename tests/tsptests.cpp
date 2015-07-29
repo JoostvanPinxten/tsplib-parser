@@ -160,10 +160,10 @@ TYPE : TSP
 COMMENT : This is a test for the Euclidean 2D space edge weight type
 NAME : Euclidean test
 EDGE_WEIGHT_TYPE: EUC_2D
-DIMENSION : 2
-NODE_COORD_SECTION : 1 102.0 103
-2 105 106.1
-
+DIMENSION : 3
+NODE_COORD_SECTION : 1 0 0
+2 4 0
+3 0 4
 )";
     TSPLIB::Driver driver;
     ASSERT_TRUE(driver.parse_string(str, "Test"));
@@ -172,4 +172,13 @@ NODE_COORD_SECTION : 1 102.0 103
 
     auto instance = driver.get_tsp_instance();
     EXPECT_EQ(TSP::NODE_COORD_TYPE::TWO_D, instance.get_node_coordinate_type());
+
+    auto matrix = instance.get_edge_weight_matrix();
+
+    ASSERT_EQ(instance.get_dimension(), matrix.size());
+    ASSERT_EQ(instance.get_dimension(), matrix[0].size());
+
+    EXPECT_EQ(4, matrix[0][1]);
+    EXPECT_EQ(4, matrix[0][2]);
+    EXPECT_EQ(4, matrix[2][0]);
 }

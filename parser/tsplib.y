@@ -68,7 +68,7 @@
     std::vector<double>* coordList;
     TSP::TYPE           tspType;
     TSP::EDGE_WEIGHT_TYPE   edgeWeightType;
-//    TSP::EDGE_WEIGHT_FORMAT edgeWeightFormat;
+    TSP::EDGE_WEIGHT_FORMAT edgeWeightFormat;
 //    TSP::EDGE_DATA_FORMAT   edgeDataFormat;
     TSP::NODE_COORD_TYPE    nodeCoordType;
 //    TSP::DISPLAY_DATA_TYPE  displayDataType;
@@ -90,8 +90,10 @@
 %token          NODE_COORD_SECTION
 %token          NODE_COORD_TYPE
 %token          EDGE_WEIGHT_TYPE
+%token          EDGE_WEIGHT_FORMAT
 %token <nodeCoordType> NODE_COORD_TYPE_LITERAL
 %token <edgeWeightType> EDGE_WEIGHT_TYPE_LITERAL
+%token <edgeWeightFormat> EDGE_WEIGHT_FORMAT_LITERAL
 
 %type<stringVal> string_value
 %type<integerVal> integer
@@ -172,7 +174,6 @@ specification :
        driver.get_instance().set_name(*$3);
     }
     | COMMENT separator string_value {
-        std::cerr << "test";
         driver.get_instance().set_comment(*$3);
     }
     | TYPE separator TSPTYPE {
