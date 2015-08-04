@@ -174,6 +174,8 @@ integer : INTEGER;
 
 end : EOL | END;
 
+optional_end : EOL | %empty;
+
 specification :
     NAME separator string_value {
        driver.get_instance().set_name(*$3);
@@ -184,25 +186,25 @@ specification :
     | TYPE separator TSPTYPE {
         driver.create_instance($3);
     }
-    | EDGE_WEIGHT_TYPE separator EDGE_WEIGHT_TYPE_LITERAL{
+    | EDGE_WEIGHT_TYPE separator EDGE_WEIGHT_TYPE_LITERAL {
         driver.get_tsp_instance().set_edge_weight_type($3);
     }
-    | EDGE_WEIGHT_FORMAT separator EDGE_WEIGHT_FORMAT_LITERAL{
+    | EDGE_WEIGHT_FORMAT separator EDGE_WEIGHT_FORMAT_LITERAL {
         driver.get_tsp_instance().set_edge_weight_format($3);
     }
-    | NODE_COORD_TYPE separator NODE_COORD_TYPE_LITERAL{
+    | NODE_COORD_TYPE separator NODE_COORD_TYPE_LITERAL {
         driver.get_tsp_instance().set_node_coordinate_type($3);
     }
     | DIMENSION separator integer {
         driver.get_tsp_instance().set_dimension($3);
     }
-    | EDGE_DATA_SECTION separator integer_list {
-        driver.get_tsp_instance().set_edge_weights(*$3);
+    | EDGE_DATA_SECTION separator optional_end integer_list {
+        driver.get_tsp_instance().set_edge_weights(*$4);
     }
 
-data : NODE_COORD_SECTION separator coord_section {
+data : NODE_COORD_SECTION separator optional_end coord_section {
         TSPLIB::BaseInstance & instance = driver.get_tsp_instance();
-        instance.set_node_coordinate_section(* $3);
+        instance.set_node_coordinate_section(* $4);
     }
 
 start	: %empty

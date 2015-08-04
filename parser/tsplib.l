@@ -49,7 +49,9 @@ typedef TSPLIB::Parser::token_type token_type;
 
 KEYWORD             [a-z][a-z_]*
 INTEGER             -?[[:digit:]][[:digit:]]*
-FLOAT               -?[[:digit:]]+"."[[:digit:]]
+/* float exponent */
+EXP     ([Ee][-+]?[0-9]+)
+FLOAT               -?([0-9]*\.[0-9]+|[0-9]+\.){EXP}?[flFL]?
 WHITESPACE          [[:blank:]\r]
 
 /* literal keywords */
@@ -220,6 +222,16 @@ KEYWORD_EOF eof
 
 {KEYWORD_ATSP} {
     yylval->tspType = TSP::TYPE::ATSP;
+    return token::TSPTYPE;
+}
+
+{KEYWORD_GTSP} {
+    yylval->tspType = TSP::TYPE::GTSP;
+    return token::TSPTYPE;
+}
+
+{KEYWORD_AGTSP} {
+    yylval->tspType = TSP::TYPE::AGTSP;
     return token::TSPTYPE;
 }
 
