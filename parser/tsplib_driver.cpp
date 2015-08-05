@@ -80,6 +80,14 @@ TSPLIB::Instance& Driver::create_instance(TSP::TYPE type) {
             delete old;
             break;
         }
+        case TSP::TYPE::AGTSP:
+        case TSP::TYPE::GTSP:
+        {
+            Instance * old = instance;
+            instance = new TSPLIB::GTSPInstance(*old);
+            delete old;
+            break;
+        }
         default:
         {
             throw TSP::PARSER::Unsupported_exception("Type not supported");
@@ -97,7 +105,16 @@ BaseInstance &Driver::get_tsp_instance() const
 {
     BaseInstance * tsp = dynamic_cast<BaseInstance*>(instance);
     if(!tsp) {
-        throw TSP::PARSER::Inconsistent_definition_exception("Please check the information for consistency with the provided type");
+        throw TSP::PARSER::Inconsistent_definition_exception("Please check the information for consistency with the provided type; trying to set data for a traveling salesman problem");
+    }
+    return *tsp;
+}
+
+GTSPInstance &Driver::get_gtsp_instance() const
+{
+    GTSPInstance * tsp = dynamic_cast<GTSPInstance*>(instance);
+    if(!tsp) {
+        throw TSP::PARSER::Inconsistent_definition_exception("Please check the information for consistency with the provided type; trying to set data for a generalized traveling salesman problem");
     }
     return *tsp;
 }

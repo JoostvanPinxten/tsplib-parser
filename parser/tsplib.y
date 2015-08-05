@@ -95,6 +95,10 @@
 %token <edgeWeightType> EDGE_WEIGHT_TYPE_LITERAL
 %token <edgeWeightFormat> EDGE_WEIGHT_FORMAT_LITERAL
 %token          EDGE_DATA_SECTION
+%token          EDGE_WEIGHT_SECTION
+
+%token          GTSP_SETS
+%token          GTSP_SET_SECTION
 
 %type<stringVal> string_value
 %type<integerVal> integer
@@ -140,7 +144,7 @@ integer_list : number {
         $$ = new std::vector<int>();
         $$->push_back($1);
     }
-    | integer_list number end { // how to make this `end` token optional between two numbers?
+    | integer_list number end {
         $$ = $1;
         $1->push_back($2);
     }
@@ -157,6 +161,7 @@ coord_section : integer coords end {
         $$ = $1;
         (*$$)[$2] = *$3;
     }
+
 coords : number {
         $$ = new std::vector<double>();
         $$->push_back($1);
@@ -173,8 +178,6 @@ real : DOUBLE; // TODO: also accept integers
 integer : INTEGER;
 
 end : EOL | END;
-
-optional_end : EOL | %empty;
 
 specification :
     NAME separator string_value {
@@ -198,19 +201,35 @@ specification :
     | DIMENSION separator integer {
         driver.get_tsp_instance().set_dimension($3);
     }
-    | EDGE_DATA_SECTION separator optional_end integer_list {
-        driver.get_tsp_instance().set_edge_weights(*$4);
-    }
 
-data : NODE_COORD_SECTION separator optional_end coord_section {
+data :
+    // the end between the separator and the section is optional
+    NODE_COORD_SECTION separator end coord_section {
         TSPLIB::BaseInstance & instance = driver.get_tsp_instance();
         instance.set_node_coordinate_section(* $4);
+    }
+    | NODE_COORD_SECTION separator coord_section {
+        TSPLIB::BaseInstance & instance = driver.get_tsp_instance();
+        instance.set_node_coordinate_section(* $3);
+    }
+    | EDGE_WEIGHT_SECTION separator end integer_list {
+     driver.get_tsp_instance().set_edge_weights(*$4);
+    }
+    | EDGE_WEIGHT_SECTION separator integer_list {
+     driver.get_tsp_instance().set_edge_weights(*$3);
+    }
+    | GTSP_SETS separator integer {
+        driver.get_gtsp_instance().set_gtsp_cluster_amount($3);
+    }
+    | GTSP_SET_SECTION separator end integer_list
+    {
+        driver.get_gtsp_instance().set_gtsp_clusters(*$4);
     }
 
 start	: %empty
         | start EOL
         | start specification end
-        | start data end
+        | start data
 
  /*** END TSPLIB - Change the TSPLIB grammar rules above ***/
 

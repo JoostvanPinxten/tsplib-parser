@@ -7,7 +7,8 @@ HEADERS += \
     tsplibinstance.h \
     basetsplibinstance.h \
     tsplibdummyinstance.h \
-    tsplibtourinstance.h
+    tsplibtourinstance.h \
+    gtsplibinstance.h
 
 TEMPLATE = lib
 
@@ -15,4 +16,5 @@ SOURCES += \
     tsplibinstance.cpp \
     basetsplibinstance.cpp \
     tsplibdummyinstance.cpp \
-    tsplibtourinstance.cpp
+    tsplibtourinstance.cpp \
+    gtsplibinstance.cpp

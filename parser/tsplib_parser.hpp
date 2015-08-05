@@ -135,7 +135,10 @@ namespace TSPLIB {
         NODE_COORD_TYPE_LITERAL = 273,
         EDGE_WEIGHT_TYPE_LITERAL = 274,
         EDGE_WEIGHT_FORMAT_LITERAL = 275,
-        EDGE_DATA_SECTION = 276
+        EDGE_DATA_SECTION = 276,
+        EDGE_WEIGHT_SECTION = 277,
+        GTSP_SETS = 278,
+        GTSP_SET_SECTION = 279
       };
     };
 
@@ -426,13 +429,13 @@ namespace TSPLIB {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 58,           //< Last index in yytable_.
-      yynnts_ = 14,  //< Number of nonterminal symbols.
+      yylast_ = 65,           //< Last index in yytable_.
+      yynnts_ = 13,  //< Number of nonterminal symbols.
       yyempty_ = -2,
       yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 22    //< Number of tokens.
+      yyntokens_ = 25    //< Number of tokens.
     };
 
 
@@ -443,7 +446,7 @@ namespace TSPLIB {
 
 #line 38 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
 } // TSPLIB
-#line 447 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 450 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 

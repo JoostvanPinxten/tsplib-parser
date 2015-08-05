@@ -11,6 +11,7 @@
 #include <tsplibinstance.h>
 #include <basetsplibinstance.h>
 #include <tsplibtourinstance.h>
+#include <gtsplibinstance.h>
 
 // forward declaration
 class CalcContext;
@@ -81,9 +82,11 @@ public:
 
     Instance & get_instance() const;
     BaseInstance & get_tsp_instance() const;
+    GTSPInstance & get_gtsp_instance() const;
     TourInstance & get_tour_instance() const;
 
     Instance & create_instance(TSP::TYPE type);
+
 protected:
     TSPLIB::Instance * instance;
 

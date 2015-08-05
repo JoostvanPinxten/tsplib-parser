@@ -76,6 +76,9 @@ KEYWORD_TOUR        tour
 KEYWORD_GTSP        gtsp
 KEYWORD_AGTSP       agtsp
 
+KEYWORD_GTSP_SETS   gtsp_sets
+KEYWORD_GTSP_SET_SECTION gtsp_set_section
+
 /*
  * Other attributes
  */
@@ -87,6 +90,7 @@ KEYWORD_EDGE_DATA_FORMAT   edge_data_format
 KEYWORD_EDGE_DATA_SECTION   edge_data_section
 KEYWORD_NODE_COORD_TYPE node_coord_type
 KEYWORD_NODE_COORD_SECTION node_coord_section
+KEYWORD_EDGE_WEIGHT_SECTION edge_weight_section
 
 /*
  * Edge weight types
@@ -235,8 +239,20 @@ KEYWORD_EOF eof
     return token::TSPTYPE;
 }
 
+{KEYWORD_GTSP_SETS} {
+    return token::GTSP_SETS;
+}
+
+{KEYWORD_GTSP_SET_SECTION} {
+    return token::GTSP_SET_SECTION;
+}
+
 {KEYWORD_EDGE_WEIGHT_TYPE} {
     return token::EDGE_WEIGHT_TYPE;
+}
+
+{KEYWORD_EDGE_WEIGHT_SECTION} {
+    return token::EDGE_WEIGHT_SECTION;
 }
 
 {KEYWORD_EUC_2D} {
@@ -289,8 +305,11 @@ KEYWORD_EOF eof
     return token::EOL;
 }
 
- /* pass all other characters up to bison */
-. {
+{KEYWORD_EOF} {
+    return token::END;
+}
+ /* pass all other characters to bison */
+[[:alnum:]_]* {
     yylval->stringVal = new std::string(yytext, yyleng);
     #ifdef FLEX_SCANNER_DEBUG
        std::cout << "UNMATCHED INPUT! " << yytext << std::endl;
