@@ -132,10 +132,11 @@ KEYWORD_TWOD_COORDS twod_coords
 KEYWORD_THREED_COORDS threed_coords
 KEYWORD_NO_COORDS no_coords
 
+KEYWORD_DISPLAY_DATA_TYPE display_data_type
 /*
  * Display data types
  */
-KEYRWORD_COORD_DISPLAY  coord_display
+KEYWORD_COORD_DISPLAY  coord_display
 KEYWORD_TWOD_DISPLAY    twod_display
 KEYWORD_NO_DISPLAY      no_display
 
@@ -263,6 +264,44 @@ KEYWORD_EOF eof
     yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::EUC_3D;
     return token::EDGE_WEIGHT_TYPE_LITERAL;
 }
+
+{KEYWORD_MAX_2D} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::MAX_2D;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
+{KEYWORD_MAX_3D} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::MAX_3D;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
+{KEYWORD_CEIL_2D} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::CEIL_2D;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
+{KEYWORD_GEO} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::GEO;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
+{KEYWORD_ATT} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::ATT;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
+{KEYWORD_XRAY1} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::XRAY1;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
+{KEYWORD_XRAY2} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::XRAY2;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
+{KEYWORD_SPECIAL} {
+    yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::SPECIAL;
+    return token::EDGE_WEIGHT_TYPE_LITERAL;
+}
+
+{KEYWORD_FUNCTION} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::FUNCTION;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
 {KEYWORD_EXPLICIT} {
     yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::EXPLICIT;
     return token::EDGE_WEIGHT_TYPE_LITERAL;
@@ -297,6 +336,22 @@ KEYWORD_EOF eof
     std::cout << "ws" << yytext << std::endl;
    #endif
    yylloc->step();
+}
+
+{KEYWORD_DISPLAY_DATA_TYPE} {
+    return token::DISPLAY_DATA_TYPE;
+}
+{KEYWORD_COORD_DISPLAY} {
+    yylval->displayDataType = TSP::DISPLAY_DATA_TYPE::COORD_DISPLAY;
+    return token::DISPLAY_DATA_TYPE_LITERAL;
+}
+{KEYWORD_TWOD_DISPLAY} {
+    yylval->displayDataType = TSP::DISPLAY_DATA_TYPE::TWOD_DISPLAY;
+    return token::DISPLAY_DATA_TYPE_LITERAL;
+}
+{KEYWORD_NO_DISPLAY} {
+    yylval->displayDataType = TSP::DISPLAY_DATA_TYPE::NO_DISPLAY;
+    return token::DISPLAY_DATA_TYPE_LITERAL;
 }
 
  /* gobble up end-of-lines */

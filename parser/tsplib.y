@@ -71,7 +71,7 @@
     TSP::EDGE_WEIGHT_FORMAT edgeWeightFormat;
 //    TSP::EDGE_DATA_FORMAT   edgeDataFormat;
     TSP::NODE_COORD_TYPE    nodeCoordType;
-//    TSP::DISPLAY_DATA_TYPE  displayDataType;
+    TSP::DISPLAY_DATA_TYPE  displayDataType;
 }
 
 %token			END	     0	"end of file"
@@ -91,9 +91,11 @@
 %token          NODE_COORD_TYPE
 %token          EDGE_WEIGHT_TYPE
 %token          EDGE_WEIGHT_FORMAT
+%token          DISPLAY_DATA_TYPE
 %token <nodeCoordType> NODE_COORD_TYPE_LITERAL
 %token <edgeWeightType> EDGE_WEIGHT_TYPE_LITERAL
 %token <edgeWeightFormat> EDGE_WEIGHT_FORMAT_LITERAL
+%token <displayDataType> DISPLAY_DATA_TYPE_LITERAL
 %token          EDGE_DATA_SECTION
 %token          EDGE_WEIGHT_SECTION
 
@@ -200,6 +202,9 @@ specification :
     }
     | DIMENSION separator integer {
         driver.get_tsp_instance().set_dimension($3);
+    }
+    | DISPLAY_DATA_TYPE separator DISPLAY_DATA_TYPE_LITERAL {
+        // ignore for now
     }
 
 data :

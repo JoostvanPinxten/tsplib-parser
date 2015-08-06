@@ -19,6 +19,11 @@ namespace TSP {
         MAX_3D,
         CEIL_2D,
         EXPLICIT,
+        GEO,
+        ATT,
+        XRAY1,
+        XRAY2,
+        SPECIAL
     };
 
     enum class EDGE_WEIGHT_FORMAT {
@@ -38,6 +43,12 @@ namespace TSP {
         TWO_D,
         THREE_D,
         NONE
+    };
+
+    enum class DISPLAY_DATA_TYPE {
+        COORD_DISPLAY,
+        TWOD_DISPLAY,
+        NO_DISPLAY
     };
 }
 

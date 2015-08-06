@@ -2,7 +2,7 @@ UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = objs
 
-INCLUDEPATH += . .. ../common
+INCLUDEPATH += $$PWD/. $$PWD/.. $$PWD/../common
 
 CONFIG += c++11
 CONFIG -= qt

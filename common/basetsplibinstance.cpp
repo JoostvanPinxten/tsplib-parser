@@ -1,9 +1,22 @@
 #include "basetsplibinstance.h"
 #include <parser/exceptions/exceptions.h>
 #include <sstream>
+#include <math.h>
 #include <cmath>
 
 namespace TSPLIB {
+    std::pair<int, int> geo_to_radian(unsigned int x, unsigned int y) {
+        auto PI = 3.141592;
+        auto deg = std::round(x);
+        auto min = x - deg;
+        auto latitude = PI * (deg + 5.0 * min / 3.0 ) / 180.0;
+
+        deg = std::round(y);
+        min = y - deg;
+        auto longitude = PI * (deg + 5.0 * min / 3.0 ) / 180.0;
+        return std::make_pair(latitude, longitude);
+    }
+
     BaseInstance::BaseInstance(const Instance& i) :
         valid_matrix(false),
         coord_type(TSP::NODE_COORD_TYPE::NONE),
@@ -25,11 +38,14 @@ namespace TSPLIB {
             return false;
         }
 
-        if( coord_type == TSP::NODE_COORD_TYPE::TWO_D) {
+        switch(coord_type) {
+        case TSP::NODE_COORD_TYPE::TWO_D:
             nrCoords = 2;
-        } else if( coord_type == TSP::NODE_COORD_TYPE::THREE_D) {
+            break;
+        case TSP::NODE_COORD_TYPE::THREE_D:
             nrCoords = 3;
-        } else if( coord_type == TSP::NODE_COORD_TYPE::NONE ) {
+            break;
+        case TSP::NODE_COORD_TYPE::NONE:
             throw TSP::PARSER::Inconsistent_definition_exception("Unexpected coords section; first specify the coordinate type!");
             return false;
         }
@@ -62,6 +78,7 @@ namespace TSPLIB {
         switch(edge_type) {
             case TSP::EDGE_WEIGHT_TYPE::EUC_2D:
             case TSP::EDGE_WEIGHT_TYPE::EUC_3D:
+            case TSP::EDGE_WEIGHT_TYPE::GEO:
                 for(unsigned int i = 0 ; i < dimension; i++) {
                     for(unsigned int j = 0; j < dimension ; j++) {
                         matrix[i][j] = distance(i+1, j+1);
@@ -106,12 +123,15 @@ namespace TSPLIB {
             case TSP::EDGE_WEIGHT_TYPE::EUC_2D:
             case TSP::EDGE_WEIGHT_TYPE::CEIL_2D:
             case TSP::EDGE_WEIGHT_TYPE::MAX_2D:
+            case TSP::EDGE_WEIGHT_TYPE::GEO:
+            case TSP::EDGE_WEIGHT_TYPE::ATT:
                 set_node_coordinate_type(TSP::NODE_COORD_TYPE::TWO_D);
                 break;
             case TSP::EDGE_WEIGHT_TYPE::EUC_3D:
             case TSP::EDGE_WEIGHT_TYPE::MAX_3D:
                 set_node_coordinate_type(TSP::NODE_COORD_TYPE::TWO_D);
                 break;
+
             case TSP::EDGE_WEIGHT_TYPE::EXPLICIT:
             default:
                 // do nothing
@@ -211,7 +231,23 @@ namespace TSPLIB {
 
                 return std::round(std::sqrt(xd*xd + yd*yd + zd*zd));
             }
-            default:
+            case TSP::EDGE_WEIGHT_TYPE::GEO:
+            {
+
+                auto p_i = coordinates[i];
+                auto p_j = coordinates[j];
+                auto p1 = geo_to_radian(p_i[0], p_i[1]);
+                auto p2 = geo_to_radian(p_i[0], p_i[1]);
+
+                auto RRR = 6378.388;
+
+                auto q1 = cos( p1.first - p2.first);
+                auto q2 = cos( p1.second - p2.second);
+                auto q3 = cos( p1.first + p2.second);
+
+                return (int) (RRR * acos( 0.5 * ((1.0 + q1)*q2 -(1.0-q1)*q3)) + 1.0);
+            }
+        default:
                 //throw TSP::PARSER::Inconsistent_definition_exception("Unsupported edge weight type!");
                 break;
         }

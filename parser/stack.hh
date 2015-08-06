@@ -31,18 +31,18 @@
 // version 2.2 of Bison.
 
 /**
- ** \file parser/stack.hh
+ ** \file ..\..\..\cph-tsp\parser\parser/stack.hh
  ** Define the TSPLIB::stack class.
  */
 
-#ifndef YY_YY_PARSER_STACK_HH_INCLUDED
-# define YY_YY_PARSER_STACK_HH_INCLUDED
+#ifndef YY_YY_CPH_TSP_PARSER_PARSER_STACK_HH_INCLUDED
+# define YY_YY_CPH_TSP_PARSER_PARSER_STACK_HH_INCLUDED
 
 # include <vector>
 
-#line 38 "parser/tsplib.y" // stack.hh:133
+#line 38 "..\\..\\..\\cph-tsp\\parser\\parser\\tsplib.y" // stack.hh:133
 namespace TSPLIB {
-#line 46 "parser/stack.hh" // stack.hh:133
+#line 46 "..\\..\\..\\cph-tsp\\parser\\parser/stack.hh" // stack.hh:133
   template <class T, class S = std::vector<T> >
   class stack
   {
@@ -151,8 +151,8 @@ namespace TSPLIB {
     unsigned int range_;
   };
 
-#line 38 "parser/tsplib.y" // stack.hh:133
+#line 38 "..\\..\\..\\cph-tsp\\parser\\parser\\tsplib.y" // stack.hh:133
 } // TSPLIB
-#line 157 "parser/stack.hh" // stack.hh:133
+#line 157 "..\\..\\..\\cph-tsp\\parser\\parser/stack.hh" // stack.hh:133
 
-#endif // !YY_YY_PARSER_STACK_HH_INCLUDED
+#endif // !YY_YY_CPH_TSP_PARSER_PARSER_STACK_HH_INCLUDED

@@ -31,16 +31,16 @@
 // version 2.2 of Bison.
 
 /**
- ** \file ..\..\tsplib-parser\parser/tsplib_parser.hpp
+ ** \file ..\..\..\cph-tsp\parser\parser/tsplib_parser.hpp
  ** Define the TSPLIB::parser class.
  */
 
 // C++ LALR(1) parser skeleton written by Akim Demaille.
 
-#ifndef YY_YY_TSPLIB_PARSER_PARSER_TSPLIB_PARSER_HPP_INCLUDED
-# define YY_YY_TSPLIB_PARSER_PARSER_TSPLIB_PARSER_HPP_INCLUDED
+#ifndef YY_YY_CPH_TSP_PARSER_PARSER_TSPLIB_PARSER_HPP_INCLUDED
+# define YY_YY_CPH_TSP_PARSER_PARSER_TSPLIB_PARSER_HPP_INCLUDED
 // //                    "%code requires" blocks.
-#line 11 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+#line 11 "..\\..\\..\\cph-tsp\\parser\\parser\\tsplib.y" // lalr1.cc:371
 
     #include <map>
     #include <vector>
@@ -48,7 +48,7 @@
     #include <common/tsplibinstance.h>
     #include <sstream>
 
-#line 52 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 52 "..\\..\\..\\cph-tsp\\parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 # include <vector>
@@ -64,9 +64,9 @@
 # define YYDEBUG 1
 #endif
 
-#line 38 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+#line 38 "..\\..\\..\\cph-tsp\\parser\\parser\\tsplib.y" // lalr1.cc:371
 namespace TSPLIB {
-#line 70 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 70 "..\\..\\..\\cph-tsp\\parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 
@@ -80,7 +80,7 @@ namespace TSPLIB {
     /// Symbol semantic values.
     union semantic_type
     {
-    #line 61 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+    #line 61 "..\\..\\..\\cph-tsp\\parser\\parser\\tsplib.y" // lalr1.cc:371
 
     int  			integerVal;
     double 			doubleVal;
@@ -94,9 +94,9 @@ namespace TSPLIB {
     TSP::EDGE_WEIGHT_FORMAT edgeWeightFormat;
 //    TSP::EDGE_DATA_FORMAT   edgeDataFormat;
     TSP::NODE_COORD_TYPE    nodeCoordType;
-//    TSP::DISPLAY_DATA_TYPE  displayDataType;
+    TSP::DISPLAY_DATA_TYPE  displayDataType;
 
-#line 100 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 100 "..\\..\\..\\cph-tsp\\parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -132,13 +132,15 @@ namespace TSPLIB {
         NODE_COORD_TYPE = 270,
         EDGE_WEIGHT_TYPE = 271,
         EDGE_WEIGHT_FORMAT = 272,
-        NODE_COORD_TYPE_LITERAL = 273,
-        EDGE_WEIGHT_TYPE_LITERAL = 274,
-        EDGE_WEIGHT_FORMAT_LITERAL = 275,
-        EDGE_DATA_SECTION = 276,
-        EDGE_WEIGHT_SECTION = 277,
-        GTSP_SETS = 278,
-        GTSP_SET_SECTION = 279
+        DISPLAY_DATA_TYPE = 273,
+        NODE_COORD_TYPE_LITERAL = 274,
+        EDGE_WEIGHT_TYPE_LITERAL = 275,
+        EDGE_WEIGHT_FORMAT_LITERAL = 276,
+        DISPLAY_DATA_TYPE_LITERAL = 277,
+        EDGE_DATA_SECTION = 278,
+        EDGE_WEIGHT_SECTION = 279,
+        GTSP_SETS = 280,
+        GTSP_SET_SECTION = 281
       };
     };
 
@@ -429,13 +431,13 @@ namespace TSPLIB {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 65,           //< Last index in yytable_.
+      yylast_ = 68,           //< Last index in yytable_.
       yynnts_ = 13,  //< Number of nonterminal symbols.
       yyempty_ = -2,
       yyfinal_ = 2, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 25    //< Number of tokens.
+      yyntokens_ = 27    //< Number of tokens.
     };
 
 
@@ -444,11 +446,11 @@ namespace TSPLIB {
   };
 
 
-#line 38 "..\\..\\tsplib-parser\\parser\\tsplib.y" // lalr1.cc:371
+#line 38 "..\\..\\..\\cph-tsp\\parser\\parser\\tsplib.y" // lalr1.cc:371
 } // TSPLIB
-#line 450 "..\\..\\tsplib-parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
+#line 452 "..\\..\\..\\cph-tsp\\parser\\parser/tsplib_parser.hpp" // lalr1.cc:371
 
 
 
 
-#endif // !YY_YY_TSPLIB_PARSER_PARSER_TSPLIB_PARSER_HPP_INCLUDED
+#endif // !YY_YY_CPH_TSP_PARSER_PARSER_TSPLIB_PARSER_HPP_INCLUDED
