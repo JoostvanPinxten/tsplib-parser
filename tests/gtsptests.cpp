@@ -67,5 +67,9 @@ EOF
     ASSERT_TRUE(driver.parse_string(str, "Test"));
 
     EXPECT_EQ("4br17", driver.get_instance().get_name());
-    auto instance = driver.get_tsp_instance();
+    auto instance = driver.get_gtsp_instance();
+    auto clusters = instance.get_clusters();
+
+    EXPECT_EQ(4u, clusters.size());
+    EXPECT_EQ(3u, clusters[0].size());
 }
