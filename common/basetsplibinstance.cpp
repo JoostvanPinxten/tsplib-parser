@@ -3,9 +3,10 @@
 #include <sstream>
 #include <math.h>
 #include <cmath>
+#include <tuple>
 
 namespace TSPLIB {
-    std::pair<int, int> geo_to_radian(unsigned int x, unsigned int y) {
+    std::pair<double, double> geo_to_radian(unsigned int x, unsigned int y) {
         auto PI = 3.141592;
         auto deg = std::round(x);
         auto min = x - deg;
@@ -236,14 +237,15 @@ namespace TSPLIB {
 
                 auto p_i = coordinates[i];
                 auto p_j = coordinates[j];
-                auto p1 = geo_to_radian(p_i[0], p_i[1]);
-                auto p2 = geo_to_radian(p_i[0], p_i[1]);
+                double latitude_i, latitude_j, longitude_i, longitude_j;
+                std::tie(latitude_i, longitude_i) = geo_to_radian(p_i[0], p_i[1]);
+                std::tie(latitude_j, longitude_j) = geo_to_radian(p_i[0], p_i[1]);
 
                 auto RRR = 6378.388;
 
-                auto q1 = cos( p1.first - p2.first);
-                auto q2 = cos( p1.second - p2.second);
-                auto q3 = cos( p1.first + p2.second);
+                auto q1 = cos( longitude_i - longitude_j);
+                auto q2 = cos( latitude_i - latitude_j);
+                auto q3 = cos( latitude_i + latitude_j);
 
                 return (int) (RRR * acos( 0.5 * ((1.0 + q1)*q2 -(1.0-q1)*q3)) + 1.0);
             }
