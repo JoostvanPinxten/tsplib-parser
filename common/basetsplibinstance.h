@@ -24,7 +24,7 @@ namespace TSPLIB {
         Matrix<int> matrix;
 
     public:
-        BaseInstance(const Instance &i); // initialization from another instance
+        BaseInstance(const Instance &i, TSP::TYPE type); // initialization from another instance
 
         bool set_node_coordinate_section(std::map<int, std::vector<double> > coordinates);
         std::map<int, std::vector<double> > get_node_coordinate_section() const;

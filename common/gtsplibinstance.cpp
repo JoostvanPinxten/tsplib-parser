@@ -6,8 +6,8 @@
 using namespace TSPLIB;
 
 
-GTSPInstance::GTSPInstance(Instance &instance)
-    : BaseInstance(instance)
+GTSPInstance::GTSPInstance(Instance &instance, TSP::TYPE type)
+    : BaseInstance(instance, type)
 {
     try {
         GTSPInstance &other = dynamic_cast<GTSPInstance&>(instance);

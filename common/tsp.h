@@ -9,7 +9,8 @@ namespace TSP {
         AGTSP, /// generalized asymmetric TSP
         SOP, /// sequential ordering problem
         CVRP, /// Capacitated vehicle routing problem
-        TOUR /// A collection of tours
+        TOUR, /// A (collection of) tour(s)
+        NONE
     };
 
     enum class EDGE_WEIGHT_TYPE {

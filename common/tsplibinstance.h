@@ -9,9 +9,11 @@
 namespace TSPLIB {
     class Instance
     {
+
     protected:
         std::string name, comment;
-        Instance();
+        Instance(TSP::TYPE type);
+        TSP::TYPE type;
     public:
         virtual ~Instance() = 0;
         bool set_name(const std::string &_name);

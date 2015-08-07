@@ -6,7 +6,7 @@ namespace TSPLIB {
     class TourInstance : public Instance
     {
     public:
-        TourInstance(const Instance& instance);
+        TourInstance(const Instance& instance, TSP::TYPE type);
         ~TourInstance();
     };
 }

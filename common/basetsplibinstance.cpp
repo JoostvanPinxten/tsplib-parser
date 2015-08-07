@@ -19,7 +19,8 @@ namespace TSPLIB {
         return std::make_pair(latitude, longitude);
     }
 
-    BaseInstance::BaseInstance(const Instance& i) :
+    BaseInstance::BaseInstance(const Instance& i, TSP::TYPE type) :
+        Instance(type),
         valid_matrix(false),
         coord_type(TSP::NODE_COORD_TYPE::NONE),
         dimension(0)
@@ -297,7 +298,7 @@ namespace TSPLIB {
                 return (int) (RRR * acos( 0.5 * ((1.0 + q1)*q2 -(1.0-q1)*q3)) + 1.0);
             }
         default:
-                //throw TSP::PARSER::Inconsistent_definition_exception("Unsupported edge weight type!");
+                throw TSP::PARSER::Inconsistent_definition_exception("Unsupported edge weight type!");
                 break;
         }
 

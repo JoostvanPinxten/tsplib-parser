@@ -9,7 +9,7 @@ class GTSPInstance : public BaseInstance
 private:
     std::vector<std::vector<unsigned int>> clusters;
 public:
-    GTSPInstance(Instance &instance);
+    GTSPInstance(Instance &instance, TSP::TYPE type);
 
     bool set_gtsp_cluster_amount(int size);
     bool set_gtsp_clusters(std::vector<int> cluster_definition);

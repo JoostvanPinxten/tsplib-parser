@@ -69,14 +69,15 @@ TSPLIB::Instance& Driver::create_instance(TSP::TYPE type) {
         case TSP::TYPE::TOUR:
         {
             Instance * old = instance;
-            instance = new TSPLIB::TourInstance(*old);
+            instance = new TSPLIB::TourInstance(*old, type);
             delete old;
             break;
         }
+        case TSP::TYPE::ATSP:
         case TSP::TYPE::TSP:
         {
             Instance * old = instance;
-            instance = new TSPLIB::BaseInstance(*old);
+            instance = new TSPLIB::BaseInstance(*old, type);
             delete old;
             break;
         }
@@ -84,7 +85,7 @@ TSPLIB::Instance& Driver::create_instance(TSP::TYPE type) {
         case TSP::TYPE::GTSP:
         {
             Instance * old = instance;
-            instance = new TSPLIB::GTSPInstance(*old);
+            instance = new TSPLIB::GTSPInstance(*old, type);
             delete old;
             break;
         }
