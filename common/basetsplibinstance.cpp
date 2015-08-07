@@ -4,6 +4,7 @@
 #include <math.h>
 #include <cmath>
 #include <tuple>
+#include <iostream>
 
 namespace TSPLIB {
     std::pair<double, double> geo_to_radian(unsigned int x, unsigned int y) {
@@ -149,16 +150,59 @@ namespace TSPLIB {
         }
 
         switch(edge_weight_format) {
-            case TSP::EDGE_WEIGHT_FORMAT::FULL_MATRIX:
+            case TSP::EDGE_WEIGHT_FORMAT::FULL_MATRIX: /// Weights are given by a full matrix
                 {
-                    if(weights.size() != dimension * dimension) {
+                    const unsigned int expectedSize = dimension * dimension;
+                    if(weights.size() != expectedSize) {
                         std::ostringstream err;
-                        err << "Expected " << dimension * dimension << " integers, but found " << weights.size();
+                        err << "Expected " << expectedSize << " integers, but found " << weights.size();
                         throw TSP::PARSER::Inconsistent_definition_exception(err.str());
                     }
-                    for(unsigned int i=0; i< dimension; i++) {
-                        for(unsigned int j=0; j< dimension; j++) {
-                            matrix[i][j] = weights[i*dimension + j];
+
+                    unsigned int index = 0;
+                    for(unsigned int i=0; i< dimension; ++i) {
+                        for(unsigned int j=0; j< dimension; ++j) {
+                            matrix[i][j] = weights[index++];
+                        }
+                    }
+                }
+                valid_matrix = true;
+                break;
+            case TSP::EDGE_WEIGHT_FORMAT::LOWER_DIAG_ROW: // Lower triangular matrix (row-wise including diagonal entries)
+                {
+                    const unsigned int expectedSize = dimension / 2.0 * (dimension + 1);
+                    if(weights.size() != expectedSize) {
+                        std::ostringstream err;
+                        err << "Expected " << expectedSize << " integers, but found " << weights.size();
+                        throw TSP::PARSER::Inconsistent_definition_exception(err.str());
+                    }
+                    unsigned int index = 0;
+                    for(unsigned int i=0; i< dimension; ++i) {
+                        for(unsigned int j=0; j< i + 1; ++j) { // lower diagonal
+                            matrix[i][j] = weights[index];
+                            matrix[j][i] = weights[index];
+
+                            ++index;
+                        }
+                    }
+                }
+                valid_matrix = true;
+                break;
+            case TSP::EDGE_WEIGHT_FORMAT::UPPER_DIAG_ROW: // Lower triangular matrix (row-wise including diagonal entries)
+                {
+                    const unsigned int expectedSize = dimension / 2.0 * (dimension + 1);
+                    if(weights.size() != expectedSize) {
+                        std::ostringstream err;
+                        err << "Expected " << expectedSize << " integers, but found " << weights.size();
+                        throw TSP::PARSER::Inconsistent_definition_exception(err.str());
+                    }
+                    unsigned int index = 0;
+                    for(unsigned int i=0; i< dimension; ++i) {
+                        for(unsigned int j=i; j< dimension; ++j) { // upper diagonal
+                            matrix[i][j] = weights[index];
+                            matrix[j][i] = weights[index];
+
+                            ++index;
                         }
                     }
                 }
@@ -223,8 +267,8 @@ namespace TSPLIB {
             }
             case TSP::EDGE_WEIGHT_TYPE::EUC_3D:
             {
-                auto p_i = coordinates[i];
-                auto p_j = coordinates[j];
+                auto p_i = coordinates.at(i);
+                auto p_j = coordinates.at(j);
 
                 auto xd = p_i[0] - p_j[0];
                 auto yd = p_i[1] - p_j[1];
@@ -235,17 +279,20 @@ namespace TSPLIB {
             case TSP::EDGE_WEIGHT_TYPE::GEO:
             {
 
-                auto p_i = coordinates[i];
-                auto p_j = coordinates[j];
+                auto p_i = coordinates.at(i);
+                auto p_j = coordinates.at(j);
                 double latitude_i, latitude_j, longitude_i, longitude_j;
                 std::tie(latitude_i, longitude_i) = geo_to_radian(p_i[0], p_i[1]);
                 std::tie(latitude_j, longitude_j) = geo_to_radian(p_i[0], p_i[1]);
+                std::cout << "test:" << latitude_i << "," << longitude_i <<std::endl;
+                std::cout << "test:" << latitude_j << "," << longitude_j <<std::endl<<std::endl;
 
-                auto RRR = 6378.388;
+                double RRR = 6378.388;
 
-                auto q1 = cos( longitude_i - longitude_j);
-                auto q2 = cos( latitude_i - latitude_j);
-                auto q3 = cos( latitude_i + latitude_j);
+                double q1 = cos( longitude_i - longitude_j);
+                double q2 = cos( latitude_i - latitude_j);
+                double q3 = cos( latitude_i + latitude_j);
+                std::cout << (RRR * acos( 0.5 * ((1.0 + q1)*q2 -(1.0-q1)*q3)) + 1.0) << std::endl;
 
                 return (int) (RRR * acos( 0.5 * ((1.0 + q1)*q2 -(1.0-q1)*q3)) + 1.0);
             }

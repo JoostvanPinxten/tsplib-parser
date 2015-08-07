@@ -116,6 +116,8 @@ KEYWORD_UPPER_ROW   upper_row
 KEYWORD_LOWER_ROW   lower_row
 KEYWORD_UPPER_COL   upper_col
 KEYWORD_LOWER_COL   lower_col
+KEYWORD_UPPER_DIAG_ROW  upper_diag_row
+KEYWORD_LOWER_DIAG_ROW  lower_diag_row
 KEYWORD_UPPER_DIAG_COL  upper_diag_col
 KEYWORD_LOWER_DIAG_COL  lower_diag_col
 
@@ -298,10 +300,7 @@ KEYWORD_EOF eof
     return token::EDGE_WEIGHT_TYPE_LITERAL;
 }
 
-{KEYWORD_FUNCTION} {
-    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::FUNCTION;
-    return token::EDGE_WEIGHT_FORMAT_LITERAL;
-}
+
 {KEYWORD_EXPLICIT} {
     yylval->edgeWeightType = TSP::EDGE_WEIGHT_TYPE::EXPLICIT;
     return token::EDGE_WEIGHT_TYPE_LITERAL;
@@ -314,8 +313,46 @@ KEYWORD_EOF eof
 {KEYWORD_EDGE_DATA_SECTION} {
     return token::EDGE_DATA_SECTION;
 }
+{KEYWORD_FUNCTION} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::FUNCTION;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
 {KEYWORD_FULL_MATRIX} {
     yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::FULL_MATRIX;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
+
+{KEYWORD_UPPER_ROW} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::UPPER_ROW;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
+{KEYWORD_LOWER_ROW} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::LOWER_ROW;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
+{KEYWORD_UPPER_COL} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::UPPER_COL;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
+{KEYWORD_LOWER_COL} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::LOWER_COL;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
+
+{KEYWORD_UPPER_DIAG_ROW} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::UPPER_DIAG_ROW;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
+{KEYWORD_LOWER_DIAG_ROW} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::LOWER_DIAG_ROW;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
+{KEYWORD_UPPER_DIAG_COL} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::UPPER_DIAG_COL;
+    return token::EDGE_WEIGHT_FORMAT_LITERAL;
+}
+{KEYWORD_LOWER_DIAG_COL} {
+    yylval->edgeWeightFormat = TSP::EDGE_WEIGHT_FORMAT::LOWER_DIAG_COL;
     return token::EDGE_WEIGHT_FORMAT_LITERAL;
 }
 
