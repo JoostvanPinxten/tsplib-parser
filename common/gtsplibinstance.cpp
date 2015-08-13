@@ -29,41 +29,27 @@ bool GTSPInstance::set_gtsp_cluster_amount(int size)
  * add the nodes to the current cluster in case it is not a boundary token (-1)
  * otherwise, add the node to the current cluster
  *
- * Empties the incoming vector
- *
  * @param cluster_definition
  * @return
  */
 bool GTSPInstance::set_gtsp_clusters(std::vector<int> cluster_definition)
 {
-    // TODO: double check for malformed input; does this method always terminate?
-
-    auto begin = cluster_definition.begin();
-    auto cluster = 0;
-    while(begin != cluster_definition.end()) {
-        auto end = begin;
-        while(end != cluster_definition.end() && *end != -1) {
-            ++end;
+    unsigned int cluster = 0; // convert to internal 0-based indexing
+    for(int node : cluster_definition) {
+        if(node == -1) {
+            cluster++;
+        } else if(0 >= node || node > dimension) {
+            std::ostringstream err;
+            err << "Node value " << node << " is out of range! Dimension of the problem is " << dimension;
+            throw TSP::PARSER::Inconsistent_definition_exception(err.str());
+        } else {
+            if(clusters.size() < cluster + 1) {
+                clusters.resize(cluster + 1);
+            }
+            clusters[cluster].push_back(node-1); // convert to internal 0-based indexing
         }
-
-        // ASSUMPTION: the cluster numbers are always incremented by 1, starting from 1
-        begin++; // skip the cluster index
-
-        clusters.resize(cluster + 1); // potentially expensive
-
-        std::vector<unsigned int> cluster_list;
-        for(auto it = begin; it != end; ++it) {
-            clusters[cluster].push_back((*it) -1);
-        }
-
-        cluster++;
-        begin = ++end;
     }
-
     return true;
 }
 
-std::vector<std::vector<unsigned int>> GTSPInstance::get_clusters() const
-{
-    return clusters;
-}
+
