@@ -38,7 +38,7 @@ bool GTSPInstance::set_gtsp_clusters(std::vector<int> cluster_definition)
     for(int node : cluster_definition) {
         if(node == -1) {
             cluster++;
-        } else if(0 >= node || (unsigned int) node > dimension) {
+        } else if(0 >= node || node > dimension) {
             std::ostringstream err;
             err << "Node value " << node << " is out of range! Dimension of the problem is " << dimension;
             throw TSP::PARSER::Inconsistent_definition_exception(err.str());
@@ -52,7 +52,4 @@ bool GTSPInstance::set_gtsp_clusters(std::vector<int> cluster_definition)
     return true;
 }
 
-std::vector<std::vector<unsigned int>> GTSPInstance::get_clusters() const
-{
-    return clusters;
-}
+
