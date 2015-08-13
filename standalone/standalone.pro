@@ -3,7 +3,7 @@
 }
 INCLUDEPATH += ../common/ ../parser/
 
-LIBS += -L$$OUT_PWD/../common/$$LOCATION/ -lcommon -L$$OUT_PWD/../parser/$$LOCATION/ -lparser
+LIBS += -L$$OUT_PWD/../common/$$LOCATION -lcommon -L$$OUT_PWD/../parser/$$LOCATION -lparser
 
 TEMPLATE = app
 CONFIG += console
