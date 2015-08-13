@@ -71,5 +71,7 @@ EOF
     auto clusters = instance.get_clusters();
 
     EXPECT_EQ(4u, clusters.size());
-    EXPECT_EQ(2u, clusters[0].size());
+    ASSERT_EQ(2u, clusters[0].size());
+    EXPECT_EQ(3u, clusters[0][0]);
+    EXPECT_EQ(4u, clusters[0][1]);
 }

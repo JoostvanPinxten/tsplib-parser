@@ -34,22 +34,32 @@ bool GTSPInstance::set_gtsp_cluster_amount(int size)
  */
 bool GTSPInstance::set_gtsp_clusters(std::vector<int> cluster_definition)
 {
-    unsigned int cluster = 0; // convert to internal 0-based indexing
-    for(int node : cluster_definition) {
-        if(node == -1) {
-            cluster++;
-        } else if(0 >= node || node > dimension) {
-            std::ostringstream err;
-            err << "Node value " << node << " is out of range! Dimension of the problem is " << dimension;
-            throw TSP::PARSER::Inconsistent_definition_exception(err.str());
-        } else {
-            if(clusters.size() < cluster + 1) {
-                clusters.resize(cluster + 1);
-            }
-            clusters[cluster].push_back(node-1); // convert to internal 0-based indexing
+    // TODO: double check for malformed input; does this method always terminate?
+
+    auto begin = cluster_definition.begin();
+    auto cluster = 0;
+    while(begin != cluster_definition.end()) {
+        auto end = begin;
+        while(end != cluster_definition.end() && *end != -1) {
+            ++end;
         }
+
+        // ASSUMPTION: the cluster numbers are always incremented by 1, starting from 1
+        begin++; // skip the cluster index
+
+        std::vector<int> cluster_list;
+
+        for(auto it = begin; it != end; ++it) {
+            cluster_list.push_back((*it) -1);
+        }
+        clusters.push_back(cluster_list); // potentially expensive?
+
+        cluster++;
+        begin = ++end;
     }
+
     return true;
+
 }
 
 
