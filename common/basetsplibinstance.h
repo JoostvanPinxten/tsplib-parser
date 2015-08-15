@@ -53,6 +53,15 @@ namespace TSPLIB {
         unsigned int get_dimension() const;
 
         int distance(unsigned int i, unsigned int j);
+
+        virtual std::vector<std::vector<int> > get_clusters() const
+        {
+            std::vector<std::vector<int> > clusters(dimension);
+            for(int i = 0; i < dimension; ++i) {
+                clusters[i].push_back(i);
+            }
+            return clusters;
+        }
     };
 }
 #endif // BASETSPLIBINSTANCE_H

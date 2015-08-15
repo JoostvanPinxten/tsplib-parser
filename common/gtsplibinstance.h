@@ -13,7 +13,7 @@ public:
 
     bool set_gtsp_cluster_amount(int size);
     bool set_gtsp_clusters(std::vector<int> cluster_definition);
-    std::vector<std::vector<int> > get_clusters() const
+    virtual std::vector<std::vector<int> > get_clusters() const
     {
         return clusters;
     }
