@@ -7,8 +7,11 @@ INCLUDEPATH += $$PWD/. $$PWD/.. $$PWD/../common
 CONFIG += c++11
 CONFIG -= qt
 
-CONFIG(release, debug|release) {
-    LOCATION = release
+win32:CONFIG(release, debug|release) {
+    LOCATION = /release
 } else {
-    LOCATION = debug
+    LOCATION = /debug
 }
+
+unix: LOCATION =
+

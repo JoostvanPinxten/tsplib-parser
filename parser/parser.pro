@@ -51,7 +51,7 @@ CONFIG -= qt
 
 INCLUDEPATH += ../common/
 
-LIBS += -L$$OUT_PWD/../common/$$LOCATION/ -lcommon
+LIBS += -L$$OUT_PWD/../common$$LOCATION -lcommon
 
 CONFIG += debug_and_release
 
