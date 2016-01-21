@@ -1,6 +1,6 @@
 #ifndef GTSPLIBINSTANCE_H
 #define GTSPLIBINSTANCE_H
-#include <basetsplibinstance.h>
+#include <common/basetsplibinstance.h>
 #include <vector>
 
 namespace TSPLIB {
@@ -13,7 +13,7 @@ public:
 
     bool set_gtsp_cluster_amount(int size);
     bool set_gtsp_clusters(std::vector<int> cluster_definition);
-    virtual std::vector<std::vector<int> > get_clusters() const
+    virtual const std::vector<std::vector<int> > get_clusters() const
     {
         return clusters;
     }

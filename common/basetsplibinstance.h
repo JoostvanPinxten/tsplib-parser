@@ -54,7 +54,7 @@ namespace TSPLIB {
 
         int distance(unsigned int i, unsigned int j);
 
-        virtual std::vector<std::vector<int> > get_clusters() const
+        virtual const std::vector<std::vector<int> > get_clusters() const
         {
             std::vector<std::vector<int> > clusters(dimension);
             for(int i = 0; i < dimension; ++i) {
