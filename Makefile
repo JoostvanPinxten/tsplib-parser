@@ -1,5 +1,4 @@
 # Declaration of variables
-CC 			= g++
 CC_FLAGS 	= -w -std=c++0x -g -Wall -pedantic -Wextra
 #CC_FLAGS	+= -fdiagnostics-color 
 
@@ -60,27 +59,31 @@ TEST_OBJECTS   	= $(addprefix $(OBJ_DIR)/, $(addsuffix .o, $(basename $(TEST_SOU
 all: $(EXE_DIR)/$(EXEC) $(EXE_DIR)/test
 
 # Main target
-$(EXE_DIR)/$(EXEC): $(OBJECTS)
-	mkdir -p $(OBJ_DIR) $(EXE_DIR)
+$(EXE_DIR)/$(EXEC): $(OBJECTS) | $(EXE_DIR)
 	$(CC) ./standalone/main.cpp -o $@ $^ $(EXT_LIBS) $(LL_FLAGS) $(INCLUDE_PATHS) $(CC_FLAGS)
 
-.phony tests:  $(EXE_DIR)/test
+.phony tests:  $(EXE_DIR)/test | $(EXE_DIR)
 	$(EXE_DIR)/test --gtest_color=yes
 
 # Test target
-$(EXE_DIR)/test: $(OBJECTS) $(TEST_OBJECTS)
-	mkdir -p $(OBJ_DIR) $(EXE_DIR)
+$(EXE_DIR)/test: $(OBJECTS) $(TEST_OBJECTS) | $(EXE_DIR)
 	$(CC) $(GOOGLE_TEST_DIR)/src/gtest_main.cc -o $@ $^ $(INCLUDE_PATHS) $(CC_FLAGS) $(EXT_LIBS) 
 
 # To obtain object files
-$(OBJ_DIR)/%.o : %.cpp
+$(OBJ_DIR)/%.o : %.cpp | $(OBJ_DIR)
 	@mkdir -p $(dir $@) # create the output folder for this object
 	$(CC) -c $(CC_FLAGS) $< -o $@ $(INCLUDE_PATHS)
 
-$(OBJ_DIR)/%.o : %.cc
+$(OBJ_DIR)/%.o : %.cc | $(OBJ_DIR)
 	@mkdir -p $(dir $@) # create the output folder for this object
 	$(CC) -c $(CC_FLAGS) $< -o $@ $(INCLUDE_PATHS)
 
+$(EXE_DIR):
+	mkdir -p $@
+
+$(OBJ_DIR):
+	mkdir -p $@
+	
 # To remove generated files
 clean:
 	rm -f $(EXE_DIR)/$(EXEC) $(EXE_DIR)/test
