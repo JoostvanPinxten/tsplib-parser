@@ -1,5 +1,5 @@
 # Declaration of variables
-CC_FLAGS 	= -w -std=c++0x -g -Wall -pedantic -Wextra
+CC_FLAGS 	= -w -std=c++11 -g -Wall -pedantic -Wextra
 #CC_FLAGS	+= -fdiagnostics-color 
 
 LL_FLAGS	= 
@@ -36,7 +36,7 @@ GOOGLE_TEST_DIR	= tests/google-test/
 INCLUDE_PATHS	= $(addprefix -I./, . common parser parser/exceptions tests standalone $(GOOGLE_TEST_DIR) $(GOOGLE_TEST_DIR)include/)
 
 LIB_DIR		=
-SRC_DIRS 	= algorithm algorithm/operators tsp parser/parser parser/common standalone
+SRC_DIRS 	= parser common standalone
 
 OBJ_DIR		= ./build
 EXE_DIR		= ./build
@@ -60,23 +60,23 @@ all: $(EXE_DIR)/$(EXEC) $(EXE_DIR)/test
 
 # Main target
 $(EXE_DIR)/$(EXEC): $(OBJECTS) | $(EXE_DIR)
-	$(CC) ./standalone/main.cpp -o $@ $^ $(EXT_LIBS) $(LL_FLAGS) $(INCLUDE_PATHS) $(CC_FLAGS)
+	$(CXX) ./standalone/main.cpp -o $@ $^ $(EXT_LIBS) $(LL_FLAGS) $(INCLUDE_PATHS) $(CC_FLAGS)
 
 .phony tests:  $(EXE_DIR)/test | $(EXE_DIR)
 	$(EXE_DIR)/test --gtest_color=yes
 
 # Test target
 $(EXE_DIR)/test: $(OBJECTS) $(TEST_OBJECTS) | $(EXE_DIR)
-	$(CC) $(GOOGLE_TEST_DIR)/src/gtest_main.cc -o $@ $^ $(INCLUDE_PATHS) $(CC_FLAGS) $(EXT_LIBS) 
+	$(CXX) $(GOOGLE_TEST_DIR)/src/gtest_main.cc -o $@ $^ $(INCLUDE_PATHS) $(CC_FLAGS) $(EXT_LIBS) 
 
 # To obtain object files
 $(OBJ_DIR)/%.o : %.cpp | $(OBJ_DIR)
 	@mkdir -p $(dir $@) # create the output folder for this object
-	$(CC) -c $(CC_FLAGS) $< -o $@ $(INCLUDE_PATHS)
+	$(CXX) -c $(CC_FLAGS) $< -o $@ $(INCLUDE_PATHS)
 
 $(OBJ_DIR)/%.o : %.cc | $(OBJ_DIR)
 	@mkdir -p $(dir $@) # create the output folder for this object
-	$(CC) -c $(CC_FLAGS) $< -o $@ $(INCLUDE_PATHS)
+	$(CXX) -c $(CC_FLAGS) $< -o $@ $(INCLUDE_PATHS)
 
 $(EXE_DIR):
 	mkdir -p $@
