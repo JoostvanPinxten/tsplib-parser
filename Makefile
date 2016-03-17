@@ -61,6 +61,7 @@ all: $(EXE_DIR)/$(EXEC) $(EXE_DIR)/test
 
 # Main target
 $(EXE_DIR)/$(EXEC): $(OBJECTS)
+	mkdir -p $(OBJ_DIR) $(EXE_DIR)
 	$(CC) ./standalone/main.cpp -o $@ $^ $(EXT_LIBS) $(LL_FLAGS) $(INCLUDE_PATHS) $(CC_FLAGS)
 
 .phony tests:  $(EXE_DIR)/test
@@ -68,6 +69,7 @@ $(EXE_DIR)/$(EXEC): $(OBJECTS)
 
 # Test target
 $(EXE_DIR)/test: $(OBJECTS) $(TEST_OBJECTS)
+	mkdir -p $(OBJ_DIR) $(EXE_DIR)
 	$(CC) $(GOOGLE_TEST_DIR)/src/gtest_main.cc -o $@ $^ $(INCLUDE_PATHS) $(CC_FLAGS) $(EXT_LIBS) 
 
 # To obtain object files
