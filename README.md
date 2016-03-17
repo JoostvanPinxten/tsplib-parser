@@ -1,4 +1,4 @@
-# TSPLIB Parser
+# TSPLIB Parser [![Build Status](https://travis-ci.org/JoostvanPinxten/tsplib-parser.svg?branch=master)](https://travis-ci.org/JoostvanPinxten/tsplib-parser)
 A C++ parser/lexer for instances of TSPLIB and GTSPLIB.
 
 ## Description
