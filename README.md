@@ -21,4 +21,4 @@ Run `git submodule update --recursive` to download the dependencies to other Git
 The project compiles with MinGW 4.9.1 and the Qt Make system under Windows. It uses [Google Test](https://github.com/google/googletest/tree/master/googletest) for some integration and unit-testing facilities.
 
 Before compiling, you will need to point to the `flex++` and `bison++` executables, so that qmake can generate the lexer and parser components. This is typically done through the environment variables of your shell, or the build system (e.g. Qt Creator).
-To use the Qt makefiles, run `qmake` followed by `make` in the root directory.
+To use the Qt makefiles, run `qmake` followed by `make` in the root directory. Under Windows, you can use the [winflexbison](https://sourceforge.net/projects/winflexbison/) binaries.
